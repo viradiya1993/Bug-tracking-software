@@ -1,0 +1,56 @@
+<div class="page-header login-page header-filter middle_content" filter-color="black">
+    <div class="container">
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <form class="mt15" #loginForm="ngForm">
+            <span class="login100-form-logo">
+              <img class="logo" src="assets/img/logo.png">
+            </span>
+            <h2 class="text-center pb-3"><strong>Login</strong></h2>
+            <div class="textbox-full-width textbox-full-width-pb20">
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput name="email" id="email"  required>
+              </mat-form-field>
+              <div>
+                <mat-error class="text-left">
+                  Email is required
+                </mat-error>
+                <mat-error class="text-left">
+                  Invalid Email
+                </mat-error>
+              </div>
+            </div>
+  
+            <div class="textbox-full-width mb10">
+              <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput required name="password" id="password">
+               
+              </mat-form-field>
+              <div class="text-right">
+  
+              </div>
+              <mat-error class="text-left">
+                Password is required
+              </mat-error>
+              <a class="text-muted" routerLink="/forgot-password">
+                <h6 class="text-right">Forgot Password?</h6>
+              </a>
+            </div>
+  
+            <div class="container-login100-form-btn">
+              <button type="submit" (click)="login(loginForm)" [disabled]="!loginForm.valid" [ngClass]="
+                        !loginForm.valid
+                          ? 'btn btn-info disable-btn full_wid disable'
+                          : 'btn btn-info full_wid'
+                      ">
+                Sign In
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
