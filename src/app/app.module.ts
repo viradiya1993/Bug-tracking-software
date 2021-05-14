@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 
@@ -22,6 +22,13 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from './shared/shared.module';
+import { AuthService } from './auth/auth.service';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { ErrorsHandlerService } from './shared/error-handler';
+import { SharedService } from './shared/shared.service';
+
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -34,6 +41,8 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     MatInputModule,
     SharedModule,
+    ToastrModule.forRoot(),
+    NgxSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -46,7 +55,19 @@ import { SharedModule } from './shared/shared.module';
     ResetPasswordComponent,
 
   ],
-  providers: [],
+  providers: [
+    SharedService,
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }, 
+    {
+      provide: ErrorHandler,
+      useClass: ErrorsHandlerService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
