@@ -3,11 +3,11 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { SharedService } from 'app/shared/shared.service';
+import { SharedService } from './../shared/shared.service';
 
 @Injectable()
-
 export class AuthInterceptor implements HttpInterceptor {
+
     constructor(private sharedService: SharedService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -18,7 +18,6 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(copiedReq);
         }
         this.sharedService.showLoader();
-
         if (getToken != null) {
             let token = getToken == null ? '' : getToken;
             const copiedReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
@@ -26,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 .pipe(
                     // Log when response observable either completes or errors
                     finalize(() => {
-                        //this.sharedService.hideLoader();
+                        this.sharedService.hideLoader();
                     })
                 )
         }
@@ -35,7 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(req).pipe(
                 // Log when response observable either completes or errors
                 finalize(() => {
-                    //this.sharedService.hideLoader();
+                    this.sharedService.hideLoader();
                 })
             );
         }

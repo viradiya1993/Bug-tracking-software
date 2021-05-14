@@ -4,14 +4,16 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AppConst } from './../app.constant'
 import { Subject, BehaviorSubject } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
-  constructor(private toastr: ToastrService, private spinner: NgxSpinnerService) { }
+  constructor(private toastr: ToastrService,
+    private spinner: NgxSpinnerService) { }
 
-  // for success message of toster
+    // for success message of toster
   loggerSuccess(msg: string, timeOut = 1500) {
     this.toastr.success(msg, 'Success', { timeOut: timeOut, progressBar: true });
   }
@@ -41,6 +43,11 @@ export class SharedService {
     this.spinner.hide();
   }
 
+  // for remove white space of input text
+  trimming_function(x: any) {
+    return x ? x.replace(AppConst.trimPattern, '') : '';
+  }
+
   // for get local storage value
   getLocalStorage(storageKey: any) {
     return localStorage.getItem(storageKey);
@@ -60,6 +67,5 @@ export class SharedService {
   setLocalStorage(storageKey: any, storageValue: any) {
     localStorage.setItem(storageKey, storageValue);
   }
-  
   
 }

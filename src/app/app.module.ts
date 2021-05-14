@@ -22,14 +22,16 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from './shared/shared.module';
-import { AuthService } from './auth/auth.service';
-import { AuthInterceptor } from './auth/auth.interceptor';
-import { ErrorsHandlerService } from './shared/error-handler';
+
+
 import { SharedService } from './shared/shared.service';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { ChangePasswordComponent } from './layouts/change-password/change-password.component';
+import { AuthService } from './auth/auth.service';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { ErrorsHandlerService } from './shared/error-handler';
 
 @NgModule({
   imports: [
