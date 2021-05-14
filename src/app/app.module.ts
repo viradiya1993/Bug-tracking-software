@@ -29,6 +29,7 @@ import { SharedService } from './shared/shared.service';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { ChangePasswordComponent } from './layouts/change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -53,11 +54,12 @@ import { ToastrModule } from 'ngx-toastr';
     LoginComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    ChangePasswordComponent,
 
   ],
   providers: [
-    SharedService,
-    AuthService,
+     SharedService,
+     AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -65,7 +67,7 @@ import { ToastrModule } from 'ngx-toastr';
     }, 
     {
       provide: ErrorHandler,
-      useClass: ErrorsHandlerService
+      //useClass: ErrorsHandlerService
     }
   ],
   bootstrap: [AppComponent]

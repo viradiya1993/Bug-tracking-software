@@ -9,10 +9,11 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes =[
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'}, 
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuard]},
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: '', component: AdminLayoutComponent,
