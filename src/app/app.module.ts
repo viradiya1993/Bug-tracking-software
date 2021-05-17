@@ -56,7 +56,7 @@ import { ErrorsHandlerService } from './shared/error-handler';
     LoginComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    ChangePasswordComponent,
+    // ChangePasswordComponent,
 
   ],
   providers: [
