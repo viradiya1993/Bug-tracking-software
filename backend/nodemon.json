@@ -1,0 +1,7 @@
+{
+    "env": {
+        "MONGO_ATLAS_USER": "shubham-manektech",
+        "MONGO_ATLAS_PW": "8EAykEcjGM0tbc4C",
+        "JWT_KEY": "secret_key"
+    }
+}
