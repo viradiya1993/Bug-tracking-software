@@ -26,7 +26,6 @@ exports.createUser = (req, res, next) => {
 }
 
 exports.loginUser = (req, res, next) => {
-    console.log(req.body);
     let fetchedUser;
     User.findOne({ email: req.body.email })
         .then(user => {
@@ -39,13 +38,11 @@ exports.loginUser = (req, res, next) => {
             return bcrypt.compare(req.body.password, user.password);
         })
         .then(result => {
-            // console.log(result);
             if (!result) {
                 return res.status(401).json({
                     message: "Auth Failed"
                 });
             }
-            // console.log(user.email);
             const token = jwt.sign(
                 {
                     email: fetchedUser.email,
@@ -57,7 +54,8 @@ exports.loginUser = (req, res, next) => {
             res.status(200).json({
                 token: token,
                 expiresIn: 3600,
-                userId: fetchedUser._id
+                userId: fetchedUser._id,
+                message: "Login Successfully"
             })
         })
         .catch(err => {
@@ -65,4 +63,52 @@ exports.loginUser = (req, res, next) => {
                 message: "Invalid Authentication Credential!"
             });
         });
+}
+
+exports.changePassword = async (req, res, next) => {
+    try {
+        let reqdata = req.body;
+        let user = await User.findOne({ _id: req.user._id });
+        if (!user) {
+            return res.status(401).json({
+                message: 'User details not available at this time.',
+                error: true,
+                data: {},
+            });
+        }
+
+        if (!user.validPassword(reqdata.old_password)) {
+            return res.status(400).json({
+                message: 'Please enter valid Old password.',
+                error: true,
+                data: {},
+            });
+        }
+
+        if (reqdata.new_password.length < 6) {
+            return res.status(400).json({
+                message: 'Your password must contain at least 6 characters.',
+                error: true,
+                data: {},
+            });
+        }
+
+        user.password = reqdata.new_password;
+        user.updated_at = await dateFormat.set_current_timestamp();
+        user.actual_updated_at = await dateFormat.set_current_timestamp();
+        await user.save();
+
+        res.status(200).json({
+            message: 'Your password successfully changed',
+            error: false,
+            data: {},
+        });
+
+    } catch (error) {
+        res.status(401).send({
+            message: 'Something went wrong. Please try again later',
+            error: true,
+            data: {},
+        });
+    }
 }

@@ -28,10 +28,10 @@ import { SharedService } from './shared/shared.service';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
-import { ChangePasswordComponent } from './layouts/change-password/change-password.component';
 import { AuthService } from './auth/auth.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorsHandlerService } from './shared/error-handler';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
   imports: [
@@ -56,8 +56,7 @@ import { ErrorsHandlerService } from './shared/error-handler';
     LoginComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    // ChangePasswordComponent,
-
+    SignupComponent,
   ],
   providers: [
      SharedService,

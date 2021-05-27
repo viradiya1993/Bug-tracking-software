@@ -2,28 +2,27 @@
   <div class="container">
     <div class="container-login100">
       <div class="wrap-login100">
-        <form class="mt15"  #loginForm="ngForm">
+        <form class="mt15"  #signupForm="ngForm">
           <span class="login100-form-logo">
             <img class="logo" src="assets/img/MANEKTECH.jpeg">
           </span>
-          <h2 class="text-center pb-3"><strong>Login</strong></h2>
+          <h2 class="text-center pb-3"><strong>Sign Up</strong></h2>
           <div class="textbox-full-width textbox-full-width-pb20">
             <mat-form-field>
               <mat-label>Email</mat-label>
               <input matInput name="email" id="email" [(ngModel)]="user.email" #email="ngModel" required
               [pattern]="emailPattern">
             </mat-form-field>
-
-              <div *ngIf="(email.dirty || email.touched) && email.invalid">
-                <mat-error class="text-left" *ngIf="email.errors.required">
-                  Email is required
-                </mat-error>
-                <mat-error class="text-left" *ngIf="email.errors.pattern">
-                  Invalid Email
-                </mat-error>
-              </div>
+            
+            <div *ngIf="(email.dirty || email.touched) && email.invalid">
+              <mat-error class="text-left" *ngIf="email.errors.required">
+                Email is required
+              </mat-error>
+              <mat-error class="text-left" *ngIf="email.errors.pattern">
+                Invalid Email
+              </mat-error>
+            </div>
           </div>
-
           <div class="textbox-full-width mb10">
             <mat-form-field>
               <mat-label>Password</mat-label>
@@ -36,21 +35,14 @@
               <mat-error class="text-left" *ngIf="(password.dirty || password.touched) && password.invalid">
                 Password is required
               </mat-error>
-            
-            <a class="text-muted" routerLink="/forgot-password">
-              <h6 class="text-right">Forgot Password?</h6>
-            </a>
           </div>
-
-          <a (click)="onLogin(loginForm)"  style="cursor: pointer" [disabled]="!loginForm.valid" [ngClass]="
-            !loginForm.valid
-             ? 'btn btn-info disable-btn full_wid disable'
-             : 'btn btn-info full_wid'">
-            Sign In
-            <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
+          <a (click)="onSignup(signupForm)"  style="cursor: pointer" [disabled]="!signupForm.valid" [ngClass]="
+              !signupForm.valid
+              ? 'btn btn-info disable-btn full_wid disable'
+              : 'btn btn-info full_wid'">
+               Sign Up
+              <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
           </a>  
-           
-          <button  class="btn btn-info full_wid btn btn-primary" [routerLink]="['/signup']">Signup</button>&nbsp;
         </form>
       </div>
     </div>

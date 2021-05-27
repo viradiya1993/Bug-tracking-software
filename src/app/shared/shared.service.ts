@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AppConst } from './../app.constant'
-import { Subject, BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
+  
+  constructor(private toastr: ToastrService,private spinner: NgxSpinnerService) { }
 
-  constructor(private toastr: ToastrService,
-    private spinner: NgxSpinnerService) { }
+   
 
     // for success message of toster
   loggerSuccess(msg: string, timeOut = 1500) {
@@ -48,10 +48,6 @@ export class SharedService {
     return x ? x.replace(AppConst.trimPattern, '') : '';
   }
 
-  // for get local storage value
-  getLocalStorage(storageKey: any) {
-    return localStorage.getItem(storageKey);
-  }
 
   // for remove local storage value
   removeLocalStorage(storageKey: any) {

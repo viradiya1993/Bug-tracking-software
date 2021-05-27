@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AppConst } from 'app/app.constant';
+import { User } from 'app/model/user.modle';
+import { SharedService } from 'app/shared/shared.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -8,20 +12,102 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  isLoading = false;
-  constructor(
-    private authService: AuthService
-  ) { }
+  loader = false;
+  token: string;
+  private userId: string;
+  private tokenTimer: NodeJS.Timer;
+  user = new User();
+  show_button: Boolean = false;
+  show_eye: Boolean = false;
+  emailPattern = AppConst.emailValidationPattern;
+  constructor(private authService: AuthService, private sharedService: SharedService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onLogin(form: NgForm) {
-    console.log(form.value);
-    if (form.invalid) {
+    if(form.invalid) {
+      return
+    }
+    const AuthData = {
+      email : form.value.email.toLowerCase(),
+      password : form.value.password,
+    }
+    if(!this.loader) {
+      this.loader = true;
+      this.authService.login(AuthData).subscribe((res: any) => {
+        this.loader = false;
+        this.token = res.token;
+        if (this.token) {
+          const expiresInDuration = res.expiresIn;
+          this.userId = res.userId;
+          const now = new Date();
+          const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+          this.saveAuthData(this.token, expirationDate, this.userId);
+          this.sharedService.loggerSuccess(res.message);
+          this.router.navigate(['/dashboard'])
+        }
+      }, err => {
+         if (err.message) {
+           err.message = "Invalid Authentication Credential!";
+           this.loader = true;
+           this.sharedService.loggerError(err.message);
+         }
+      });
+
+    }
+  
+  
+  }
+ 
+  // Show password eye
+  showPassword() {
+    this.show_button = !this.show_button;
+    this.show_eye = !this.show_eye;
+  }
+ 
+  // Auto auth user
+  autoAuthUser() {
+    const authInformation = this.getAuthData();
+    if(!authInformation) {
       return;
     }
-    this.isLoading = true;
-    this.authService.loginUser(form.value.email, form.value.password)
+    const now = new Date();
+    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    if (expiresIn > 0) {
+      this.token = authInformation.token;
+      this.userId = authInformation.userId;
+      this.setAuthTimer(expiresIn / 1000);
+      
+    }
+   }
+
+  // Save Auth Data 
+  private saveAuthData(token: string, expirationDate: Date, userId: string) {
+    this.sharedService.setLocalStorage("isLoggedin", token);
+    this.sharedService.setLocalStorage("expiration", expirationDate.toISOString());
+    this.sharedService.setLocalStorage("userId", userId);
+  }
+
+ // Set Timer
+  private setAuthTimer(duration: number) {
+    this.tokenTimer = setTimeout(() => {
+       this.authService.logout();
+    }, duration * 1000);
+  }
+
+ // get auto authdata
+  private getAuthData() {
+    const token = localStorage.getItem("isLoggedin");
+    const expirationDate = localStorage.getItem("expiration");
+    const userId = localStorage.getItem("userId");
+    if (!token || !expirationDate) {
+      return;
+    }
+    return {
+      token: token,
+      expirationDate: new Date(expirationDate),
+      userId: userId
+    }
   }
 }

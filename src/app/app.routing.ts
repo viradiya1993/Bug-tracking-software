@@ -10,10 +10,12 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthGuard } from './auth/auth.guard';
+import { SignupComponent } from './auth/signup/signup.component';
 
 const routes: Routes =[
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'}, 
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuard]},
+  { path: 'login', component: LoginComponent},
+  { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: '', component: AdminLayoutComponent,
@@ -22,9 +24,6 @@ const routes: Routes =[
       loadChildren:() => import('./layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
     }]
   },
-
-  
-
 ];
 //{ path: 'onboarding', loadChildren: () => import('./pages/onboarding/onboarding.module').then(m => m.OnboardingModule), canActivate: [AuthGuard] },
 
@@ -32,9 +31,7 @@ const routes: Routes =[
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes,{
-       useHash: true
-    })
+    RouterModule.forRoot(routes , { useHash: true })
   ],
   exports: [],
 })

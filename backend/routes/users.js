@@ -7,4 +7,6 @@ router.post("/signup", UserController.createUser);
 
 router.post("/login", UserController.loginUser);
 
+router.post("/change-password", UserController.changePassword);
+
 module.exports = router;
