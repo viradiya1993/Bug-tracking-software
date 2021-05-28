@@ -21,17 +21,18 @@ import { LoginComponent } from './auth/login/login.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { MatInputModule } from '@angular/material/input';
-import { SharedModule } from './shared/shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 
+import { SharedModule } from './shared/shared.module';
 
 import { SharedService } from './shared/shared.service';
 
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { ToastrModule } from 'ngx-toastr';
 import { AuthService } from './auth/auth.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorsHandlerService } from './shared/error-handler';
 import { SignupComponent } from './auth/signup/signup.component';
+import { LayoutService } from "./layouts/layout.service";
 
 @NgModule({
   imports: [
@@ -59,17 +60,18 @@ import { SignupComponent } from './auth/signup/signup.component';
     SignupComponent,
   ],
   providers: [
-     SharedService,
-     AuthService,
+    SharedService,
+    AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }, 
+    },
     {
       provide: ErrorHandler,
       //useClass: ErrorsHandlerService
-    }
+    },
+    LayoutService
   ],
   bootstrap: [AppComponent]
 })

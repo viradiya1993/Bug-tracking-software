@@ -20,20 +20,24 @@ export class LoginComponent implements OnInit {
   show_button: Boolean = false;
   show_eye: Boolean = false;
   emailPattern = AppConst.emailValidationPattern;
-  constructor(private authService: AuthService, private sharedService: SharedService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private sharedService: SharedService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
   onLogin(form: NgForm) {
-    if(form.invalid) {
+    if (form.invalid) {
       return
     }
     const AuthData = {
-      email : form.value.email.toLowerCase(),
-      password : form.value.password,
+      email: form.value.email.toLowerCase(),
+      password: form.value.password,
     }
-    if(!this.loader) {
+    if (!this.loader) {
       this.loader = true;
       this.authService.login(AuthData).subscribe((res: any) => {
         this.loader = false;
@@ -48,28 +52,28 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard'])
         }
       }, err => {
-         if (err.message) {
-           err.message = "Invalid Authentication Credential!";
-           this.loader = true;
-           this.sharedService.loggerError(err.message);
-         }
+        if (err.message) {
+          err.message = "Invalid Authentication Credential!";
+          this.loader = true;
+          this.sharedService.loggerError(err.message);
+        }
       });
 
     }
-  
-  
+
+
   }
- 
+
   // Show password eye
   showPassword() {
     this.show_button = !this.show_button;
     this.show_eye = !this.show_eye;
   }
- 
+
   // Auto auth user
   autoAuthUser() {
     const authInformation = this.getAuthData();
-    if(!authInformation) {
+    if (!authInformation) {
       return;
     }
     const now = new Date();
@@ -78,9 +82,9 @@ export class LoginComponent implements OnInit {
       this.token = authInformation.token;
       this.userId = authInformation.userId;
       this.setAuthTimer(expiresIn / 1000);
-      
+
     }
-   }
+  }
 
   // Save Auth Data 
   private saveAuthData(token: string, expirationDate: Date, userId: string) {
@@ -89,14 +93,14 @@ export class LoginComponent implements OnInit {
     this.sharedService.setLocalStorage("userId", userId);
   }
 
- // Set Timer
+  // Set Timer
   private setAuthTimer(duration: number) {
     this.tokenTimer = setTimeout(() => {
-       this.authService.logout();
+      this.authService.logout();
     }, duration * 1000);
   }
 
- // get auto authdata
+  // get auto authdata
   private getAuthData() {
     const token = localStorage.getItem("isLoggedin");
     const expirationDate = localStorage.getItem("expiration");

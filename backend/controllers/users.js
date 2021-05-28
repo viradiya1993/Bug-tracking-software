@@ -66,49 +66,87 @@ exports.loginUser = (req, res, next) => {
 }
 
 exports.changePassword = async (req, res, next) => {
-    try {
-        let reqdata = req.body;
-        let user = await User.findOne({ _id: req.user._id });
-        if (!user) {
+    // console.log(req);
+    let fetchedUser;
+    let reqdata = req.body;
+
+    User.findOne({ _id: req.userData.userId })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    message: "User details not available at this time."
+                });
+            }
+            fetchedUser = user;
+            return bcrypt.compare(req.body.old_password, user.password);
+        })
+        .then(result => {
+            if (!result) {
+                return res.status(401).json({
+                    message: "Please enter valid Old password."
+                });
+            }
+            bcrypt.hash(reqdata.new_password, 10)
+                .then(hash => {
+                    fetchedUser.password = hash;
+                })
+            // fetchedUser.updated_at = await dateFormat.set_current_timestamp();
+            // fetchedUser.actual_updated_at = await dateFormat.set_current_timestamp();
+            user.save()
+                .then(result => {
+                    res.status(200).json({
+                        message: 'Your password successfully changed',
+                        error: false
+                    })
+                })
+        })
+        .catch(err => {
             return res.status(401).json({
-                message: 'User details not available at this time.',
-                error: true,
-                data: {},
+                message: "Something went wrong. Please try again later"
             });
-        }
-
-        if (!user.validPassword(reqdata.old_password)) {
-            return res.status(400).json({
-                message: 'Please enter valid Old password.',
-                error: true,
-                data: {},
-            });
-        }
-
-        if (reqdata.new_password.length < 6) {
-            return res.status(400).json({
-                message: 'Your password must contain at least 6 characters.',
-                error: true,
-                data: {},
-            });
-        }
-
-        user.password = reqdata.new_password;
-        user.updated_at = await dateFormat.set_current_timestamp();
-        user.actual_updated_at = await dateFormat.set_current_timestamp();
-        await user.save();
-
-        res.status(200).json({
-            message: 'Your password successfully changed',
-            error: false,
-            data: {},
         });
+    // let reqdata = req.body;
+    // let user = await User.findOne({ _id: req.userData.userId });
+    // if (!user) {
+    //     return res.status(401).json({
+    //         message: 'User details not available at this time.',
+    //         error: true
+    //     });
+    // }
+    // console.log(bcrypt.compare(req.body.old_password, user.password));
+    // if (!bcrypt.compare(req.body.old_password, user.password)) {
+    //     return res.status(400).json({
+    //         message: 'Please enter valid Old password.',
+    //         error: true
+    //     });
+    // }
 
-    } catch (error) {
-        res.status(401).send({
-            message: 'Something went wrong. Please try again later',
-            error: true,
-            data: {},
-        });
-    }
+    // if (reqdata.new_password.length < 6) {
+    //     return res.status(400).json({
+    //         message: 'Your password must contain at least 6 characters.',
+    //         error: true
+    //     });
+    // }
+    // if (bcrypt.compare(req.body.old_password, user.password)) {
+    //     bcrypt.hash(reqdata.new_password, 10)
+    //         .then(hash => {
+    //             user.password = hash;
+    //         })
+    //     // user.updated_at = await dateFormat.set_current_timestamp();
+    //     // user.actual_updated_at = await dateFormat.set_current_timestamp();
+    //     await user.save();
+
+    //     res.status(200).json({
+    //         message: 'Your password successfully changed',
+    //         error: false,
+    //         data: {},
+    //     }).catch(error => {
+    //         res.status(401).send({
+    //             message: 'Something went wrong. Please try again later',
+    //             error: true,
+    //             data: {},
+    //         });
+    //     });
+    // }
+
 }
