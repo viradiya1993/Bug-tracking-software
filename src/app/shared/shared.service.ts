@@ -8,15 +8,16 @@ import { AppConst } from './../app.constant'
   providedIn: 'root'
 })
 export class SharedService {
-  
-  constructor(private toastr: ToastrService,private spinner: NgxSpinnerService) { }
 
-   
+  constructor(private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
-    // for success message of toster
+
+
+  // for success message of toster
   loggerSuccess(msg: string, timeOut = 1500) {
     this.toastr.success(msg, 'Success', { timeOut: timeOut, progressBar: true });
   }
+
 
   // for info message of toster
   loggerInfo(msg: string, timeOut = 2500) {
@@ -63,5 +64,5 @@ export class SharedService {
   setLocalStorage(storageKey: any, storageValue: any) {
     localStorage.setItem(storageKey, storageValue);
   }
-  
+
 }

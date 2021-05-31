@@ -45,10 +45,14 @@ import { LayoutService } from "./layouts/layout.service";
     AppRoutingModule,
     MatInputModule,
     SharedModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      // timeOut: 10000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     NgxSpinnerModule,
     AgmCoreModule.forRoot({
-      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
+      apiKey: 'AIzaSyCD4HEW9A9rwS51T5kEZ6vOz6itrH-6kPw'
     })
   ],
   declarations: [
