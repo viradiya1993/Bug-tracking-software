@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppConst } from 'app/app.constant';
@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
   show_button: Boolean = false;
   show_eye: Boolean = false;
   emailPattern = AppConst.emailValidationPattern;
+  @ViewChild('loginForm', null) loginForm: NgForm;
+
   constructor(
     private authService: AuthService,
     private sharedService: SharedService,
@@ -53,8 +55,10 @@ export class LoginComponent implements OnInit {
         }
       }, err => {
         if (err.message) {
+          this.resetForm();
           err.message = "Invalid Authentication Credential!";
-          this.loader = true;
+          // this.loader = true;
+          this.setLoader();
           this.sharedService.loggerError(err.message);
         }
       });
@@ -113,5 +117,17 @@ export class LoginComponent implements OnInit {
       expirationDate: new Date(expirationDate),
       userId: userId
     }
+  }
+
+  // Reset Form After getting error or seccuess.
+  resetForm() {
+    this.loginForm.reset();
+  }
+
+  setLoader() {
+    setTimeout(() => {
+      this.loader = false;
+    }, 5000);
+    this.loader = true;
   }
 }

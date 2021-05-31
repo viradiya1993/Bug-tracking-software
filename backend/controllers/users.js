@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/users.js');
 
 exports.createUser = (req, res, next) => {
-    console.log(req.body);
+    // console.log(req.body);
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -66,7 +66,6 @@ exports.loginUser = (req, res, next) => {
 }
 
 exports.changePassword = async (req, res, next) => {
-    // console.log(req);
     let fetchedUser;
     let reqdata = req.body;
 
@@ -90,6 +89,7 @@ exports.changePassword = async (req, res, next) => {
                 .then(hash => {
                     fetchedUser.password = hash;
                 })
+            user = fetchedUser;
             // fetchedUser.updated_at = await dateFormat.set_current_timestamp();
             // fetchedUser.actual_updated_at = await dateFormat.set_current_timestamp();
             user.save()
@@ -99,6 +99,11 @@ exports.changePassword = async (req, res, next) => {
                         error: false
                     })
                 })
+                .catch(err => {
+                    return res.status(401).json({
+                        message: "Something went wrong. Please try again later"
+                    });
+                });
         })
         .catch(err => {
             return res.status(401).json({
