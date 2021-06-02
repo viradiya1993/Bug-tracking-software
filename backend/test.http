@@ -20,3 +20,12 @@ Content-Type: application/json
 {
     "old_password": "amit@#1993", "new_password":"abc@#1993"
 }
+
+###
+POST http://localhost:3000/api/user/forgot-password HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "rajveer.09.rathod@gmail.com"
+}
+

@@ -25,7 +25,7 @@ const routes: Routes =[
     }]
   },
 ];
-//{ path: 'onboarding', loadChildren: () => import('./pages/onboarding/onboarding.module').then(m => m.OnboardingModule), canActivate: [AuthGuard] },
+
 
 @NgModule({
   imports: [

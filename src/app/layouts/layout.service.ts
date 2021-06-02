@@ -16,7 +16,6 @@ export class LayoutService {
 
   changePassword(data: any) {
     console.log(data);
-
     return this.http.post(BACKEND_URL + 'change-password', data);
   }
 }
