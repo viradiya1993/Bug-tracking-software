@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require('mongoose');
 
 const usersRoutes = require("./routes/users");
+const employeesRoutes = require("./routes/employee");
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 
 
 app.use("/api/user", usersRoutes);
+app.use("/api/employee", employeesRoutes);
 
 
 module.exports = app;

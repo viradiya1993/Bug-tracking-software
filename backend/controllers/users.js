@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const User = require('../models/users.js');
+const moment = require('moment');
 
 exports.createUser = (req, res, next) => {
     // console.log(req.body);
@@ -68,7 +69,9 @@ exports.loginUser = (req, res, next) => {
 exports.changePassword = async (req, res, next) => {
     let fetchedUser;
     let reqdata = req.body;
-
+    let currentDate = moment();
+    // console.log(currentDate);
+    // return;
     User.findOne({ _id: req.userData.userId })
         .then(user => {
             if (!user) {
@@ -88,9 +91,10 @@ exports.changePassword = async (req, res, next) => {
             bcrypt.hash(reqdata.new_password, 10)
                 .then(hash => {
                     fetchedUser.password = hash;
+                    fetchedUser.updated_at = currentDate;
                 })
             user = fetchedUser;
-            // fetchedUser.updated_at = await dateFormat.set_current_timestamp();
+
             // fetchedUser.actual_updated_at = await dateFormat.set_current_timestamp();
             user.save()
                 .then(result => {
