@@ -16,6 +16,7 @@ export class LayoutService {
 
   changePassword(data: any) {
     console.log(data);
+<<<<<<< HEAD
 
     return this.http.post(BACKEND_URL + '/user/change-password', data);
   }
@@ -24,5 +25,8 @@ export class LayoutService {
     const queryParams = `?pageSize=${PerPage}&page=${currentPage}`
     return this.http.get<{ message: string, employeeLists: any, count: number }>
       (BACKEND_URL + '/employee' + queryParams);
+=======
+    return this.http.post(BACKEND_URL + 'change-password', data);
+>>>>>>> 0c7308eca3f097be46dc15abf179baf9feca3b20
   }
 }

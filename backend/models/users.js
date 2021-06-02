@@ -9,7 +9,13 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    reset_password_token: {
+		type: String
+	},
+    reset_password_expires: {
+		type: Number
+	},
 });
 
 userSchema.plugin(uniqueValidator);

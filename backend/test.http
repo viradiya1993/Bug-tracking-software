@@ -22,6 +22,7 @@ Content-Type: application/json
 }
 
 ###
+<<<<<<< HEAD
 POST http://localhost:3000/api/user/add-role HTTP/1.1
 Content-Type: application/json
 
@@ -70,3 +71,12 @@ Content-Type: application/json
     "mobile_number":"12345678",
     "email":"asdasd"
 }
+=======
+POST http://localhost:3000/api/user/forgot-password HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "rajveer.09.rathod@gmail.com"
+}
+
+>>>>>>> 0c7308eca3f097be46dc15abf179baf9feca3b20

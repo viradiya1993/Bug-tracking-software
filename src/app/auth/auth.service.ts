@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'app/model/user.modle';
 import { environment } from 'environments/environment';
-import { Subject } from 'rxjs';
+
 
 
 const BACKEND_URL = environment.apiUrl + '/user/';
@@ -27,6 +26,16 @@ export class AuthService {
   // Login User
   login(authData: any) {
     return this.http.post(BACKEND_URL + 'login', authData);
+  }
+
+  // forgot password
+  userForgotPassword(email: any) {
+    return this.http.post(BACKEND_URL + 'forgot-password', email);
+  }
+
+  // reset password
+  ResetPassword(data: any) {
+    return this.http.post(BACKEND_URL + 'set-password', data);
   }
 
   //Logout user

@@ -1,7 +1,15 @@
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const User = require('../models/users.js');
+<<<<<<< HEAD
 const moment = require('moment');
+=======
+const dateFormat = require('../helper/dateFormate.helper');
+const constant = require('../config/constant');
+const forgotPasswordTemplate = require('../services/emailTemplate/forgotPasswordTemplate');
+const sendMail = require('../services/email.service');
+
+>>>>>>> 0c7308eca3f097be46dc15abf179baf9feca3b20
 
 exports.createUser = (req, res, next) => {
     // console.log(req.body);
@@ -19,7 +27,7 @@ exports.createUser = (req, res, next) => {
                     })
                 })
                 .catch(err => {
-                    res.status(500).json({
+                    res.status(401).json({
                         message: "Invalid Authentication Credential!"
                     })
                 })
@@ -27,6 +35,7 @@ exports.createUser = (req, res, next) => {
 }
 
 exports.loginUser = (req, res, next) => {
+   
     let fetchedUser;
     User.findOne({ email: req.body.email })
         .then(user => {
@@ -114,48 +123,106 @@ exports.changePassword = async (req, res, next) => {
                 message: "Something went wrong. Please try again later"
             });
         });
-    // let reqdata = req.body;
-    // let user = await User.findOne({ _id: req.userData.userId });
-    // if (!user) {
-    //     return res.status(401).json({
-    //         message: 'User details not available at this time.',
-    //         error: true
-    //     });
-    // }
-    // console.log(bcrypt.compare(req.body.old_password, user.password));
-    // if (!bcrypt.compare(req.body.old_password, user.password)) {
-    //     return res.status(400).json({
-    //         message: 'Please enter valid Old password.',
-    //         error: true
-    //     });
-    // }
+}
 
-    // if (reqdata.new_password.length < 6) {
-    //     return res.status(400).json({
-    //         message: 'Your password must contain at least 6 characters.',
-    //         error: true
-    //     });
-    // }
-    // if (bcrypt.compare(req.body.old_password, user.password)) {
-    //     bcrypt.hash(reqdata.new_password, 10)
-    //         .then(hash => {
-    //             user.password = hash;
-    //         })
-    //     // user.updated_at = await dateFormat.set_current_timestamp();
-    //     // user.actual_updated_at = await dateFormat.set_current_timestamp();
-    //     await user.save();
+exports.forgotPassword = async (req, res, next) => {
+    let email = req.body.email;
+    try {
+        User.findOne({ email: req.body.email })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    message: "User not found!"
+                });
+            }
+            const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+            user_id = user._id
+            const token = jwt.sign({ user_id },  process.env.JWT_KEY )
+            user.reset_password_token = token;
+            user.reset_password_expires = dateFormat.addExpireTime();
+            const mailUrl = process.env.ANGULAR_BASE_URL;
+            sendMail(email, 'Password Reset', forgotPasswordTemplate({ url: mailUrl + '/' + token, logo: logoUrl}));
+            user.save()
+            .then(result => {
+               return res.status(200).json({
+                    message: 'Email send successully please check your email.',
+                    error: false
+                });
+            });
+            
+        })
+    } catch (error) {
+        res.status(401).send({
+            message: "Error while sending link"
+        });
+    }
+}
 
-    //     res.status(200).json({
-    //         message: 'Your password successfully changed',
-    //         error: false,
-    //         data: {},
-    //     }).catch(error => {
-    //         res.status(401).send({
-    //             message: 'Something went wrong. Please try again later',
-    //             error: true,
-    //             data: {},
-    //         });
-    //     });
-    // }
+exports.forgotUrl = async (req, res, next) => {
+    try {
+        if (!req.params.token) {
+            return res.status(401).json({
+                message: "Something went wrong. Please try again later"
+            });
+        }
+        reset_password_token = req.params.token;
+        let currentTime = dateFormat.set_current_timestamp();
+        User.findOne({ reset_password_token, reset_password_expires: { $gte: currentTime } })
 
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    message: "Token expired."
+                });
+            }
+        })
+        .then(result => {
+           return res.status(200).json({
+                message: 'Token varified',
+                error: false
+            })
+        });
+
+    } catch (error) {
+        return res.status(401).json({
+            message: "Something went wrong. Please try again later"
+        });
+    }
+}
+
+exports.setNewPassword = async (req, res, next) => {
+    try {
+        const {new_password, reset_password_token} = req.body;
+        const currentDate = dateFormat.set_current_timestamp();
+
+        User.findOne({reset_password_token, reset_password_expires: {$gte: currentDate}})
+        .then(user => {
+            if(!user) {
+                return res.status(401).json({
+                    message: "Your link has been expired."
+                });
+            }
+
+            if (new_password.length < 6) {
+                return res.status(401).json({
+                    message: "Your password must contain at least 6 characters."
+                });
+            }
+            user.password = new_password;
+            user.reset_password_token = null;
+            user.reset_password_expires = null;
+            user.updated_at = dateFormat.set_current_timestamp();
+            user.actual_updated_at = dateFormat.set_current_timestamp();
+            user.save()
+            .then(result => {
+                return res.status(200).json({
+                    message: "Your password has been reset successfully."
+                });
+            });
+        });
+    } catch (error) {
+        return res.status(401).json({
+            message: "Something went wrong. Please try again later"
+        });
+    }
 }
