@@ -1,15 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const User = require('../models/users.js');
-<<<<<<< HEAD
 const moment = require('moment');
-=======
 const dateFormat = require('../helper/dateFormate.helper');
 const constant = require('../config/constant');
 const forgotPasswordTemplate = require('../services/emailTemplate/forgotPasswordTemplate');
 const sendMail = require('../services/email.service');
 
->>>>>>> 0c7308eca3f097be46dc15abf179baf9feca3b20
 
 exports.createUser = (req, res, next) => {
     // console.log(req.body);

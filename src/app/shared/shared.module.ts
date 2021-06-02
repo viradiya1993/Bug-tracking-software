@@ -14,6 +14,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 
 
 
@@ -59,6 +60,6 @@ import {MatCardModule} from '@angular/material/card';
     ReactiveFormsModule
   ],
   entryComponents:[],
-  declarations: []
+  declarations: [DialogBoxComponent]
 })
 export class SharedModule { }

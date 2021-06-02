@@ -33,6 +33,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorsHandlerService } from './shared/error-handler';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LayoutService } from "./layouts/layout.service";
+import { ListComponent } from './layouts/employee/list/list.component';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { LayoutService } from "./layouts/layout.service";
     ForgotPasswordComponent,
     ResetPasswordComponent,
     SignupComponent,
+    ListComponent,
   ],
   providers: [
     SharedService,

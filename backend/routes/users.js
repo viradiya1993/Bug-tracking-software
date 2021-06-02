@@ -21,7 +21,6 @@ router.post('/set-password', UserController.setNewPassword);
 
 router.post("/change-password", checkAuth, UserController.changePassword);
 
-<<<<<<< HEAD
 router.post("/add-role", UserRoleController.createUserRole);
 
 router.post("/create-designation", UserTypeController.createUserType);
@@ -31,7 +30,5 @@ router.get("/getUserTypeList", UserTypeController.getUserType);
 router.post("/create-department", UserDepartmentController.createDepartment);
 
 router.get("/getDepartmentList", UserDepartmentController.getDepartment);
-=======
->>>>>>> 0c7308eca3f097be46dc15abf179baf9feca3b20
 
 module.exports = router;
