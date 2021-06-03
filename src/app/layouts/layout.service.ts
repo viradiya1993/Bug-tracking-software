@@ -20,9 +20,13 @@ export class LayoutService {
     return this.http.post(BACKEND_URL + '/user/change-password', data);
   }
 
-  getEmployeeList(PerPage: number, currentPage: number) {
-    const queryParams = `?pageSize=${PerPage}&page=${currentPage}`
-    return this.http.get<{ message: string, employeeLists: any, count: number }>
-      (BACKEND_URL + '/employee' + queryParams);
+  getDepartmentData() {
+    return this.http.get<{ message: string, userDepartment: any, count: number }>
+      (BACKEND_URL + '/user/getDepartmentList');
+  }
+
+  getRolesData() {
+    return this.http.get<{ message: string, userRoles: any, count: number }>
+      (BACKEND_URL + '/user/getRole');
   }
 }
