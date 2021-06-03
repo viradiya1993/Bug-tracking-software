@@ -23,6 +23,8 @@ router.post("/change-password", checkAuth, UserController.changePassword);
 
 router.post("/add-role", UserRoleController.createUserRole);
 
+router.get("/getRole", UserRoleController.getRole);
+
 router.post("/create-designation", UserTypeController.createUserType);
 
 router.get("/getUserTypeList", UserTypeController.getUserType);
