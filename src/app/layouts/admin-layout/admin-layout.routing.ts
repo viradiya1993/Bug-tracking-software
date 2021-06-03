@@ -13,6 +13,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons', loadChildren: () => import('./../icons/icons.module').then(m => m.IconModule), canActivate: [AuthGuard] },
     { path: 'notifications', loadChildren: () => import('./../notifications/notifications.module').then(m => m.NotificationsModule), canActivate: [AuthGuard] },
     { path: 'employee', loadChildren: () => import('./../employee/employee.module').then(m => m.EmployeeModule), canActivate: [AuthGuard] },
+    { path: 'technology', loadChildren: () => import('./../technology/technology.module').then(m => m.TechnologyModule), canActivate: [AuthGuard] },
 
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' },
 ];

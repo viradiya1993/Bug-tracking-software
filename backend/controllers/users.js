@@ -76,8 +76,6 @@ exports.changePassword = async (req, res, next) => {
     let fetchedUser;
     let reqdata = req.body;
     let currentDate = moment();
-    // console.log(currentDate);
-    // return;
     User.findOne({ _id: req.userData.userId })
         .then(user => {
             if (!user) {
@@ -210,6 +208,11 @@ exports.setNewPassword = async (req, res, next) => {
             user.reset_password_expires = null;
             user.updated_at = dateFormat.set_current_timestamp();
             user.actual_updated_at = dateFormat.set_current_timestamp();
+            bcrypt.hash(new_password, 10)
+            .then(hash => {
+                user.password = hash
+            });
+            
             user.save()
             .then(result => {
                 return res.status(200).json({

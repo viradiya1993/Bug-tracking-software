@@ -1,0 +1,162 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <button mat-raised-button>Add Technology</button>
+          <div class="col-md-4 pull-right">
+            <!-- <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)">
+            </app-search-textbox> -->
+          </div>
+          <div class="card">
+            <div class="card-header card-header-danger">
+              <div class="row">
+                <div class="col-md-4">
+                  <h3 class="card-title ">Technology List</h3>
+                </div>
+  
+                <div class="col-md-2 mt-2">
+                  <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+                </div>
+  
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
+                  class="mat-elevation-z8 table-hover" width="100%">
+                  <ng-container matColumnDef="no">
+                    <th width="8%" mat-header-cell *matHeaderCellDef class="text-primary"> No </th>
+                    <td width="8%" mat-cell *matCellDef="let element ; let i = index"> {{i + 1}} </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="technologyid">
+                    <th width="15%" (click)="sortItem('technologyid')" mat-header-cell *matHeaderCellDef mat-sort-header
+                      class="text-primary">
+                      Technology Id </th>
+                    <td width="15%" mat-cell *matCellDef="let element"> {{element?.tech_id}} </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="technology">
+                    <th width="20%" (click)="sortItem('technology')" mat-header-cell *matHeaderCellDef mat-sort-header
+                      class="text-primary">
+                      Technology Name </th>
+                    <td width="20%" mat-cell *matCellDef="let element"> {{element?.tech_name}} </td>
+                  </ng-container>
+  
+                 
+  
+                
+  
+                
+  
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
+                  No Record Found
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <div>
+              <!-- <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
+              </app-pagination> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade pl300" id="viewModel" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content" style="border-radius: 0;">
+        <div class="modal-header pad0">
+          <h4 class="modal-title text-capitalize"> <b>Project Detail </b></h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="closeModel('viewmember','collapseExample')">
+            <img c15="" alt="Image" src="assets/img/ModelWindowClose.svg" width="20">
+          </button>
+  
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="row col-md-12">
+              <div class="col-md-4 text-left ">
+                <h4 class="font-weight-bold">Project Id:</h4>
+              </div>
+              <div class="col-md-8 text-left">
+                <h4>{{viewContent?.project.project_id}}</h4>
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-4 text-left ">
+                <h4 class="font-weight-bold">Project Name:</h4>
+              </div>
+              <div class="col-md-8 text-left">
+                <h4>{{viewContent?.project.project_name}}</h4>
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-4 text-left ">
+                <h4 class="font-weight-bold">Location:</h4>
+              </div>
+              <div class="col-md-8 text-left">
+                <h4>{{viewContent?.project.project_location}}</h4>
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-4 text-left ">
+                <h4 class="font-weight-bold">Description:</h4>
+              </div>
+              <div class="col-md-8 text-left">
+                <h4>{{viewContent?.project.project_description}}</h4>
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-4 text-left ">
+                <h4 class="font-weight-bold">Start Date:</h4>
+              </div>
+              <div class="col-md-8 text-left">
+                <span *ngIf="viewContent?.project.start_date !== null">
+                  <h4>{{viewContent?.project.start_date| dateFormatPipe}}</h4>
+                </span>
+                <span *ngIf="viewContent?.project.start_date == null"> - </span>
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-4 text-left ">
+                <h4 class="font-weight-bold">End date:</h4>
+              </div>
+              <div class="col-md-8 text-left">
+                <span *ngIf="viewContent?.project.end_date !== null">
+                  <h4>{{viewContent?.project.end_date| dateFormatPipe}}</h4>
+                </span>
+                <span *ngIf="viewContent?.project.end_date == null"> - </span>
+              </div>
+            </div>
+          </div>
+          <button id="viewmember" class="btn btn-primary btn_red text-center w-100" type="button" data-toggle="collapse"
+            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            View Members
+          </button>
+          <div class="collapse" id="collapseExample">
+            <div *ngIf="viewContent?.projectMembers.length > 0" class="card card-body view_member">
+              <div class="gaadiex-list" *ngFor="let data of viewContent?.projectMembers">
+                <div class="gaadiex-list-item border-b-1">
+                  <img class="gaadiex-list-item-img"
+                    src="{{data?.user_id.profile_pic ? data?.user_id.profile_pic : 'assets/img/user.png'}}" alt="user">
+                  <div class="gaadiex-list-item-text">
+                    <h4>{{data?.user_id.user_name}}</h4>
+                    <p>{{data?.user_id.email}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="viewContent?.projectMembers.length === 0" class="card card-body">
+              <h4 class="text-center">No Members Available</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
