@@ -37,3 +37,32 @@ exports.createUserRole = (req, res, next) => {
         });
 
 }
+
+exports.getRole = (req, res, next) => {
+
+    // const pageSize = +req.query.pageSize;
+    // const currentPage = +req.query.page;
+    const postQuery = UserRoles.find();
+    let fetchedPosts;
+    // if (pageSize && currentPage) {
+    //     postQuery
+    //         .skip(pageSize * (currentPage - 1))
+    //         .limit(pageSize)
+    // }
+    postQuery
+        .then(documents => {
+            fetchedPosts = documents;
+            return UserRoles.count();
+        })
+        .then(count => {
+            res.status(200).json({
+                message: "User Roles fetched successfully",
+                userRoles: fetchedPosts,
+                userRoles_Count: count
+            });
+        }).catch(error => {
+            res.status(500).json({
+                message: "Fetching User Roles Failed"
+            });
+        });
+}

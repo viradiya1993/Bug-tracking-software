@@ -36,7 +36,7 @@ export class ChangePasswordComponent implements OnInit {
       this.service.changePassword(data).subscribe((res: any) => {
         this.loader = false;
         this.router.navigate(['/dashboard']);
-      //  this.formData.reset();
+        //  this.formData.reset();
         console.log(res);
         if (!res.error) {
           this.sharedService.loggerSuccess(res.message);
@@ -47,8 +47,8 @@ export class ChangePasswordComponent implements OnInit {
       }, err => {
         if (err.message) {
           console.log(err);
+          this.loader = false;
           this.resetForm();
-          this.setLoader();
           this.sharedService.loggerError(err.error.message);
         }
       });
@@ -67,17 +67,4 @@ export class ChangePasswordComponent implements OnInit {
     this.changePasswordForm.reset();
   }
 
-  setLoader() {
-    setTimeout(() => {
-      this.loader = false;
-    }, 5000);
-    this.loader = true;
-  }
-
-  setLoaderCancel() {
-    setTimeout(() => {
-      this.loaderCancel = false;
-    }, 5000);
-    this.loaderCancel = true;
-  }
 }

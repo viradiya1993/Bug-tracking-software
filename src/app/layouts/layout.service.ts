@@ -25,6 +25,15 @@ export class LayoutService {
     return this.http.get<{ message: string, employeeLists: any, count: number }>
       (BACKEND_URL + '/employee' + queryParams);
   }
+  getDepartmentData() {
+    return this.http.get<{ message: string, userDepartment: any, count: number }>
+      (BACKEND_URL + '/user/getDepartmentList');
+  }
+
+  getRolesData() {
+    return this.http.get<{ message: string, userRoles: any, count: number }>
+      (BACKEND_URL + '/user/getRole');
+  }
 
   //get technology list
   getTechnology(limit: any, page: any, shortType: any, search: any) {

@@ -34,6 +34,7 @@ import { ErrorsHandlerService } from './shared/error-handler';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LayoutService } from "./layouts/layout.service";
 import { ListComponent } from './layouts/employee/list/list.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { ListComponent } from './layouts/employee/list/list.component';
     NgxSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCD4HEW9A9rwS51T5kEZ6vOz6itrH-6kPw'
-    })
+    }),
+    NgSelectModule
   ],
   declarations: [
     AppComponent,
@@ -62,8 +64,7 @@ import { ListComponent } from './layouts/employee/list/list.component';
     LoginComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    SignupComponent,
-    ListComponent,
+    SignupComponent
   ],
   providers: [
     SharedService,

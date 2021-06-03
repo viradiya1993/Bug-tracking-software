@@ -4,19 +4,26 @@ import { RouterModule, Routes } from "@angular/router";
 import { ListComponent } from './list/list.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AddComponent } from './add/add.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 const routes: Routes = [
-  { path: '', component: ListComponent }
+  { path: '', component: ListComponent },
+  { path: 'add', component: AddComponent },
+  { path: 'edit/:employeeId', component: AddComponent },
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [ListComponent, AddComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ReactiveFormsModule,
+    NgSelectModule
   ]
 })
 export class EmployeeModule { }

@@ -7,14 +7,14 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatSortModule} from '@angular/material/sort';
-import {MatTableModule} from '@angular/material/table';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
-import {MatCardModule} from '@angular/material/card';
-import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import { MatCardModule } from '@angular/material/card';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -37,7 +37,8 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
     MatTableModule,
     MatSortModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgSelectModule
   ],
 
   exports: [
@@ -59,7 +60,7 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
     MatCardModule,
     ReactiveFormsModule
   ],
-  entryComponents:[],
-  declarations: [DialogBoxComponent]
+  entryComponents: [],
+  declarations: []
 })
 export class SharedModule { }
