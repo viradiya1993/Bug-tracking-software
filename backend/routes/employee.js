@@ -16,5 +16,7 @@ router.post("/create", checkAuth,
     // mobile number must be at least 10 chars long
     body('mobile_number').isLength({ min: 10, max: 10 }), EmployeeController.createEmployee);
 
-router.get('/:id', EmployeeController.getEmployeeById);
+router.get('/:id', checkAuth, EmployeeController.getEmployeeById);
+
+router.put("/:id", checkAuth, EmployeeController.editEmployee);
 module.exports = router;

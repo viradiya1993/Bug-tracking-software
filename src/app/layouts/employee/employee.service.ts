@@ -14,8 +14,8 @@ export class EmployeeService {
     private router: Router
   ) { }
 
-  getEmployeeList(PerPage: number, currentPage: number) {
-    const queryParams = `?pageSize=${PerPage}&page=${currentPage}`
+  getEmployeeList(PerPage: number, currentPage: number, shortType: string, search: string) {
+    const queryParams = `?pageSize=${PerPage}&page=${currentPage}&sortBy=${shortType}&search=${search}`
     return this.http.get<{ message: string, employeeLists: any, count: number }>
       (BACKEND_URL + queryParams);
   }
@@ -26,5 +26,9 @@ export class EmployeeService {
 
   getEmployeeById(id) {
     return this.http.get(BACKEND_URL + id);
+  }
+
+  editEmployee(employeeData: object, id: string) {
+    return this.http.put(BACKEND_URL + id, employeeData);
   }
 }

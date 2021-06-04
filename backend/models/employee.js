@@ -41,7 +41,17 @@ const employeeRoles = mongoose.Schema({
         type: String,
         email: EmailValidator,
         required: true
-    }
+    },
+    created_at: {
+        type: Number,
+    },
+    updated_at: {
+        type: Number,
+    },
+    actual_updated_at: {
+        type: Number,
+        default: null
+    },
 });
 
 employeeRoles.plugin(uniqueValidator);

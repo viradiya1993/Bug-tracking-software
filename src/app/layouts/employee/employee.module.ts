@@ -7,6 +7,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AddComponent } from './add/add.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSortModule } from '@angular/material/sort';
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
     SharedModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    MatSortModule
   ]
 })
 export class EmployeeModule { }

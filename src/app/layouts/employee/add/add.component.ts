@@ -162,16 +162,27 @@ export class AddComponent implements OnInit {
         if (err.error.errorType == "Mobile") {
           this.moileErrorOccured();
         }
-      })
+      });
       // alert("Post Craeted Succesfully")
     } else {
-      // this.service.updatePost(
-      //   this.postId,
-      //   this.formEmployee.value.title,
-      //   this.formEmployee.value.content,
-      //   this.formEmployee.value.image
-      // );
-      // alert("Post Updated Succesfully");
+      data["id"] = this.employeeId;
+      this.service.editEmployee(data, this.employeeId).subscribe((res: any) => {
+        console.log(res);
+        this.spinner.hide();
+        if (res.status = 200) {
+          this.formEmployee.reset();
+          this.location.back();
+        }
+      }, (err) => {
+        this.spinner.hide();
+        console.log(err);
+        if (err.error.errorType == "Email") {
+          this.emailErrorOccured();
+        }
+        if (err.error.errorType == "Mobile") {
+          this.moileErrorOccured();
+        }
+      });
     }
   }
 

@@ -12,6 +12,7 @@ import { AuthService } from 'app/auth/auth.service';
 import { EmployeeData } from 'app/model/employee.model';
 import { SharedService } from 'app/shared/shared.service';
 import { EmployeeService } from '../employee.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -26,6 +27,9 @@ export class ListComponent implements OnInit {
   currentPage = 1;
   pageSizeOptions = AppConst.pageSizeOptions;
   isLoading = false;
+  sortType: string = 'desc';
+  searchKey: any = null;
+  formEmployeeSearch: FormGroup;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,7 +51,11 @@ export class ListComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.formEmployeeSearch = new FormGroup({
+      first_name: new FormControl(null),
+      middle_name: new FormControl(null),
+      last_name: new FormControl(null)
+    });
   }
 
   ngAfterViewInit() {
@@ -55,21 +63,21 @@ export class ListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
-    console.log(event);
+  applyFilter(event) {
+    console.log(this.formEmployeeSearch.value);
+    let formValue = this.formEmployeeSearch.value;
+    let filteredObject = {
+      first_name: formValue.first_name,
+      middle_name: formValue.middle_name,
+      last_name: formValue.last_name
+    }
+    console.log(filteredObject);
 
-    const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue, this.dataSource.filter);
-
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
+    this.getEmployeeData();
   }
 
   getEmployeeData() {
-    this.service.getEmployeeList(this.PerPage, this.currentPage).subscribe((res) => {
+    this.service.getEmployeeList(this.PerPage, this.currentPage, this.sortType, this.searchKey).subscribe((res) => {
       console.log(res);
       this.isLoading = false;
       this.spinner.hide();
@@ -92,7 +100,8 @@ export class ListComponent implements OnInit {
   }
 
   onChangedPage(pageData: PageEvent) {
-    this.isLoading = true;
+    // this.isLoading = true;
+    this.spinner.show();
     console.log(pageData);
     this.PerPage = pageData.pageSize;
     this.currentPage = pageData.pageIndex + 1;
@@ -101,6 +110,13 @@ export class ListComponent implements OnInit {
 
   }
 
+  sortTable(event) {
+    console.log(event);
+    this.spinner.show();
+    // this.PerPage = event.active;
+    this.sortType = event.active + ':' + event.direction;
+    this.getEmployeeData();
+  }
   // openDialog(action, obj) {
   //   obj.action = action;
   //   const dialogRef = this.dialog.open(DialogBoxComponent, {
@@ -116,29 +132,6 @@ export class ListComponent implements OnInit {
   //     // } else if (result.event == 'Delete') {
   //     //   this.deleteRowData(result.data);
   //     // }
-  //   });
-  // }
-
-  // addRowData(row_obj) {
-  //   var d = new Date();
-  //   this.dataSource.push({
-  //     id: d.getTime(),
-  //     name: row_obj.name
-  //   });
-  //   this.table.renderRows();
-
-  // }
-  // updateRowData(row_obj) {
-  //   this.dataSource = this.dataSource.filter((value, key) => {
-  //     if (value.id == row_obj.id) {
-  //       value.name = row_obj.name;
-  //     }
-  //     return true;
-  //   });
-  // }
-  // deleteRowData(row_obj) {
-  //   this.dataSource = this.dataSource.filter((value, key) => {
-  //     return value.id != row_obj.id;
   //   });
   // }
 
