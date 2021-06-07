@@ -36,8 +36,6 @@ export class ChangePasswordComponent implements OnInit {
       this.service.changePassword(data).subscribe((res: any) => {
         this.loader = false;
         this.router.navigate(['/dashboard']);
-        //  this.formData.reset();
-        console.log(res);
         if (!res.error) {
           this.sharedService.loggerSuccess(res.message);
           // if we want to make user login again then we will call logout service here

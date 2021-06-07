@@ -1,0 +1,15 @@
+<mat-form-field>
+  <mat-label>Search</mat-label>
+  <input matInput [(ngModel)]="searchValue" value="searchValue" name="searchValue" (keydown.enter)="search($event.target.value)">
+  <mat-icon matSuffix>
+    <button type="button" *ngIf="searchValue; else empty" (click)="cancel(searchValue)" class="search_button">
+      <i class="material-icons">close</i>
+    </button>
+    <ng-template #empty>
+      <button type="button" class="search_button">
+        <i class="material-icons">search</i>
+      </button>
+    </ng-template>
+  </mat-icon>
+</mat-form-field>
+ 

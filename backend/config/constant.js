@@ -4,5 +4,5 @@ module.exports = {
     'LOGO_MARKER_IMG_URL': 'public/logo',
     'LOGO_IMG_NAME': 'MANEKTECH.jpeg',
     'PAGE': 0,
-	'LIMIT': 2,
+	'LIMIT': 5,
 }

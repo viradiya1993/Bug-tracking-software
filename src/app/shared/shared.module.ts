@@ -15,6 +15,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SearchTextboxComponent } from './search-textbox/search-textbox.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { DateFormatPipe } from './date-format-pipe.pipe';
+import { DeleteBoxComponent } from './delete-box/delete-box.component';
 
 
 
@@ -58,9 +62,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatTableModule,
     MatSortModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SearchTextboxComponent,
+    PaginationComponent,
+    DateFormatPipe,
+    DeleteBoxComponent
   ],
   entryComponents: [],
-  declarations: []
+  declarations: [SearchTextboxComponent, PaginationComponent, DateFormatPipe, DeleteBoxComponent]
 })
 export class SharedModule { }

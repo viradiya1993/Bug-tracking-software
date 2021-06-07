@@ -8,7 +8,7 @@ const BACKEND_URL = environment.apiUrl + '';
   providedIn: 'root'
 })
 export class LayoutService {
-
+ 
   constructor(
     private http: HttpClient,
     private router: Router
@@ -25,6 +25,7 @@ export class LayoutService {
     return this.http.get<{ message: string, employeeLists: any, count: number }>
       (BACKEND_URL + '/employee' + queryParams);
   }
+
   getDepartmentData() {
     return this.http.get<{ message: string, userDepartment: any, count: number }>
       (BACKEND_URL + '/user/getDepartmentList');
@@ -35,18 +36,9 @@ export class LayoutService {
       (BACKEND_URL + '/user/getRole');
   }
 
-  //get technology list
-  getTechnology(limit: any, page: any, shortType: any, search: any) {
-    let params = new HttpParams()
-    .set("limit", limit)
-    .set("page", page)
-    .set("sortBy", shortType )
-    .set("search", search)
-    return this.http.get(BACKEND_URL + '/technology/gettechnology', { params: params });
-    // .set("pagesize", postsPerPage)
-    // .set("page", currentPage);
-    // this.http.get<{message: string, posts: any, maxPosts: number}>('http://localhost:3000/api/posts', { params: params })
-    let url = BACKEND_URL + '/technology/gettechnology';
+  //get technology list=
+  getTechnology(limit: any, page: any, shortName: any, shortType: any, search: any) {
+    let url = BACKEND_URL + '/technology/getTechnologyList';
     if (limit !== undefined) {
       url += '?limit=' + limit;
     } else {
@@ -57,13 +49,47 @@ export class LayoutService {
     } else {
       url += '&skip=0';
     }
-    
+    if (shortName !== undefined) {
+      url += '&sortBy=' + shortName + ':' + shortType;
+    }
     if (search != null) {
       url += '&q=' + search;
     }
-    
+   
     return this.http.get(url);
   }
-  
 
+  //Get Last Added Technology
+  getLastAddedTechnology() {
+    return this.http.get(BACKEND_URL + '/technology/getLastTech');
+  }
+
+  //Add Technology
+  addTechnology(data: any) {
+    return this.http.post(BACKEND_URL + '/technology/create', data);
+  }
+
+  // get technology detail
+  geTechnologyDetail(id: any) {
+    return this.http.get(BACKEND_URL + '/technology/getTechnology/' + id);
+  }
+
+  updateTechnology(data, id) {
+    return this.http.post(BACKEND_URL + '/technology/updateTechnology/' +  id, data);
+  }
+
+  // for delete technology
+  deletetechnology(id: any) {
+    return this.http.delete(BACKEND_URL + '/technology/delete-technology/' + id);
+  }
 }
+
+/* 
+   let params = new HttpParams()
+    .set("?limit", limit)
+    .set("page", page)
+    .set("sortBy", shortType )
+    .set("&q", search)
+    return this.http.get(BACKEND_URL + '/technology/gettechnology', { params: params } );
+
+*/

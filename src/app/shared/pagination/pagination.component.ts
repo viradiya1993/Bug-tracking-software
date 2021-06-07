@@ -1,0 +1,37 @@
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AppConst } from 'app/app.constant';
+
+@Component({
+  selector: 'app-pagination',
+  templateUrl: './pagination.component.html',
+  styleUrls: ['./pagination.component.css']
+})
+export class PaginationComponent implements OnInit, OnChanges {
+  // MatPaginator Inputs
+  length: any;
+  pageSize = AppConst.pageSize;
+  pageSizeOptions: number[] = AppConst.pageSizeOptions;
+  pageEvent: PageEvent;
+  offSet: any = 1;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() childMessage: number;
+  @Input() index: number;
+  @Output() messageEvent = new EventEmitter<any>();
+  constructor(private cdr: ChangeDetectorRef) { }
+  
+  ngOnInit(): void {
+  }
+
+  ngOnChanges() {
+    this.cdr.detectChanges();
+    this.paginator.pageIndex = this.index;
+  }
+
+  getNext(event: PageEvent) {
+    if (this.childMessage > 5) {
+      this.messageEvent.emit(event);
+    }
+  }
+
+}
