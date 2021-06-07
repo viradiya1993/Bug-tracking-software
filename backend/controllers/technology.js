@@ -112,9 +112,11 @@ exports.getTechnology = async (req, res, next) => {
 
 // Update Technology
 exports.updateTechnology = async (req, res, next) => {
+    const { tech_name } = req.body;
     try {
+        
         const isTechnologyExist = await Technology.findOne({
-            _id: req.params.id
+            tech_name
         });
         
         if (isTechnologyExist) {
