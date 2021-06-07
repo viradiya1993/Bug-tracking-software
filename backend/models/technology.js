@@ -29,4 +29,4 @@ const technology = mongoose.Schema({
 });
 
 technology.plugin(uniqueValidator);
-module.exports = mongoose.model('Technology', technology);
+module.exports = mongoose.model('technology', technology);

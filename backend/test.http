@@ -82,14 +82,25 @@ POST http://localhost:3000/api/technology/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "tech_name": "Javascript",
-    "tech_id": "2005"
+    "tech_name": "Angular",
+    "tech_id": "2007"
 }
 
 ###
-GET  http://localhost:3000/api/technology/gettechnology HTTP/1.1
+GET  http://localhost:3000/api/technology/getTechnology HTTP/1.1
 Content-Type: application/json
 
+{
+    "_id": "60ba350e93b41a15b8712bac"
+}
 
+###
+POST   http://localhost:3000/api/technology/updateTechnology/60bdae915b2fc5285c5b3262 HTTP/1.1
+Content-Type: application/json
+
+{
+    "tech_name": "PHP1",
+    "tech_id": "2015"
+}
 
 
