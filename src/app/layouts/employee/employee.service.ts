@@ -31,4 +31,8 @@ export class EmployeeService {
   editEmployee(employeeData: object, id: string) {
     return this.http.put(BACKEND_URL + id, employeeData);
   }
+
+  deleteEmployee(id: string) {
+    return this.http.delete(BACKEND_URL + id);
+  }
 }

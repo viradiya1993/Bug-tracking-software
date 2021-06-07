@@ -1,0 +1,10 @@
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title><strong>{{data.action}}</strong></h1>
+<div mat-dialog-content>
+    Are You Sure?
+    You want to delete this Data!
+</div>
+<div mat-dialog-actions>
+    <button mat-button class="pull-right" (click)="doAction()" color="warn">{{data.action}}</button>
+    <button mat-button class="pull-right" (click)="closeDialog()" mat-flat-button>Cancel</button>
+</div>

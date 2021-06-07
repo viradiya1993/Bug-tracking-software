@@ -13,6 +13,7 @@ import { EmployeeData } from 'app/model/employee.model';
 import { SharedService } from 'app/shared/shared.service';
 import { EmployeeService } from '../employee.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogComponent } from 'app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-list',
@@ -117,27 +118,33 @@ export class ListComponent implements OnInit {
     this.sortType = event.active + ':' + event.direction;
     this.getEmployeeData();
   }
-  // openDialog(action, obj) {
-  //   obj.action = action;
-  //   const dialogRef = this.dialog.open(DialogBoxComponent, {
-  //     width: '500px',
-  //     data: obj
-  //   });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     // if (result.event == 'Add') {
-  //     //   this.addRowData(result.data);
-  //     // } else if (result.event == 'Update') {
-  //     //   this.updateRowData(result.data);
-  //     // } else if (result.event == 'Delete') {
-  //     //   this.deleteRowData(result.data);
-  //     // }
-  //   });
-  // }
+  openDialog(action, obj) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '400px',
+      data: obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result && result.event == 'Delete') {
+        this.deleteEmployee(result.id);
+      }
+    });
+  }
 
   create(action, obj) {
     console.log(action, obj);
     obj.action = action;
     this.router.navigate(['/employee/add']);
+  }
+
+  deleteEmployee(id: string) {
+    console.log(id);
+    this.service.deleteEmployee(id).subscribe((res) => {
+      console.log(res);
+      
+    })
   }
 }

@@ -4,7 +4,7 @@ const UserDepartment = require('../models/departments.js');
 const dateFormat = require('../helper/dateFormate.helper');
 const ObjectID = require('mongodb').ObjectID;
 
-const { body, validationResult } = require('express-validator');
+const { body, validationResult, Result } = require('express-validator');
 
 exports.getEmployee = (req, res, next) => {
     const sort = {};
@@ -129,107 +129,155 @@ exports.editEmployee = (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+    try {
+        // EmployeeTable.findOne({ _id: ObjectID(req.body.id) })
+        //     .then(employee => {
+        //         console.log(employee);
+        //         let fetchedId = employee._id;
+        //         EmployeeTable.findOne({ email: req.body.email })
+        //             .then(result => {
+        //                 console.log("Value", result._id !== ObjectID(req.body.id), result._id, req.body.id);
+        //                 if (result._id !== req.body.id && result) {
+        //                     return res.status(400).json({
+        //                         message: "This Email is Already Taken.",
+        //                         errorType: "Email"
+        //                     });
+        //                 }
+        //                 EmployeeTable.findOne({ mobile_number: req.body.mobile_number })
+        //                     .then(user => {
+        //                         if (user._id !== fetchedId && user) {
+        //                             return res.status(400).json({
+        //                                 message: "This Mobile Number is Already Taken.",
+        //                                 errorType: "Mobile"
+        //                             });
+        //                         }
+        //                         UserRoles.findOne({ roleId: req.body.roleId })
+        //                             .then(newRole => {
+        //                                 UserDepartment.findOne({ departmentId: req.body.departmentId })
+        //                                     .then(newDepartment => {
+        //                                         const employeeNew = {
+        //                                             role: newRole.role,
+        //                                             roleId: req.body.roleId,
+        //                                             first_name: req.body.first_name,
+        //                                             middle_name: req.body.middle_name,
+        //                                             last_name: req.body.last_name,
+        //                                             department: newDepartment.department,
+        //                                             departmentId: req.body.departmentId,
+        //                                             gender: req.body.gender,
+        //                                             mobile_number: req.body.mobile_number,
+        //                                             email: req.body.email,
+        //                                             created_at: dateFormat.set_current_timestamp(),
+        //                                             updated_at: dateFormat.set_current_timestamp(),
+        //                                             actual_updated_at: dateFormat.set_current_timestamp(),
+        //                                         };
+        //                                         // console.log("object===================", req.params.id, employeeNew);
+        //                                         EmployeeTable.findOneAndUpdate(
+        //                                             { _id: ObjectID(req.params.id) },
+        //                                             employeeNew,
+        //                                             { new: true }).then(
+        //                                                 resultupdate => {
+        //                                                     // console.log("resultupdate===============", resultupdate._id, resultupdate);
+        //                                                     res.status(200).json({
+        //                                                         message: "Updated Successfully",
+        //                                                         result: resultupdate
+        //                                                     });
+        //                                                     // if (result.n > 0) {
+        //                                                     // } else {
+        //                                                     //     res.status(401).json({
+        //                                                     //         message: "Not Authorized to Edit"
+        //                                                     //     });
+        //                                                     // }
+        //                                                 })
+        //                                             .catch(errorupdate => {
+        //                                                 console.log("errorupdate", errorupdate);
+        //                                                 res.status(500).json({
+        //                                                     message: "Couldn't Update POst"
+        //                                                 });
+        //                                             });
+        //                                     })
+        //                             });
+        //                     })
+        //             });
+        //     })
+        EmployeeTable.findOne({
+            $and: [{ _id: ObjectID(req.body.id) },
+            {
+                $or: [{ email: req.body.email }, { mobile_number: req.body.mobile_number }]
+            }]
+        }).then(
+            result => {
+                console.log(result);
+                res.status(200).json({
+                    message: "Updated Successfully",
+                    result: result
+                });
+            }
+        ).catch(
+            err => {
+                res.status(400).json({
+                    err: err
+                })
+            }
+        )
+    } catch (e) {
+        res.status(500).json({
+            message: e
+        });
+    }
+
     // EmployeeTable.findOne({ _id: req.body.id })
-    //     .then(employee => {
-    //         console.log(employee);
-    //         let fetchedId = employee._id;
-    //         EmployeeTable.findOne({ email: req.body.email })
-    //             .then(result => {
-    //                 console.log(result._id === fetchedId, result._id, fetchedId);
-    //                 if (result._id === fetchedId && result) {
-    //                     return res.status(400).json({
-    //                         message: "This Email is Already Taken.",
-    //                         errorType: "Email"
+    //     .then(() => {
+    //         const employee = new EmployeeTable({
+    //             role: req.body.roleId,
+    //             roleId: req.body.roleId,
+    //             first_name: req.body.first_name,
+    //             middle_name: req.body.middle_name,
+    //             last_name: req.body.last_name,
+    //             department: req.body.departmentId,
+    //             departmentId: req.body.departmentId,
+    //             gender: req.body.gender,
+    //             mobile_number: req.body.mobile_number,
+    //             email: req.body.email,
+    //             created_at: dateFormat.set_current_timestamp(),
+    //             updated_at: dateFormat.set_current_timestamp(),
+    //             actual_updated_at: dateFormat.set_current_timestamp(),
+    //         });
+    //         EmployeeTable.updateOne({ _id: req.params.id }, employee).then(
+    //             result => {
+    //                 if (result.n > 0) {
+    //                     res.status(200).json({
+    //                         message: "Post Updated Successfully"
+    //                     });
+    //                 } else {
+    //                     res.status(401).json({
+    //                         message: "Not Authorized to Edit"
     //                     });
     //                 }
-    //                 EmployeeTable.findOne({ mobile_number: req.body.mobile_number })
-    //                     .then(user => {
-    //                         if (user._id === fetchedId && user) {
-    //                             return res.status(400).json({
-    //                                 message: "This Mobile Number is Already Taken.",
-    //                                 errorType: "Mobile"
-    //                             });
-    //                         }
-    //                         UserRoles.findOne({ roleId: req.body.roleId })
-    //                             .then(newRole => {
-    //                                 UserDepartment.findOne({ departmentId: req.body.departmentId })
-    //                                     .then(newDepartment => {
-    //                                         const employee = new EmployeeTable({
-    //                                             role: newRole.role,
-    //                                             roleId: req.body.roleId,
-    //                                             first_name: req.body.first_name,
-    //                                             middle_name: req.body.middle_name,
-    //                                             last_name: req.body.last_name,
-    //                                             department: newDepartment.department,
-    //                                             departmentId: req.body.departmentId,
-    //                                             gender: req.body.gender,
-    //                                             mobile_number: req.body.mobile_number,
-    //                                             email: req.body.email,
-    //                                             created_at: dateFormat.set_current_timestamp(),
-    //                                             updated_at: dateFormat.set_current_timestamp(),
-    //                                             actual_updated_at: dateFormat.set_current_timestamp(),
-    //                                         });
-    //                                         console.log(req.params.id);
-    //                                         EmployeeTable.findOne({ _id: req.params.id }).then(value => {
-    //                                             console.log(value);
-    //                                         })
-    //                                         EmployeeTable.updateOne({ _id: ObjectID(req.params.id) }, employee).then(
-    //                                             result => {
-    //                                                 console.log(result);
-    //                                                 if (result.n > 0) {
-    //                                                     res.status(200).json({
-    //                                                         message: "Post Updated Successfully"
-    //                                                     });
-    //                                                 } else {
-    //                                                     res.status(401).json({
-    //                                                         message: "Not Authorized to Edit"
-    //                                                     });
-    //                                                 }
-    //                                             })
-    //                                             .catch(error => {
-    //                                                 res.status(500).json({
-    //                                                     message: "Couldn't Update POst"
-    //                                                 });
-    //                                             });
-    //                                     })
-    //                             });
-    //                     })
+    //             })
+    //             .catch(error => {
+    //                 res.status(500).json({
+    //                     message: "Couldn't Update POst"
+    //                 });
     //             });
     //     })
+}
 
-    EmployeeTable.findOne({ _id: req.body.id })
-        .then(() => {
-            const employee = new EmployeeTable({
-                role: req.body.roleId,
-                roleId: req.body.roleId,
-                first_name: req.body.first_name,
-                middle_name: req.body.middle_name,
-                last_name: req.body.last_name,
-                department: req.body.departmentId,
-                departmentId: req.body.departmentId,
-                gender: req.body.gender,
-                mobile_number: req.body.mobile_number,
-                email: req.body.email,
-                created_at: dateFormat.set_current_timestamp(),
-                updated_at: dateFormat.set_current_timestamp(),
-                actual_updated_at: dateFormat.set_current_timestamp(),
+exports.deleteEmployee = (req, res, next) => {
+    // console.log(req.params.id);
+    EmployeeTable.deleteOne({ _id: req.params.id }).then((result) => {
+        if (result.n > 0) {
+            res.status(200).json({
+                message: "Employee Data Deleted Successfully"
             });
-            EmployeeTable.updateOne({ _id: req.params.id }, employee).then(
-                result => {
-                    if (result.n > 0) {
-                        res.status(200).json({
-                            message: "Post Updated Successfully"
-                        });
-                    } else {
-                        res.status(401).json({
-                            message: "Not Authorized to Edit"
-                        });
-                    }
-                })
-                .catch(error => {
-                    res.status(500).json({
-                        message: "Couldn't Update POst"
-                    });
-                });
-        })
+        } else {
+            res.status(401).json({
+                message: "Not Authorized to delete"
+            });
+        }
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Deleting Data Failed"
+            });
+        });
 }

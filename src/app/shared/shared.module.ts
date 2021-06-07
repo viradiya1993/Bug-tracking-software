@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DialogComponent } from './dialog/dialog.component';
 
 
 
@@ -61,6 +62,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule
   ],
   entryComponents: [],
-  declarations: []
+  declarations: [DialogComponent]
 })
 export class SharedModule { }
