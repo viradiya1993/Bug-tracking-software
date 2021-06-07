@@ -4,7 +4,7 @@ const UserDepartment = require('../models/departments.js');
 const dateFormat = require('../helper/dateFormate.helper');
 const ObjectID = require('mongodb').ObjectID;
 
-const { body, validationResult, Result } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 exports.getEmployee = (req, res, next) => {
     const sort = {};
