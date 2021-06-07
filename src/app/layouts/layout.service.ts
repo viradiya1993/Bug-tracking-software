@@ -59,10 +59,7 @@ export class LayoutService {
     return this.http.get(url);
   }
 
-  //Get Last Added Technology
-  getLastAddedTechnology() {
-    return this.http.get(BACKEND_URL + '/technology/getLastTech');
-  }
+ 
 
   //Add Technology
   addTechnology(data: any) {

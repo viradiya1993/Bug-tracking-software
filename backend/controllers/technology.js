@@ -5,19 +5,19 @@ const Technology = require("../models/technology");
 
 // Create Technology
 exports.createTechnology = async (req, res, next) => {
-    const {tech_id, tech_name } = req.body;
-
+   const { tech_name } = req.body;
     try {
         const technology = new Technology();
-        technology.tech_id = tech_id;
         technology.tech_name = tech_name;
         technology.created_at = await dateFormat.set_current_timestamp();
         technology.updated_at = await dateFormat.set_current_timestamp();
         technology.actual_updated_at = await dateFormat.set_current_timestamp();
         technology.save()
         .then(technology => {
+            console.log(technology._id);
             return res.status(200).json({
-                message: "Technology Added."
+                message: "Technology Added.",
+                id: technology._id
             });
         })
     } catch (error) {
@@ -44,7 +44,6 @@ exports.getTechnologyList = async (req, res, next) => {
     if (search) {
         query.$or = [
             { 'tech_name': new RegExp(search, 'i') },
-            { 'tech_id': new RegExp(search, 'i') }
         ]
     }
     
@@ -83,30 +82,6 @@ exports.getTechnologyList = async (req, res, next) => {
 
 }
 
-// Fetch Last Added Technology ID
-exports.getLastTechnology = async (req, res, next) => {
-    try {
-        var technology;
-        technology = await Technology.findOne({}).sort({_id:-1}).limit(1);
-        if (technology) {
-            return res.status(200).json({
-                message: "Technology last Id available",
-                data: {
-                    technology
-                }
-            })
-        }
-        return res.status(200).json({
-            message: "No technology available.",
-            data: {}
-        })
-    } catch (error) {
-        return res.status(400).json({
-            message: "Something went wrong. Please try again later.",
-            data: {}
-        })
-    }
-}
 
 // Fetch technology details
 exports.getTechnology = async (req, res, next) => {
@@ -138,14 +113,13 @@ exports.getTechnology = async (req, res, next) => {
 // Update Technology
 exports.updateTechnology = async (req, res, next) => {
     const { tech_name } = req.body;
-    
     try {
-        const isProjectIdExist = await Technology.findOne({
-            _id: req.params.id,
+        
+        const isTechnologyExist = await Technology.findOne({
             tech_name
         });
-
-        if (isProjectIdExist) {
+        
+        if (isTechnologyExist) {
             return res.status(400).send({
                 message: "Technology already exist choose another one",
                 data: {}

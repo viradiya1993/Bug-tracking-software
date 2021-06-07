@@ -21,11 +21,7 @@ export class AddTechnologyComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
-    this.layoutsService.getLastAddedTechnology().subscribe((res: any) => {
-      this.technology.tech_id = Number(res.data.technology.tech_id) + 1;
-    })
-  }
+  ngOnInit(): void {}
 
   //Add Technology
   onSave(form: NgForm) {
@@ -33,19 +29,19 @@ export class AddTechnologyComponent implements OnInit {
       return
     }
     const data = {
-      tech_id: String(this.technology.tech_id),
       tech_name: form.value.tech_name,
     }
     if(!this.loader) {
       this.loader = true
       this.layoutsService.addTechnology(data).subscribe((res: any) => {
-         if (res) {
+        if (res) {
            this.loader = false;
            this.myForm.reset();
            this.sharedService.loggerSuccess(res.message);
            this.router.navigate(['/technology']);
          }
       }, err => {
+          this.loader = true;
           this.sharedService.loggerError(err.message);
       });
     }

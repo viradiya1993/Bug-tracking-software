@@ -24,51 +24,19 @@
                 <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
                   class="mat-elevation-z8 table-hover" width="100%" *ngIf="length > 0">
                   <ng-container matColumnDef="no">
-                    <th width="8%" mat-header-cell *matHeaderCellDef class="text-primary"> No </th>
+                    <th width="33%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header class="text-primary"> No </th>
                     <td width="8%" mat-cell *matCellDef="let element ; let i = index"> {{i + 1}} </td>
                   </ng-container>
   
-                  <ng-container matColumnDef="technologyid">
-                    <th width="15%" (click)="sortItem('technologyid')" mat-header-cell *matHeaderCellDef mat-sort-header
-                      class="text-primary">
-                      Technology Id </th>
-                    <td width="15%" mat-cell *matCellDef="let element"> {{element?.tech_id}}</td>
-                  </ng-container>
-  
                   <ng-container matColumnDef="technology">
-                    <th width="20%" (click)="sortItem('technology')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    <th width="33%" (click)="sortItem('technology')" mat-header-cell *matHeaderCellDef mat-sort-header
                       class="text-primary">
                       Technology Name </th>
                     <td width="20%" mat-cell *matCellDef="let element"> {{element?.tech_name}} </td>
                   </ng-container>
-                  
-                  <ng-container matColumnDef="created_at">
-                    <th width="15%" (click)="sortItem('created_at')" mat-header-cell *matHeaderCellDef mat-sort-header
-                      class="text-primary">
-                      Created Date </th>
-                    <td width="15%" mat-cell *matCellDef="let element">
-                      <span *ngIf="element.created_at !== null">
-                        {{element.created_at | dateFormatPipe}}
-                      </span>
-                      <span class="text-center" *ngIf="element.created_at == null"> - </span>
-                    </td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="updated_at">
-                    <th width="15%" (click)="sortItem('updated_at')" mat-header-cell *matHeaderCellDef mat-sort-header
-                      class="text-primary">
-                      Updated Date </th>
-                    <td width="15%" mat-cell *matCellDef="let element">
-                      <span *ngIf="element.updated_at !== null">
-                        {{element?.updated_at | dateFormatPipe}}
-                      </span>
-                      <span class="text-center" *ngIf="element.updated_at == null"> - </span>
-                    </td>
-                  </ng-container>
-                 
   
                   <ng-container matColumnDef="action">
-                    <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
+                    <th width="33%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
                     <td width="15%" mat-cell *matCellDef="let element" class="text-center">
                       <a [routerLink]="'/technology/edit-technology/' + element._id" matTooltip="Edit"
                         [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
