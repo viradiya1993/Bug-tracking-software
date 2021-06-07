@@ -8,12 +8,6 @@ const technology = mongoose.Schema({
         unique: true
     },
 
-	tech_id: {
-		type: String,
-		required: true,
-        unique: true
-	},
-
     created_at: {
 		type: Number,
 	},

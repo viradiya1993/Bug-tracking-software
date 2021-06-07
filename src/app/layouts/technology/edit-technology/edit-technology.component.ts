@@ -39,16 +39,17 @@ export class EditTechnologyComponent implements OnInit {
       return
     }
     const data = {
-      tech_id: String(this.technology.tech_id),
       tech_name: form.value.tech_name,
     }
     if(!this.loader) { 
-      this.loader = true
+      this.loader = true;
       this.layoutsService.updateTechnology(data, this.technologyId).subscribe((res: any) => {
+        this.loader = false;
         this.sharedService.loggerSuccess(res.message);
         this.myForm.reset();
         this.router.navigate(['/technology']);
       }, err => {
+        this.loader = true;
         this.sharedService.loggerError(err.error.message);
       });
     }

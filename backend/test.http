@@ -99,7 +99,7 @@ POST   http://localhost:3000/api/technology/updateTechnology/60bdae915b2fc5285c5
 Content-Type: application/json
 
 {
-    "tech_name": "PHP1",
+    "tech_name": "PHP15",
     "tech_id": "2015"
 }
 

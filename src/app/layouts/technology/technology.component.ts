@@ -20,10 +20,10 @@ export class TechnologyComponent implements OnInit {
   limit: number = AppConst.pageSize;
   length: any;
   dataSource: any;
-  sortName: String = 'created_at';
+  sortName: String = 'no';
   sortType: String = 'desc';
   index: number;
-  displayedColumns: string[] = ['no', 'technologyid', 'technology', 'created_at', 'updated_at', 'action'];
+  displayedColumns: string[] = ['no',  'technology',  'action'];
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
