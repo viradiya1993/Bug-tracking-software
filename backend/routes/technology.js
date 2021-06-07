@@ -8,7 +8,7 @@ router.get("/getTechnologyList", checkAuth, technologyController.getTechnologyLi
 router.post("/create", checkAuth, technologyController.createTechnology);
 router.get('/getLastTech', checkAuth, technologyController.getLastTechnology);
 router.get('/getTechnology/:id', checkAuth, technologyController.getTechnology);
-router.post('/updateTechnology/:id',  technologyController.updateTechnology);
+router.post('/updateTechnology/:id', checkAuth, technologyController.updateTechnology);
 router.delete('/delete-technology/:id', checkAuth, technologyController.deleteTechnology);
 
 module.exports = router;
