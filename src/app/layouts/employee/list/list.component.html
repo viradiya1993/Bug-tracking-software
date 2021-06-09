@@ -124,10 +124,13 @@
                             <ng-container matColumnDef="action">
                                 <th mat-header-cell *matHeaderCellDef> Action </th>
                                 <td mat-cell *matCellDef="let element" class="action-link">
-                                    <a [routerLink]="['/employee/edit', element._id]"><span class="material-icons">
+                                    <a [routerLink]="['/employee/edit', element._id]" matTooltip="Edit"
+                                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"><span
+                                            class="material-icons">
                                             edit
-                                        </span></a> |
-                                    <a (click)="openDialog('Delete',element)">
+                                        </span></a>
+                                    <a href="javascript:void(0)" (click)="openDialog('Delete',element)"
+                                        matTooltip="Delete" [matTooltipPosition]="'above'" matTooltipClass="mat_pop">
                                         <span class="material-icons">
                                             delete
                                         </span>

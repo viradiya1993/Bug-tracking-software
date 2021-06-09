@@ -21,16 +21,22 @@ router.post('/set-password', UserController.setNewPassword);
 
 router.post("/change-password", checkAuth, UserController.changePassword);
 
-router.post("/add-role", UserRoleController.createUserRole);
+router.post("/add-role", checkAuth, UserRoleController.createUserRole);
 
-router.get("/getRole", UserRoleController.getRole);
+router.get("/getRole", checkAuth, UserRoleController.getRole);
 
-router.post("/create-designation", UserTypeController.createUserType);
+router.post("/create-designation", checkAuth, UserTypeController.createUserType);
 
-router.get("/getUserTypeList", UserTypeController.getUserType);
+router.get("/getUserTypeList", checkAuth, UserTypeController.getUserType);
 
-router.post("/create-department", UserDepartmentController.createDepartment);
+router.post("/create-department", checkAuth, UserDepartmentController.createDepartment);
 
-router.get("/getDepartmentList", UserDepartmentController.getDepartment);
+router.get("/getDepartmentList", checkAuth, UserDepartmentController.getDepartment);
+
+router.get("/getDepartmentByID/:id", checkAuth, UserDepartmentController.getDepartmentByID);
+
+router.delete("/delete-department/:id", checkAuth, UserDepartmentController.deleteDepartment);
+
+router.put('/update-department/:id', checkAuth, UserDepartmentController.updateDepartment);
 
 module.exports = router;

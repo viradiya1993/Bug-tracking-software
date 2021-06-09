@@ -14,6 +14,7 @@ import { SharedService } from 'app/shared/shared.service';
 import { EmployeeService } from '../employee.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogComponent } from 'app/shared/dialog/dialog.component';
+import { Page } from 'app/shared/page';
 
 @Component({
   selector: 'app-list',
@@ -37,6 +38,7 @@ export class ListComponent implements OnInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @Output() sendObjectData = new EventEmitter();
 
+  page = new Page();
   constructor(
     public dialog: MatDialog,
     private service: EmployeeService,
@@ -45,6 +47,16 @@ export class ListComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
+    this.page.pageNumber = 0;
+    this.page.size = this.PerPage;
+    this.page.sortby = '';
+    this.page.sortOrder = '';
+
+    this.formEmployeeSearch = new FormGroup({
+      first_name: new FormControl(null),
+      middle_name: new FormControl(null),
+      last_name: new FormControl(null)
+    });
     this.isLoading = true;
     this.spinner.show();
     this.getEmployeeData();
@@ -52,11 +64,7 @@ export class ListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.formEmployeeSearch = new FormGroup({
-      first_name: new FormControl(null),
-      middle_name: new FormControl(null),
-      last_name: new FormControl(null)
-    });
+
   }
 
   ngAfterViewInit() {
@@ -78,7 +86,8 @@ export class ListComponent implements OnInit {
   }
 
   getEmployeeData() {
-    this.service.getEmployeeList(this.PerPage, this.currentPage, this.sortType, this.searchKey).subscribe((res) => {
+    this.page.params = this.formEmployeeSearch.value;
+    this.service.getEmployeeList(this.page).subscribe((res: any) => {
       console.log(res);
       this.isLoading = false;
       this.spinner.hide();
@@ -104,9 +113,12 @@ export class ListComponent implements OnInit {
     // this.isLoading = true;
     this.spinner.show();
     console.log(pageData);
-    this.PerPage = pageData.pageSize;
-    this.currentPage = pageData.pageIndex + 1;
-    // this.service.getEmployeeList(this.PerPage, this.currentPage);
+    // this.PerPage = pageData.pageSize;
+    // this.currentPage = pageData.pageIndex + 1;
+
+    this.page.size = pageData.pageSize;
+    this.page.pageNumber = pageData.pageIndex + 1;
+
     this.getEmployeeData();
 
   }
@@ -115,7 +127,8 @@ export class ListComponent implements OnInit {
     console.log(event);
     this.spinner.show();
     // this.PerPage = event.active;
-    this.sortType = event.active + ':' + event.direction;
+    this.page.sortby = event.active + ':' + event.direction;
+    // this.sortType = event.active + ':' + event.direction;
     this.getEmployeeData();
   }
 
@@ -144,7 +157,7 @@ export class ListComponent implements OnInit {
     console.log(id);
     this.service.deleteEmployee(id).subscribe((res) => {
       console.log(res);
-      
+
     })
   }
 }

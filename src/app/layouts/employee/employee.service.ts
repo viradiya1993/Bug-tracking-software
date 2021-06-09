@@ -14,10 +14,24 @@ export class EmployeeService {
     private router: Router
   ) { }
 
-  getEmployeeList(PerPage: number, currentPage: number, shortType: string, search: string) {
-    const queryParams = `?pageSize=${PerPage}&page=${currentPage}&sortBy=${shortType}&search=${search}`
+  // getEmployeeList(PerPage: number, currentPage: number, shortType: string, search: any) {
+  //   console.log(search);
+  //   let searchObject = {
+  //     first_name: search.first_name,
+  //     middle_name: search.middle_name,
+  //     last_name: search.last_name,
+  //   }
+  //   const queryParams = `?pageSize=${PerPage}&page=${currentPage}&sortBy=${shortType}&search=`
+  //   const querySearchParams = searchObject;
+  //   return this.http.get<{ message: string, employeeLists: any, count: number }>
+  //     (BACKEND_URL + queryParams + querySearchParams);
+  // }
+
+  getEmployeeList(data: any) {
+    console.log(data);
+    const queryParams = `?pageSize=${data.size}&page=${data.pageNumber}&sortBy=${data.sortby}`
     return this.http.get<{ message: string, employeeLists: any, count: number }>
-      (BACKEND_URL + queryParams);
+      (BACKEND_URL + queryParams, data);
   }
 
   addEmployee(employeeData: object) {

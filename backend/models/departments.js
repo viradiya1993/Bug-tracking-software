@@ -6,11 +6,19 @@ const userDepartment = mongoose.Schema({
         required: true,
         unique: true
     },
-    departmentId: {
-        type: String,
-        required: true,
-        unique: true
-    }
+
+    created_at: {
+        type: Number,
+    },
+
+    updated_at: {
+        type: Number,
+    },
+
+    actual_updated_at: {
+        type: Number,
+        default: null
+    },
 });
 
 userDepartment.plugin(uniqueValidator);

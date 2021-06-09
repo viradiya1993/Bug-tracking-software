@@ -37,7 +37,7 @@ exports.getEmployee = (req, res, next) => {
             });
         }).catch(error => {
             res.status(500).json({
-                message: "Fetching User Department Failed"
+                message: "Fetching Employees List Failed"
             });
         });
 }
