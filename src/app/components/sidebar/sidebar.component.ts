@@ -20,7 +20,8 @@ export const ROUTES: RouteInfo[] = [
   { path: '/employee', title: 'Employee', icon: 'content_paste', class: '' },
   { path: '/technology', title: 'Technology', icon: 'content_paste', class: '' },
   { path: '/department', title: 'Department', icon: 'dashboard', class: '' },
-
+  { path: '/project', title: 'Project', icon: 'content_paste', class: '' },
+  
 
 ];
 

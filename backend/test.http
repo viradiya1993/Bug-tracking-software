@@ -99,8 +99,38 @@ POST   http://localhost:3000/api/technology/updateTechnology/60bdae915b2fc5285c5
 Content-Type: application/json
 
 {
-    "tech_name": "PHP15",
-    "tech_id": "2015"
+    "tech_name": "PHP15"
 }
 
 
+###
+POST http://localhost:3000/api/project/create HTTP/1.1
+Content-Type: application/json
+
+{
+   
+    "technology_id": "609e72473230742358084d9c",
+    "department_id": "609e72473230742358084d9c",
+    "employee_id": "609e72473230742358084d9c",
+    "project_no": 1,
+    "project_name": "BTS",
+    "project_description": "BTS BUG",
+    "status": "Running",
+    "start_date": "",
+    "end_date": ""
+}
+
+
+###
+POST http://localhost:3000/api/project/create HTTP/1.1
+Content-Type: application/json
+
+{
+   
+    "project_no": 1,
+    "project_name": "BTS"
+}
+
+###
+GET  http://localhost:3000/api/project/getemployee HTTP/1.1
+Content-Type: application/json

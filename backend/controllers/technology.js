@@ -14,7 +14,6 @@ exports.createTechnology = async (req, res, next) => {
         technology.actual_updated_at = await dateFormat.set_current_timestamp();
         technology.save()
         .then(technology => {
-            console.log(technology._id);
             return res.status(200).json({
                 message: "Technology Added.",
                 id: technology._id
@@ -114,7 +113,6 @@ exports.getTechnology = async (req, res, next) => {
 exports.updateTechnology = async (req, res, next) => {
     const { tech_name } = req.body;
     try {
-        
         const isTechnologyExist = await Technology.findOne({
             tech_name
         });
@@ -128,6 +126,7 @@ exports.updateTechnology = async (req, res, next) => {
         const technology = await  Technology.findOne({
             _id: req.params.id
         });
+        
         if (!technology) {
             return res.status(404).json({
                 message: "Technology details not found.",
