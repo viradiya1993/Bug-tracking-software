@@ -12,7 +12,7 @@ export class SearchTextboxComponent implements OnInit {
   searchValue: any = '';
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   search(value: any) {
     if (value === null) {
@@ -23,6 +23,7 @@ export class SearchTextboxComponent implements OnInit {
 
   cancel(value: any) {
     value = null;
+    this.searchValue = '';
     this.searchEvent.emit(value);
     this.resetIndex.emit(0);
   }

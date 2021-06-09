@@ -108,7 +108,7 @@ exports.getDepartment = (req, res, next) => {
             { 'department': new RegExp(search, 'i') },
         ]
     }
-    const postQuery = UserDepartment.find();
+    const postQuery = UserDepartment.find(query);
     let fetchedPosts;
     if (req.query.sortBy) {
         const parts = req.query.sortBy.split(':');
@@ -124,7 +124,7 @@ exports.getDepartment = (req, res, next) => {
     postQuery
         .then(documents => {
             fetchedPosts = documents;
-            return UserDepartment.count();
+            return UserDepartment.countDocuments(query);
         })
         .then(count => {
             res.status(200).json({
