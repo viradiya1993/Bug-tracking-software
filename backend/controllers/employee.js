@@ -70,9 +70,9 @@ exports.createEmployee = (req, res, next) => {
                             errorType: "Mobile"
                         });
                     }
-                    UserRoles.findOne({ roleId: req.body.roleId })
+                    UserRoles.findOne({ _id: req.body.roleId })
                         .then(newRole => {
-                            UserDepartment.findOne({ departmentId: req.body.departmentId })
+                            UserDepartment.findOne({ _id: req.body.departmentId })
                                 .then(newDepartment => {
                                     const employee = new EmployeeTable({
                                         role: newRole.role,
@@ -206,6 +206,7 @@ exports.editEmployee = (req, res, next) => {
             }]
         }).then(
             result => {
+                console.log(result);
                 if (result._id !== ObjectID(req.body.id) && result.email === req.body.email) {
                     return res.status(400).json({
                         message: "This Email is Already Taken.",

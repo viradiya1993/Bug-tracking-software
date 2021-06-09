@@ -78,8 +78,7 @@
                                 <div class="col-md-6">
                                     <div>
                                         <ng-select placeholder="Department" [items]="departmentArray"
-                                            bindLabel="department" bindValue="departmentId"
-                                            formControlName="department">
+                                            bindLabel="department" bindValue="_id" formControlName="department">
                                         </ng-select>
                                         <mat-error *ngIf="formEmployee.get('department').invalid"> Please Select a
                                             Department
@@ -89,7 +88,7 @@
                                 <div class="col-md-6">
                                     <div>
                                         <ng-select placeholder="Role" [items]="roleArray" bindLabel="role"
-                                            bindValue="roleId" formControlName="role">
+                                            bindValue="_id" formControlName="role">
                                         </ng-select>
                                         <mat-error *ngIf="formEmployee.get('role').invalid"> Please Select a
                                             Department

@@ -15,6 +15,7 @@ import { EmployeeService } from '../employee.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogComponent } from 'app/shared/dialog/dialog.component';
 import { Page } from 'app/shared/page';
+import { DeleteBoxComponent } from 'app/shared/delete-box/delete-box.component';
 
 @Component({
   selector: 'app-list',
@@ -92,7 +93,7 @@ export class ListComponent implements OnInit {
       this.isLoading = false;
       this.spinner.hide();
       if (res.employeeLists.length) {
-        this.dataSource = res.employeeLists;
+        this.dataSource = new MatTableDataSource(res.employeeLists);
         this.total = res.count;
       }
     },
@@ -132,18 +133,39 @@ export class ListComponent implements OnInit {
     this.getEmployeeData();
   }
 
-  openDialog(action, obj) {
-    obj.action = action;
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '400px',
-      data: obj
+  // openDialog(action, obj) {
+  //   obj.action = action;
+  //   const dialogRef = this.dialog.open(DialogComponent, {
+  //     width: '400px',
+  //     data: obj
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+
+  //     if (result && result.event == 'Delete') {
+  //       this.deleteEmployee(result.id);
+  //       this.getEmployeeData();
+  //     }
+  //   });
+  // }
+
+
+  openDialog(id): void {
+    const dialogRef = this.dialog.open(DeleteBoxComponent, {
+      width: '350px',
+      data: AppConst.departmentDeleteMessage
     });
-
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.deleteEmployee(id).subscribe((res: any) => {
+          console.log(res);
 
-      if (result && result.event == 'Delete') {
-        this.deleteEmployee(result.id);
+          this.getEmployeeData();
+          this.sharedService.loggerSuccess(res.message);
+        })
       }
+    }, err => {
+      this.sharedService.loggerError(err.message);
     });
   }
 
@@ -153,11 +175,4 @@ export class ListComponent implements OnInit {
     this.router.navigate(['/employee/add']);
   }
 
-  deleteEmployee(id: string) {
-    console.log(id);
-    this.service.deleteEmployee(id).subscribe((res) => {
-      console.log(res);
-
-    })
-  }
 }

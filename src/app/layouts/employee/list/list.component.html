@@ -79,12 +79,6 @@
                         <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortTable($event)"
                             *ngIf="dataSource">
 
-                            <!-- ID Column -->
-                            <!-- <ng-container matColumnDef="id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-                        </ng-container> -->
-
                             <!-- First Name Column -->
                             <ng-container matColumnDef="first_name">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
@@ -129,8 +123,8 @@
                                             class="material-icons">
                                             edit
                                         </span></a>
-                                    <a href="javascript:void(0)" (click)="openDialog('Delete',element)"
-                                        matTooltip="Delete" [matTooltipPosition]="'above'" matTooltipClass="mat_pop">
+                                    <a href="javascript:void(0)" (click)="openDialog(element._id)" matTooltip="Delete"
+                                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop">
                                         <span class="material-icons">
                                             delete
                                         </span>

@@ -8,8 +8,9 @@ const employeeRoles = mongoose.Schema({
         required: true
     },
     roleId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserRoles',
+        default: null
     },
     first_name: {
         type: String,
@@ -27,8 +28,9 @@ const employeeRoles = mongoose.Schema({
         required: true
     },
     departmentId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserDepartment',
+        default: null
     },
     gender: {
         type: String,

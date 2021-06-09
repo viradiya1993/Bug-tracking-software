@@ -1,7 +1,7 @@
 export class AppConst {
     public static trimPattern = /^\s+|\s+$/gm; // pattern for trimming
     public static pageSize = 5;
-    public static pageSizeOptions: number[] = [1,2,5,10, 25, 100];
+    public static pageSizeOptions: number[] = [1, 2, 5, 10, 25, 100];
 
     public static emailValidationPattern = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*(\+[a-zA-Z0-9-]+)?@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;  // email validation pattern
     public static mobileValidationPatter = /^((\+){0,1}91(\s){0,1}(\-){0,1}(\s){0,1}){0,1}98(\s){0,1}(\-){0,1}(\s){0,1}[1-9]{1}[0-9]{7}$/;
@@ -11,6 +11,8 @@ export class AppConst {
     public static stageHeight = 600;
     public static technologydeleteMessage = 'Are you sure you want to delete technology ?';
     public static departmentDeleteMessage = 'Are you sure you want to delete department ?';
+    public static emoployeeDeleteMessage = 'Are you sure you want to delete Employee ?';
+
 
     public static genderArray = [
         {

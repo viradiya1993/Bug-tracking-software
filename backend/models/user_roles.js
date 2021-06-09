@@ -6,11 +6,16 @@ const userRoles = mongoose.Schema({
         required: true,
         unique: true
     },
-    roleId: {
-        type: String,
-        required: true,
-        unique: true
-    }
+    created_at: {
+        type: Number,
+    },
+    updated_at: {
+        type: Number,
+    },
+    actual_updated_at: {
+        type: Number,
+        default: null
+    },
 });
 
 userRoles.plugin(uniqueValidator);

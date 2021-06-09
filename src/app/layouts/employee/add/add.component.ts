@@ -143,15 +143,14 @@ export class AddComponent implements OnInit {
       role: formValue.role,
       roleId: formValue.role,
     }
-    console.log(data);
+
 
     if (this.mode === 'create') {
       this.service.addEmployee(data).subscribe((res: any) => {
-        console.log(res);
         this.spinner.hide();
         if (res.status = 200) {
-          this.formEmployee.reset();
           this.location.back();
+          this.formEmployee.reset();
         }
       }, (err) => {
         this.spinner.hide();
@@ -167,11 +166,10 @@ export class AddComponent implements OnInit {
     } else {
       data["id"] = this.employeeId;
       this.service.editEmployee(data, this.employeeId).subscribe((res: any) => {
-        console.log(res);
         this.spinner.hide();
         if (res.status = 200) {
-          this.formEmployee.reset();
           this.location.back();
+          this.formEmployee.reset();
         }
       }, (err) => {
         this.spinner.hide();
