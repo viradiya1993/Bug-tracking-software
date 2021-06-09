@@ -57,7 +57,6 @@
 																			Email is already taken
 																	</mat-error>
 
-<<<<<<< Updated upstream:src/app/layouts/employee/add/add.componet.html
                                 </div>
                                 <div class="col-md-4">
                                     <mat-form-field class="example-full-width">
@@ -108,57 +107,4 @@
             </div>
         </div>
     </div>
-=======
-															</div>
-															<div class="col-md-4">
-																	<mat-form-field class="example-full-width">
-																			<input matInput placeholder="Mobile Number" type="text" name="mobile_number"
-																					formControlName="mobile_number">
-																			<mat-error *ngIf="formEmployee.get('mobile_number').required"> Please enter
-																					Number
-																			</mat-error>
-																	</mat-form-field>
-																	<mat-error *ngIf="formEmployee.get('mobile_number').minLength">
-																			Please Enter Valid Number
-																	</mat-error>
-																	<mat-error *ngIf="mobileError">
-																			Mobile Number is already taken
-																	</mat-error>
-															</div>
-													</div>
-													<div class="row">
-															<div class="col-md-6">
-																	<div>
-																			<ng-select placeholder="Department" [items]="departmentArray"
-																					bindLabel="department" bindValue="departmentId"
-																					formControlName="department">
-																			</ng-select>
-																			<mat-error *ngIf="formEmployee.get('department').invalid"> Please Select a
-																					Department
-																			</mat-error>
-																	</div>
-															</div>
-															<div class="col-md-6">
-																	<div>
-																			<ng-select placeholder="Role" [items]="roleArray" bindLabel="role"
-																					bindValue="roleId" formControlName="role">
-																			</ng-select>
-																			<mat-error *ngIf="formEmployee.get('role').invalid"> Please Select a
-																					Department
-																			</mat-error>
-																	</div>
-															</div>
-													</div>
-													<button mat-raised-button class="btn btn-danger pull-right" [routerLink]="['/employee']"
-															routerLinkActive="router-link-active">Cancel</button>
-													<button mat-raised-button type="submit" class="btn btn-success pull-right"
-															[disabled]="formEmployee.invalid">Save</button>
-													<div class="clearfix"></div>
-											</form>
-									</div>
-							</div>
-					</div>
-			</div>
-	</div>
->>>>>>> Stashed changes:src/app/layouts/employee/add/add.component.html
 </div>

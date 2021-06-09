@@ -1,0 +1,111 @@
+<div class="main-content">
+	<div class="container-fluid">
+			<div class="row">
+					<ngx-spinner></ngx-spinner>
+					<div class="col-md-12">
+							<div class="card">
+									<div class="card-header card-header-danger">
+											<h4 class="card-title" *ngIf="!isEdit">Create Profile</h4>
+											<h4 class="card-title" *ngIf="isEdit">Edit Profile</h4>
+									</div>
+									<div class="card-body">
+											<form (submit)="onSave()" [formGroup]='formEmployee' *ngIf="!isLoading">
+													<div class="row">
+															<div class="col-md-4">
+																	<mat-form-field class="example-full-width">
+																			<input matInput placeholder="First Name" name="first_name"
+																					formControlName="first_name">
+																			<mat-error *ngIf="formEmployee.get('first_name').invalid">
+																					Please enter First Name
+																			</mat-error>
+																	</mat-form-field>
+															</div>
+															<div class="col-md-4">
+																	<mat-form-field class="example-full-width">
+																			<input matInput placeholder="Middle Name" name="middle_name"
+																					formControlName="middle_name">
+																	</mat-form-field>
+															</div>
+															<div class="col-md-4">
+																	<mat-form-field class="example-full-width">
+																			<input matInput placeholder="Last Name" name="last_name"
+																					formControlName="last_name">
+																			<mat-error *ngIf="formEmployee.get('last_name').invalid">
+																					Please enter Last Name
+																			</mat-error>
+																	</mat-form-field>
+															</div>
+													</div>
+													<div class="row">
+															<div class="col-md-4">
+																	<ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value"
+																			bindValue="id" formControlName="gender">
+																	</ng-select>
+																	<mat-error *ngIf="formEmployee.get('gender').invalid"> Please Select a Gender
+																	</mat-error>
+															</div>
+															<div class="col-md-4">
+																	<mat-form-field class="example-full-width">
+																			<input matInput placeholder="Email" name="email" formControlName="email">
+																			<mat-error *ngIf="formEmployee.get('email').required"> Please enter Email
+																			</mat-error>
+																	</mat-form-field>
+																	<mat-error *ngIf="formEmployee.get('email').pattern">
+																			Please Enter Valid Email
+																	</mat-error>
+																	<mat-error *ngIf="emailError">
+																			Email is already taken
+																	</mat-error>
+
+															</div>
+															<div class="col-md-4">
+																	<mat-form-field class="example-full-width">
+																			<input matInput placeholder="Mobile Number" type="text" name="mobile_number"
+																					formControlName="mobile_number">
+																			<mat-error *ngIf="formEmployee.get('mobile_number').required"> Please enter
+																					Number
+																			</mat-error>
+																	</mat-form-field>
+																	<mat-error *ngIf="formEmployee.get('mobile_number').minLength">
+																			Please Enter Valid Number
+																	</mat-error>
+																	<mat-error *ngIf="mobileError">
+																			Mobile Number is already taken
+																	</mat-error>
+															</div>
+													</div>
+													<div class="row">
+															<div class="col-md-6">
+																	<div>
+																			<ng-select placeholder="Department" [items]="departmentArray"
+																					bindLabel="department" bindValue="departmentId"
+																					formControlName="department">
+																			</ng-select>
+																			<mat-error *ngIf="formEmployee.get('department').invalid"> Please Select a
+																					Department
+																			</mat-error>
+																	</div>
+															</div>
+															<div class="col-md-6">
+																	<div>
+																			<ng-select placeholder="Role" [items]="roleArray" bindLabel="role"
+																					bindValue="roleId" formControlName="role">
+																			</ng-select>
+																			<mat-error *ngIf="formEmployee.get('role').invalid"> Please Select a
+																					Department
+																			</mat-error>
+																	</div>
+															</div>
+													</div>
+													<button mat-raised-button class="btn btn-danger pull-right" [routerLink]="['/employee']"
+															routerLinkActive="router-link-active">Cancel</button>
+													<button mat-raised-button type="submit" class="btn btn-success pull-right"
+															[disabled]="formEmployee.invalid">Save</button>
+													<div class="clearfix"></div>
+											</form>
+									</div>
+							</div>
+					</div>
+			</div>
+	</div>
+</div>
