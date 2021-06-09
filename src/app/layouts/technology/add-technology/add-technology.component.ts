@@ -41,7 +41,7 @@ export class AddTechnologyComponent implements OnInit {
            this.router.navigate(['/technology']);
          }
       }, err => {
-          this.loader = true;
+          this.loader = false;
           this.sharedService.loggerError(err.message);
       });
     }

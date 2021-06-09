@@ -3,21 +3,22 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const project = mongoose.Schema({
    
-    technology_id: { 
+    technology_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'technology',
         default: null
-    },
-    department_id: { 
+    }],
+    department_id: [{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserDepartment',
         default: null
-    },
-    employee_id: { 
+    }],
+   
+    employee_id: [{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeTable',
         default: null
-    },
+    }],
     project_no : { 
         type: Number,
         require: true, 

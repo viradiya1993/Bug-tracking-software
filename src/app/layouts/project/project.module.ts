@@ -7,7 +7,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import { ReactiveFormsModule } from '@angular/forms';
 const routes: Routes = [
   { path: '', component: ProjectComponent },
   { path: 'add-project', component: AddProjectComponent },

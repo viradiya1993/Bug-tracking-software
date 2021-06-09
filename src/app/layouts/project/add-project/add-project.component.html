@@ -7,105 +7,103 @@
               <h4 class="card-title">Add Project</h4>
           </div>
           <div class="card-body">
-            <form #myForm="ngForm">
+            <form (submit)="onSave()" [formGroup]='projectForm'>
               <div class="row">
                 <div class="col-md-6">
                   <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Project No" id="project_no" [(ngModel)]="project.project_no"
-                       name="project_no" #project_no="ngModel" required>
+                      <input matInput placeholder="Project No" name="project_no" formControlName="project_no" type="number">
                   </mat-form-field>
-                  <mat-error *ngIf="(project_no.dirty || project_no.touched) && project_no.invalid">
+                  <mat-error *ngIf="projectForm.get('project_no').invalid">
                    Project no is required
                   </mat-error>
                 </div>
                 <div class="col-md-6">
                   <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Project Name" id="project_name" [(ngModel)]="project.project_name"
-                      name="project_name" (blur)="project.project_name = sharedService.trimming_function(project.project_name)"
-                      #project_name="ngModel" required>
+                      <input matInput placeholder="Project Name" name="project_name" formControlName="project_name">
                   </mat-form-field>
-                  <mat-error *ngIf="(project_name.dirty || project_name.touched) && project_name.invalid">
+                  <mat-error *ngIf="projectForm.get('project_name').invalid">
                     Project Name is required
                   </mat-error>
                 </div>
               </div>
               <div class="row">
-                  <div class="col-md-3">
-                      <ng-select placeholder="Technology" [items]="" bindLabel=""
-                          bindValue="" >
+                  <div class="col-md-12">
+                      <ng-select  [items]="technologys"
+                                  bindLabel="tech_name"
+                                  placeholder="Select an Technology"
+                                  bindValue="_id"
+                                  [multiple]="true"
+                                  formControlName="technology">
+                          <ng-template ng-footer-tmp>
+                          <div class="create-new" (click)="CreateNew()">Create New </div>
+                          </ng-template>
                       </ng-select>
-                      <!-- <mat-error> Please Select a Department</mat-error> -->
-                  </div>
-                  <div class="col-md-3">
-                      <mat-form-field class="example-full-width">
-                          <mat-label>Select an department</mat-label>
-                          <mat-select (selectionChange)="changeDepartment($event.value)"
-                          id="department" [(ngModel)]="project.department"
-                          name="department" #department="ngModel" required>
-														  <mat-option *ngFor="let department of departments" [value]="department?._id">{{department?.department}}</mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      <mat-error *ngIf="(department.dirty || department.touched) && department.invalid">
-                        Department is required
-                       </mat-error>
-                  </div>
-                  <div class="col-md-3">
-                      <mat-form-field class="example-full-width">
-                          <mat-label>Select an employee</mat-label>
-                          <mat-select multiple (selectionChange)="selectEmployee($event.value)"
-                          id="employee" [(ngModel)]="project.employee"
-                          name="employee" #employee="ngModel" required>
-                              <mat-option *ngFor="let employee of employees" [value]="employee?._id">{{employee?.first_name}}</mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      <mat-error *ngIf="(employee.dirty || employee.touched) && employee.invalid">
-                        Employee is required
-                      </mat-error>
-                  </div>
-                  <div class="col-md-3">
-                      <mat-form-field class="example-full-width">
-                          <mat-label>Select an status</mat-label>
-                          <mat-select (selectionChange)="selectStatus($event.value)"
-                          id="status" [(ngModel)]="project.status"
-                          name="status" #status="ngModel" required>
-                              <mat-option [value]="open">Open</mat-option>
-                              <mat-option [value]="inprogress">In Progress</mat-option>
-                              <mat-option [value]="completed">Completed</mat-option>
-                              <mat-option [value]="putonhold">Put on Hold</mat-option>
-                              <mat-option [value]="Cancelled">Cancelled</mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      <mat-error *ngIf="(status.dirty || status.touched) && status.invalid">
-                        Status is required
-                      </mat-error>
+                      <mat-error *ngIf="projectForm.get('technology').invalid"> Please Select a
+                        Technology
+                     </mat-error>
                   </div>
               </div>
               <div class="row">
-                  <div class="col-md-6">
+                <div class="col-md-12">
+                  <ng-select  [items]="departments"
+                      bindLabel="department"
+                      placeholder="Select an Department"
+                      bindValue="_id"
+                      formControlName="department">
+                  </ng-select>
+                  <mat-error *ngIf="projectForm.get('department').invalid"> Please Select a
+                        Department
+                  </mat-error>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <ng-select  [items]="employees"
+                      bindLabel="first_name"
+                      placeholder="Select an employee"
+                      bindValue="_id"
+                      [multiple]="true"
+                      formControlName="employee">
+                  </ng-select>
+                   <mat-error *ngIf="projectForm.get('employee').invalid"> Please Select a
+                        employee
+                   </mat-error>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-4">
                       <mat-form-field class="datepicker-color">
                           <input matInput (dateChange)="filterDate()"  [matDatepicker]="picker"
-                            placeholder="Start Date" id="start_date" [(ngModel)]="project.start_date"
-                            name="start_date" #start_date="ngModel" required>
+                            placeholder="Start Date" id="start_date" 
+                            name="start_date"  formControlName="start_date">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker disabled="false"></mat-datepicker>
                         </mat-form-field>
-                        <mat-error *ngIf="(start_date.dirty || start_date.touched) && start_date.invalid">
+                        <mat-error *ngIf="projectForm.get('start_date').invalid">
                           Start Date is required
                         </mat-error>
                   </div>
-
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                       <mat-form-field class="datepicker-color">
                           <input matInput [min]="start_date" (dateChange)="filterDate()"
-                            [matDatepicker]="picker1" placeholder="End Date"
-                            id="end_date" [(ngModel)]="project.end_date"
-                            name="end_date" #end_date="ngModel" required>
+                            [matDatepicker]="picker1" placeholder="End Date"name="end_date" formControlName="end_date">
                           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                           <mat-datepicker #picker1 disabled="false"></mat-datepicker>
                         </mat-form-field>
-                        <mat-error *ngIf="(end_date.dirty || end_date.touched) && end_date.invalid">
+                        <mat-error *ngIf="projectForm.get('end_date').invalid">
                           End Date is required
                         </mat-error>
+                  </div>
+                  <div class="col-md-4">
+                      <ng-select  [items]="allStatus"
+                                  bindLabel="viewValue"
+                                  placeholder="Select an status"
+                                  bindValue="value"
+                                  formControlName="status">
+                      </ng-select>
+                      <mat-error *ngIf="projectForm.get('status').invalid">
+                        Status is required
+                      </mat-error>
                   </div>
               </div>
               <div class="row">
@@ -117,28 +115,32 @@
 												#autosize="cdkTextareaAutosize"
 												cdkAutosizeMinRows="1"
 												cdkAutosizeMaxRows="5" id="project_description"
-                        [(ngModel)]="project.project_description" name="project_description"
-                        (blur)="project.project_description = sharedService.trimming_function(project.project_description)"
-                        #project_description="ngModel" required>
+                        name="project_description" formControlName="project_description">
 											</textarea>
 										</mat-form-field>
                     <mat-error class="text-left"
-                    *ngIf="(project_description.dirty || project_description.touched) && project_description.invalid">
+                    *ngIf="projectForm.get('project_description').invalid">
                        Project Description is required
                   </mat-error>
 								</div>
               </div>
               <div class="row mt20">
                   <div class="col-md-12 text-right">
-                    <a (click)="onSave(myForm)"  style="cursor: pointer" [disabled]="!myForm.valid"
+                    <!-- <a type="submit"  style="cursor: pointer" 
                     [ngClass]="
-                      !myForm.valid
+                      !projectForm.valid
                       ? 'btn btn-info disable-btn full_wid disable'
                       : 'btn btn-info full_wid'">
                       Save
                     <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
-                    </a>  
-                  <button type="button" class="btn btn-danger btn_d_consist ml15" [routerLink]="['/project']">Cancel</button>
+                    </a>   -->
+               <!--  <button type="button" class="btn btn-danger btn_d_consist ml15" [routerLink]="['/project']">Cancel</button> -->
+                  <button mat-raised-button type="submit" class="btn btn-info full_wid"
+                  [disabled]="projectForm.invalid">
+                  <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
+                  Save</button>
+                  <button mat-raised-button class="btn btn-danger btn_d_consist ml15" [routerLink]="['/project']"
+                  routerLinkActive="router-link-active">Cancel</button>
                   </div>
               </div>
             </form>

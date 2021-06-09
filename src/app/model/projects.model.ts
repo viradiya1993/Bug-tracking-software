@@ -1,5 +1,5 @@
 export class Projects {
-    technoloy: string;
+    technology: string;
     department: string;
     employee: string;
     project_no: number;

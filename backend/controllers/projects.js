@@ -1,6 +1,7 @@
 const dateFormat = require('../helper/dateFormate.helper');
 const project = require('../models/projects');
 const empyolee = require('../models/employee');
+const technology = require('../models/technology');
 
 //Create Project
 exports.createProject = async (req, res, next) => {
@@ -38,7 +39,7 @@ exports.createProject = async (req, res, next) => {
        projects.save()
        .then(projects => {
            return res.status(200).json({
-               messge: "Project Added.",
+                message: "Project added successfully.",
            })
        })
        
@@ -51,8 +52,8 @@ exports.createProject = async (req, res, next) => {
 
 //Fetch Employee
 exports.getEmployee = async (req, res, next) => {
-    const postQuery = empyolee.find();
-    let fetchedPosts;
+	const postQuery = empyolee.find();
+	let fetchedPosts;
     postQuery
         .then(documents => {
             fetchedPosts = documents;
@@ -67,6 +68,28 @@ exports.getEmployee = async (req, res, next) => {
         }).catch(error => {
             res.status(500).json({
                 message: "Fetching employee Failed"
+            });
+        });
+}
+
+//Fetch Technology
+exports.getTechnology = async (req, res, next) => {
+	const postQuery = technology.find();
+	let fetchedPosts;
+    postQuery
+        .then(documents => {
+            fetchedPosts = documents;
+            return technology.count();
+        })
+        .then(count => {
+            res.status(200).json({
+                message: "Technology fetched successfully",
+                data: fetchedPosts,
+                totalCount: count
+            });
+        }).catch(error => {
+            res.status(500).json({
+                message: "Fetching technology Failed"
             });
         });
 }

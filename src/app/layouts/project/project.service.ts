@@ -13,7 +13,17 @@ export class ProjectService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getEmployee() {
-    return this.http.get<{ message: string, userDepartment: any, count: number }>
+    return this.http.get<{ message: string, employee: any, count: number }>
       (BACKEND_URL + '/project/getemployee');
+  }
+
+  getTechnology() {
+    return this.http.get<{ message: string, technologoy: any, count: number }>
+      (BACKEND_URL + '/project/gettechnology');
+  }
+
+  //Add project
+  addProject(data: any) {
+    return this.http.post(BACKEND_URL + '/project/create', data);
   }
 }

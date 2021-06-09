@@ -8,4 +8,6 @@ router.post('/create', projectsController.createProject);
 
 router.get('/getemployee', projectsController.getEmployee);
 
+router.get('/gettechnology', projectsController.getTechnology);
+
 module.exports = router;

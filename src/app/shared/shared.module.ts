@@ -48,6 +48,7 @@ import { DeleteBoxComponent } from './delete-box/delete-box.component';
 
   exports: [
     FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
     MatRippleModule,

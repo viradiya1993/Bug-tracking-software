@@ -35,6 +35,8 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LayoutService } from "./layouts/layout.service";
 import { ListComponent } from './layouts/employee/list/list.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -56,7 +58,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCD4HEW9A9rwS51T5kEZ6vOz6itrH-6kPw'
     }),
-    NgSelectModule
+    NgSelectModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    AngularMultiSelectModule,
   ],
   declarations: [
     AppComponent,

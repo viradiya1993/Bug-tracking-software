@@ -79,7 +79,6 @@ export class AddComponent implements OnInit {
         this.isLoading = true;
         this.service.getEmployeeById(this.employeeId).subscribe((employeeData: any) => {
           this.isLoading = false;
-          console.log(employeeData);
           this.spinner.hide();
           let fetchedData = {
             id: employeeData._id,
@@ -105,7 +104,6 @@ export class AddComponent implements OnInit {
 
   getDepartment() {
     this.layoutService.getDepartmentData().subscribe(res => {
-      console.log(res);
       if (res.userDepartment) {
         this.departmentArray = res.userDepartment;
       }
