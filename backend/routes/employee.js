@@ -28,4 +28,5 @@ router.put('/:id', checkAuth, EmployeeController.editEmployee);
 // Delete
 router.delete('/:id', checkAuth, EmployeeController.deleteEmployee);
 
+
 module.exports = router;

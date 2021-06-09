@@ -14,7 +14,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications', loadChildren: () => import('./../notifications/notifications.module').then(m => m.NotificationsModule), canActivate: [AuthGuard] },
     { path: 'employee', loadChildren: () => import('./../employee/employee.module').then(m => m.EmployeeModule), canActivate: [AuthGuard] },
     { path: 'technology', loadChildren: () => import('./../technology/technology.module').then(m => m.TechnologyModule), canActivate: [AuthGuard] },
-
+    { path: 'project', loadChildren: () => import('./../project/project.module').then(m => m.ProjectModule)},
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
