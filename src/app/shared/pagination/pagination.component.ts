@@ -19,7 +19,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input() index: number;
   @Output() messageEvent = new EventEmitter<any>();
   constructor(private cdr: ChangeDetectorRef) { }
-  
+
   ngOnInit(): void {
   }
 
@@ -29,9 +29,11 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   getNext(event: PageEvent) {
-    if (this.childMessage > 5) {
-      this.messageEvent.emit(event);
-    }
+    // console.log(event);
+    this.messageEvent.emit(event);
+    // if (this.childMessage > 5) {
+    //   this.messageEvent.emit(event);
+    // }
   }
 
 }

@@ -3,7 +3,11 @@
         <div class="row">
             <div class="col-md-12">
                 <button mat-raised-button [routerLink]="['/department/add']">Add Department</button>
-                <div class="col-md-4 pull-right">
+                <div class="col-md-2 mr-2 pull-right">
+                    <button style="float:right" mat-raised-button (click)="resetFilter()">Reset
+                        Filter</button>
+                </div>
+                <div class="col-md-4 mb-2 pull-right">
                     <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)">
                     </app-search-textbox>
                 </div>
@@ -12,11 +16,6 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <h3 class="card-title ">Department List</h3>
-                            </div>
-
-                            <div class="col-md-2 mt-2">
-                                <button style="float:right" mat-raised-button (click)="resetFilter()">Reset
-                                    Filter</button>
                             </div>
 
                         </div>

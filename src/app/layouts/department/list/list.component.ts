@@ -71,6 +71,8 @@ export class ListComponent implements OnInit {
   * @param event
   */
   receiveMessage(event: any) {
+    // console.log(event);
+
     this.limit = event.pageSize;
     this.page = event.pageIndex;
     this.getDepartmentList();
@@ -91,6 +93,20 @@ export class ListComponent implements OnInit {
     this.getDepartmentList();
   }
 
+  resetFilter() {
+    this.page = 0;
+    this.index = 0;
+    this.getDepartmentList();
+  }
+
+  /**
+   * for search after page goto 1
+  * // TODO: resetIndex
+  * @param event
+  */
+  resetIndex(e) {
+    this.index = e;
+  }
 
   openDialog(id): void {
     const dialogRef = this.dialog.open(DeleteBoxComponent, {
