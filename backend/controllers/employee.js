@@ -206,11 +206,23 @@ exports.editEmployee = (req, res, next) => {
             }]
         }).then(
             result => {
-                console.log(result);
-                res.status(200).json({
-                    message: "Updated Successfully",
-                    result: result
-                });
+                if (result._id !== ObjectID(req.body.id) && result.email === req.body.email) {
+                    return res.status(400).json({
+                        message: "This Email is Already Taken.",
+                        errorType: "Email"
+                    });
+                } else if (result._id !== ObjectID(req.body.id) && result.mobile_number === req.body.mobile_number) {
+                    return res.status(400).json({
+                        message: "This Mobile is Already Taken.",
+                        errorType: "Mobile"
+                    });
+                } else {
+                    console.log(result);
+                    res.status(200).json({
+                        message: "Updated Successfully",
+                        result: result
+                    });
+                }
             }
         ).catch(
             err => {
