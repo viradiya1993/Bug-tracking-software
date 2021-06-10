@@ -4,6 +4,7 @@ const UserDepartment = require('../models/departments.js');
 const dateFormat = require('../helper/dateFormate.helper');
 const ObjectID = require('mongodb').ObjectID;
 
+const users = require('./users');
 const { body, validationResult } = require('express-validator');
 
 exports.getEmployee = (req, res, next) => {
@@ -43,12 +44,7 @@ exports.getEmployee = (req, res, next) => {
 }
 
 exports.createEmployee = (req, res, next) => {
-    console.log(req.body);
-    // for testing purpose
-    // return res.status(500).json({
-    //     message: "Testing",
-    //     data: req.body
-    // });
+    // console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -91,6 +87,12 @@ exports.createEmployee = (req, res, next) => {
                                     });
                                     employee.save()
                                         .then(result => {
+                                            let body = {
+                                                first_name: req.body.first_name,
+                                                email: req.body.email,
+                                                roleId: req.body.roleId
+                                            }
+                                            users.createDefaultUser(body);
                                             res.status(200).json({
                                                 message: 'Employee Created Succesfully',
                                                 result: result
@@ -294,4 +296,6 @@ exports.deleteEmployee = (req, res, next) => {
             });
         });
 }
+
+
 
