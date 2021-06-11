@@ -87,12 +87,13 @@ export class ListComponent implements OnInit {
   }
 
   getEmployeeData() {
-    this.page.params = this.formEmployeeSearch.value;
+    this.page["params"] = this.formEmployeeSearch.value;
+    console.log(this.page);
     this.service.getEmployeeList(this.page).subscribe((res: any) => {
       console.log(res);
       this.isLoading = false;
       this.spinner.hide();
-      if (res.employeeLists.length) {
+      if (res.employeeLists) {
         this.dataSource = new MatTableDataSource(res.employeeLists);
         this.total = res.count;
       }
