@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
+import { Page } from 'app/shared/page';
 
 const BACKEND_URL = environment.apiUrl + '/employee/';
 @Injectable({
@@ -29,9 +30,17 @@ export class EmployeeService {
 
   getEmployeeList(data: any) {
     console.log(data);
-    const queryParams = `?pageSize=${data.size}&page=${data.pageNumber}&sortBy=${data.sortby}`
+    let params = new HttpParams()
+      .set('pageSize', data.size)
+      .set('page', data.pageNumber)
+      .set('sortBy', data.sortby)
+      .set('first_name', data.params.first_name)
+      .set('middle_name', data.params.middle_name)
+      .set('last_name', data.params.last_name)
+
+    // const queryParams = `?pageSize=${data.size}&page=${data.pageNumber}&sortBy=${data.sortby}`
     return this.http.get<{ message: string, employeeLists: any, count: number }>
-      (BACKEND_URL + queryParams, data);
+      (BACKEND_URL, { params });
   }
 
   addEmployee(employeeData: object) {
