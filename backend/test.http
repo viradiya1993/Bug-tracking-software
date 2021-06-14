@@ -81,8 +81,8 @@ POST http://localhost:3000/api/technology/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "tech_name": "Angular",
-    "tech_id": "2007"
+    "tech_name": "Angular25"
+  
 }
 
 ###
@@ -90,7 +90,7 @@ GET  http://localhost:3000/api/technology/getTechnology HTTP/1.1
 Content-Type: application/json
 
 {
-    "_id": "60ba350e93b41a15b8712bac"
+    "_id": "60be1d90a2ac210534fbd57b"
 }
 
 ###
@@ -137,3 +137,26 @@ Content-Type: application/json
 ###
 GET  http://localhost:3000/api/project/gettechnology HTTP/1.1
 Content-Type: application/json
+
+###
+POST http://localhost:3000/api/project/addtechnology HTTP/1.1
+Content-Type: application/json
+
+{
+    "tech_name": "Ios1"
+   
+}
+###
+GET  http://localhost:3000/api/project/getproject/60c3331937b4375114a1185b HTTP/1.1
+Content-Type: application/json
+
+{
+    "_id": "60c3331937b4375114a1185b"
+}
+
+
+###
+GET http://localhost:3000/api/project/get-project-list HTTP/1.1
+Content-Type: application/json
+
+

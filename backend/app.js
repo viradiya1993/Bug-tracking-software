@@ -19,6 +19,9 @@ mongoose
     .catch((err) => console.log(err, 'Error Occured'));
 
 app.use(bodyParser.json());
+//app.use(express.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({extended: true});
+//app.use(bodyParser.json());
 
 app.use("/images", express.static(path.join("images")));
 

@@ -8,6 +8,7 @@ import { DeleteBoxComponent } from 'app/shared/delete-box/delete-box.component';
 import { SharedService } from 'app/shared/shared.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LayoutService } from '../layout.service';
+import { TechnologyService } from './technology.service';
 
 @Component({
   selector: 'app-technology',
@@ -27,7 +28,7 @@ export class TechnologyComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private layoutsService: LayoutService,
+    private service: TechnologyService,
     private sharedService: SharedService,
     private authService: AuthService,
     public dialog: MatDialog,
@@ -38,7 +39,7 @@ export class TechnologyComponent implements OnInit {
   }
 
   getTechnology() {
-    this.layoutsService.getTechnology(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
+    this.service.getTechnology(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
     .subscribe((res: any) => {
       if (res) {
         this.sharedService.hideLoader();
@@ -113,7 +114,7 @@ export class TechnologyComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.layoutsService.deletetechnology(id).subscribe((res: any) => {
+          this.service.deletetechnology(id).subscribe((res: any) => {
             this.getTechnology();
             this.sharedService.loggerSuccess(res.message);
           })

@@ -9,15 +9,7 @@ const BACKEND_URL = environment.apiUrl + '';
 })
 export class LayoutService {
  
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) { }
- 
-  //Chnage Password
-  changePassword(data: any) {
-    return this.http.post(BACKEND_URL + '/user/change-password', data);
-  }
+  constructor(private http: HttpClient, private router: Router) { }
  
   //get employee list
   getEmployeeList(PerPage: number, currentPage: number) {
@@ -36,49 +28,16 @@ export class LayoutService {
       (BACKEND_URL + '/user/getRole');
   }
 
-  //get technology list=
-  getTechnology(limit: any, page: any, shortName: any, shortType: any, search: any) {
-    let url = BACKEND_URL + '/technology/getTechnologyList';
-    if (limit !== undefined) {
-      url += '?limit=' + limit;
-    } else {
-      url += '?limit=5';
-    }
-    if (page !== undefined) {
-      url += '&skip=' + page;
-    } else {
-      url += '&skip=0';
-    }
-    if (shortName !== undefined) {
-      url += '&sortBy=' + shortName + ':' + shortType;
-    }
-    if (search != null) {
-      url += '&q=' + search;
-    }
-   
-    return this.http.get(url);
+  getEmployee() {
+    return this.http.get<{ message: string, employee: any, count: number }>
+      (BACKEND_URL + '/project/getemployee');
   }
 
- 
-
-  //Add Technology
-  addTechnology(data: any) {
-    return this.http.post(BACKEND_URL + '/technology/create', data);
+  getTechnology() {
+    return this.http.get<{ message: string, technologoy: any, count: number }>
+      (BACKEND_URL + '/project/gettechnology');
   }
-
-  // get technology detail
-  geTechnologyDetail(id: any) {
-    return this.http.get(BACKEND_URL + '/technology/getTechnology/' + id);
-  }
-
-  updateTechnology(data, id) {
-    return this.http.post(BACKEND_URL + '/technology/updateTechnology/' +  id, data);
-  }
-
-  // for delete technology
-  deletetechnology(id: any) {
-    return this.http.delete(BACKEND_URL + '/technology/delete-technology/' + id);
-  }
+  
 }
 
 /* 

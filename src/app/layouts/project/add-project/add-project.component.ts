@@ -1,9 +1,11 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { EmployeeService } from 'app/layouts/employee/employee.service';
 import { LayoutService } from 'app/layouts/layout.service';
+import { TechnologyService } from 'app/layouts/technology/technology.service';
 import { Projects } from 'app/model/projects.model';
 import { SharedService } from 'app/shared/shared.service';
 import * as moment from 'moment';
@@ -15,34 +17,47 @@ import { ProjectService } from '../project.service';
   styleUrls: ['./add-project.component.css']
 })
 export class AddProjectComponent implements OnInit {
-  departments: [] = [];
-  employees:[] = [];
-  technologys:[] = [];
+  private mode = 'create';
+  private project_id: string;
+  editable = false;
+  departments: any = [];
+  employees: any = [];
+  technologys: any = [];
+  start_date: any;
+  end_date: any;
   sDate: any;
   eDate: any;
   loader: boolean = false;
+
   allStatus = [
-    {value: 'open', viewValue: 'Open'},
-    {value: 'inprogress', viewValue: 'In Progress'},
-    {value: 'completed', viewValue: 'Completed'},
-    {value: 'putonhold', viewValue: 'Put on Hold'},
-    {value: 'cancelled', viewValue: 'Cancelled'}
+    { value: 'open', viewValue: 'Open' },
+    { value: 'inprogress', viewValue: 'In Progress' },
+    { value: 'completed', viewValue: 'Completed' },
+    { value: 'putonhold', viewValue: 'Put on Hold' },
+    { value: 'cancelled', viewValue: 'Cancelled' }
   ];
-  
-  @ViewChild(NgForm) myForm: NgForm;
+  //project = new Projects()
+
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
   projectForm: FormGroup;
+
   constructor(
     private layoutsService: LayoutService,
     public sharedService: SharedService,
     public empservice: EmployeeService,
     public projectService: ProjectService,
-    private router: Router) { }
+    public technology: TechnologyService,
+    public route: ActivatedRoute,
+    private router: Router, public datepipe: DatePipe) {
+
+  }
 
   ngOnInit(): void {
     this.getDepartment();
     this.getEmployee();
     this.getTechnology();
+    this.setProjectDetails();
 
     this.projectForm = new FormGroup({
       project_no: new FormControl(null, {
@@ -51,7 +66,7 @@ export class AddProjectComponent implements OnInit {
       project_name: new FormControl(null, {
         validators: [Validators.required]
       }),
-      technology: new FormControl(null, {
+      technology: new FormControl([], {
         validators: [Validators.required]
       }),
       department: new FormControl(null, {
@@ -72,92 +87,133 @@ export class AddProjectComponent implements OnInit {
       project_description: new FormControl(null, {
         validators: [Validators.required]
       }),
-      
+
     });
+   
+
   }
-  CreateNew() {
-    //alert('ok')
+
+ //Set Project Details
+ setProjectDetails() {
+  this.route.paramMap.subscribe((paramMap: ParamMap) => {
+    if (paramMap.has('id')) {
+      this.mode = 'edit';
+      this.editable = true;
+      this.project_id = paramMap.get('id');
+      this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
+        console.log(projectData, 'Project Details');
+        let fetachProject = {
+          id: projectData._id,
+          project_no: projectData.projects.project_no,
+          project_name: projectData.projects.project_name,
+          // start_date: projectData.project.start_date,
+          // end_date: projectData.project.start_date,
+          status: projectData.projects.status,
+          project_description: projectData.projects.project_description
+        }
+        this.projectForm.patchValue(fetachProject);
+      });
+    }
+  });
+ }
+
+ //Add New Technology
+  onAdd(event) {
+    console.log(event ,'before')
+    if (!event._id) {
+      this.technology.addTechnology(event).subscribe((res: any) => {
+        console.log(res,'res')
+        if (res.id) {
+          let newValue = {
+            _id: res.id
+          }
+          console.log(newValue,'new value');
+          this.getTechnology();
+          // this.projectForm.controls.technology.patchValue([newValue]);
+        }
+      })
+    }
+
   }
+
   //Get Department
   getDepartment() {
     this.layoutsService.getDepartmentData().subscribe(res => {
       if (res.userDepartment) {
         this.departments = res.userDepartment;
-        console.log(this.departments,'department')
+        //console.log(this.departments,'department')
       }
     });
   }
 
   //Change Dpeartment
   changeDepartment(department: any) {
-    console.log(department,'department')
+    console.log(department, 'department')
   }
-  
+
   //Get Employee
   getEmployee() {
-    this.projectService.getEmployee().subscribe((res: any) => {
+    this.layoutsService.getEmployee().subscribe((res: any) => {
       if (res.data) {
         this.employees = res.data;
       }
     });
-    
+
   }
 
   //select Employee
   selectEmployee(employee: any) {
-    console.log(employee,'emp')
+    console.log(employee, 'emp')
   }
 
   //Get Technology
-   getTechnology() {
-     this.projectService.getTechnology().subscribe((res: any) => {
-       console.log(res)
-       if (res.data) {
-         this.technologys = res.data;
-       }
-       console.log(this.technologys,'tech')
-     });
-   }
+  getTechnology() {
+    this.layoutsService.getTechnology().subscribe((res: any) => {
+      this.technologys = res.data;
+    });
+  }
 
   //selectStatus
   selectStatus(status: any) {
 
   }
 
-  getValues() {
-    // console.log(item._id, 'item')
-    // console.log(this.project.technology,'get chnage');
+  getValues(value) {
+    console.log(value, 'item')
+
   }
 
   //filterDate
   filterDate() {
-    // console.log(this.projectForm.value.start_date);
-    // if (this.projectForm.value.start_date !== undefined && this.projectForm.value.end_date && this.projectForm.value.start_date !== '' && this.projectForm.value.end_date !== '') {
-     
-    //   this.sDate = moment(this.projectForm.value.start_date).format("dd/MM/yyyy")
-    //   this.eDate = moment(this.projectForm.value.end_date).format("dd/MM/yyyy")
-      
-    // }
-    // console.log(this.sDate);
-    // console.log(this.eDate);
+    var sdt = moment(this.start_date);
+    var edt = moment(this.end_date);
+    if (sdt.isValid && edt.isValid) {
+      this.sDate = sdt.format("YYYY-MM-DD");
+      this.eDate = edt.format("YYYY-MM-DD");
+    }
   }
 
   // Save 
   onSave() {
-   // console.log(this.projectForm.value);
+    // let technologyArray = [];
+    // for (let index = 0; index < this.projectForm.value.technology.length; index++) {
+    //   const element = this.projectForm.value.technology[index];
+    //   let filteredArray = this.technologys.filter(x => x.tech_name == element);
+    //   technologyArray.push(filteredArray[0]._id);
+    // }
     if (this.projectForm.invalid) {
       return
     }
     let formValue = this.projectForm.value;
-
     let data = {
-      project_no : formValue.project_no,
+      project_no: formValue.project_no,
       project_name: formValue.project_name,
+      // technology_id: technologyArray,
       technology_id: formValue.technology,
-      department_id: formValue.department,
+      departmentId: formValue.department,
       employee_id: formValue.employee,
-      start_date: formValue.start_date,
-      end_date: formValue.end_date,
+      start_date: this.sDate,
+      end_date: this.eDate,
       status: formValue.status,
       project_description: formValue.project_description
     }
@@ -169,12 +225,33 @@ export class AddProjectComponent implements OnInit {
           this.projectForm.reset();
           this.sharedService.loggerSuccess(res.message);
           this.router.navigate(['/project']);
-        } 
+        }
       }, err => {
         this.loader = false
         this.sharedService.loggerError(err.error.message);
       });
     }
-    console.log(data,'data')
+    console.log(data, 'data')
   }
 }
+
+/*
+choosedDate(type: string, event: MatDatepickerInputEvent<Date>) {
+    let begin = this.datepipe.transform(event.value['begin'], 'dd/MM/yyyy');
+    let end = this.datepipe.transform(event.value['end'], 'dd/MM/yyyy');
+    this.lastFilter.ITEMSTARTDATE = begin;
+    this.lastFilter.ITEMENDDATE = end;
+
+    localStorage.setItem('recive_money_DateFilter', JSON.stringify(this.lastFilter));
+    this.forListing(this.lastFilter);
+  }
+
+
+    <mat-form-field appearance="outline" class="example pr-4" fxFlex="20">
+      <mat-label>Date Range</mat-label>
+      <input matInput placeholder="Choose a date" formControlName="DateRange" [satDatepicker]="picker2" (dateInput)="choosedDate('input', $event)" (dateChange)="choosedDate('change', $event)">
+      <sat-datepicker #picker2 [rangeMode]="true"> </sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+    </mat-form-field>
+
+*/

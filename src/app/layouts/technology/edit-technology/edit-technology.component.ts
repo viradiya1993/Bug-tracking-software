@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LayoutService } from 'app/layouts/layout.service';
 import { Technology } from 'app/model/technology.model';
 import { SharedService } from 'app/shared/shared.service';
+import { TechnologyService } from '../technology.service';
 
 @Component({
   selector: 'app-edit-technology',
@@ -15,7 +16,7 @@ export class EditTechnologyComponent implements OnInit {
   technology = new Technology();
   loader = false;
   @ViewChild(NgForm) myForm: NgForm;
-  constructor(private layoutsService: LayoutService, public sharedService: SharedService,
+  constructor(private service: TechnologyService, public sharedService: SharedService,
     public route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -23,7 +24,7 @@ export class EditTechnologyComponent implements OnInit {
        if(paramMap.has('id')) {
          this.technologyId = paramMap.get('id');
          this.sharedService.showLoader(); 
-         this.layoutsService.geTechnologyDetail(this.technologyId).subscribe((res: any) => {
+         this.service.geTechnologyDetail(this.technologyId).subscribe((res: any) => {
           this.sharedService.hideLoader();
           this.technology = res.data.technology
          }, err => {
@@ -43,7 +44,7 @@ export class EditTechnologyComponent implements OnInit {
     }
     if(!this.loader) { 
       this.loader = true;
-      this.layoutsService.updateTechnology(data, this.technologyId).subscribe((res: any) => {
+      this.service.updateTechnology(data, this.technologyId).subscribe((res: any) => {
         this.loader = false;
         this.sharedService.loggerSuccess(res.message);
         this.myForm.reset();
