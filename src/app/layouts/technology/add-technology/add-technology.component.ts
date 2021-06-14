@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LayoutService } from 'app/layouts/layout.service';
 import { Technology } from 'app/model/technology.model';
 import { SharedService } from 'app/shared/shared.service';
+import { TechnologyService } from '../technology.service';
 
 @Component({
   selector: 'app-add-technology',
@@ -16,7 +17,7 @@ export class AddTechnologyComponent implements OnInit {
   loader = false;
   @ViewChild(NgForm) myForm: NgForm;
   constructor(
-    private layoutsService: LayoutService,
+    public service: TechnologyService,
     public sharedService: SharedService,
     private router: Router
   ) { }
@@ -33,7 +34,7 @@ export class AddTechnologyComponent implements OnInit {
     }
     if(!this.loader) {
       this.loader = true
-      this.layoutsService.addTechnology(data).subscribe((res: any) => {
+      this.service.addTechnology(data).subscribe((res: any) => {
         if (res) {
            this.loader = false;
            this.myForm.reset();

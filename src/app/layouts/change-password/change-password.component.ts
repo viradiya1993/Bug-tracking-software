@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SharedService } from 'app/shared/shared.service';
 import { ChangePassModel } from "../../model/change-password.model";
 import { LayoutService } from '../layout.service';
+import { ChangepasswordService } from './changepassword.service';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -16,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
   loaderCancel = false;
   constructor(
     private router: Router,
-    private service: LayoutService,
+    private service: ChangepasswordService,
     private sharedService: SharedService
   ) { }
 
