@@ -10,12 +10,17 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    roleId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserRoles',
+        default: null
+    },
     reset_password_token: {
-		type: String
-	},
+        type: String
+    },
     reset_password_expires: {
-		type: Number
-	},
+        type: Number
+    },
 });
 
 userSchema.plugin(uniqueValidator);

@@ -37,19 +37,50 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Email" name="email" formControlName="email">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Mobile Number" type="text" name="mobile_number"
+                                            formControlName="mobile_number">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value"
+                                        bindValue="id" formControlName="gender">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ng-select placeholder="Department" [items]="departmentArray" bindLabel="department"
+                                        bindValue="_id" formControlName="departmentId">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-6">
+                                    <ng-select placeholder="Role" [items]="roleArray" bindLabel="role" bindValue="_id"
+                                        formControlName="roleId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-3">
                                     &nbsp;
                                 </div>
                                 <div class="col-6 row">
                                     <div class="col" style="align-items: center;">
-                                        <button mat-button mat-flat-button color="primary"> Search
+                                        <button mat-button type="submit" mat-flat-button color="primary"> Search
                                             <span class="material-icons">
                                                 search
                                             </span>
                                         </button>
                                     </div>
                                     <div class="col">
-                                        <button mat-button mat-flat-button color="warn" style="margin-left: 25px;">
+                                        <button mat-button mat-flat-button (click)="resetSearchFilter()" color="warn"
+                                            style="margin-left: 25px;">
                                             Reset
                                             <span class="material-icons">
                                                 clear

@@ -8,15 +8,20 @@ const users = require('./users');
 const { body, validationResult } = require('express-validator');
 
 exports.getEmployee = (req, res, next) => {
-    console.log(req.query);
+    // console.log(req.query);
     const sort = {};
     const pageSize = +req.query.pageSize;
     const currentPage = +req.query.page;
-    const first_name = req.query.first_name ? req.query.first_name : ''
-    const middle_name = req.query.middle_name ? req.query.middle_name : ''
-    const last_name = req.query.last_name ? req.query.last_name : ''
-
     // const sort = +req.query.sortBy;
+    const first_name = req.query.first_name != null ? req.query.first_name : ''
+    const middle_name = req.query.middle_name != null ? req.query.middle_name : ''
+    const last_name = req.query.last_name != null ? req.query.last_name : ''
+    const email = req.query.email != null ? req.query.email : ''
+    const mobile_number = req.query.mobile_number != null ? req.query.mobile_number : ''
+    const gender = req.query.gender != null ? req.query.gender : ''
+    const roleId = req.query.roleId != null ? req.query.roleId : ''
+    const departmentId = req.query.departmentId != null ? req.query.departmentId : ''
+
     let query = {};
     if (first_name) {
         query.$or = [
@@ -33,13 +38,38 @@ exports.getEmployee = (req, res, next) => {
             { 'last_name': new RegExp(last_name, 'i') },
         ]
     }
-
+    if (email) {
+        query.$or = [
+            { 'email': new RegExp(email, 'i') },
+        ]
+    }
+    if (mobile_number) {
+        query.$or = [
+            { 'mobile_number': mobile_number },
+        ]
+    }
+    if (gender) {
+        query.$or = [
+            { 'gender': gender },
+        ]
+    }
+    if (roleId) {
+        query.$or = [
+            { 'roleId': ObjectID(roleId) },
+        ]
+    }
+    if (departmentId) {
+        query.$or = [
+            { 'departmentId': ObjectID(departmentId) },
+        ]
+    }
+    // console.log(query);
     const postQuery = EmployeeTable.find(query);
     let fetchedPosts;
     if (req.query.sortBy) {
         const parts = req.query.sortBy.split(':');
         sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
-        // console.log(sort);
+        console.log(sort);
     }
     if (pageSize && currentPage) {
         postQuery
@@ -112,7 +142,7 @@ exports.createEmployee = (req, res, next) => {
                                             let body = {
                                                 first_name: req.body.first_name,
                                                 email: req.body.email,
-                                                roleId: req.body.roleId
+                                                roleId: ObjectID(req.body.roleId)
                                             }
                                             users.createDefaultUser(body);
                                             res.status(200).json({

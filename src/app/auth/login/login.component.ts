@@ -16,6 +16,9 @@ export class LoginComponent implements OnInit {
   token: string;
   private userId: string;
   private tokenTimer: NodeJS.Timer;
+  private role: string;
+  private isAdmin: boolean;
+
   user = new User();
   show_button: Boolean = false;
   show_eye: Boolean = false;
@@ -47,9 +50,11 @@ export class LoginComponent implements OnInit {
         if (this.token) {
           const expiresInDuration = res.expiresIn;
           this.userId = res.userId;
+          this.role = res.role;
+          this.isAdmin = res.isAdmin;
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-          this.saveAuthData(this.token, expirationDate, this.userId);
+          this.saveAuthData(this.token, expirationDate, this.userId, this.role, this.isAdmin);
           this.sharedService.loggerSuccess(res.message);
           this.router.navigate(['/dashboard'])
         }
@@ -91,10 +96,13 @@ export class LoginComponent implements OnInit {
   }
 
   // Save Auth Data 
-  private saveAuthData(token: string, expirationDate: Date, userId: string) {
+  private saveAuthData(token: string, expirationDate: Date, userId: string, role: string, isAdmin: boolean) {
     this.sharedService.setLocalStorage("isLoggedin", token);
     this.sharedService.setLocalStorage("expiration", expirationDate.toISOString());
     this.sharedService.setLocalStorage("userId", userId);
+    this.sharedService.setLocalStorage("role", role);
+    this.sharedService.setLocalStorage("isAdmin", isAdmin);
+
   }
 
   // Set Timer

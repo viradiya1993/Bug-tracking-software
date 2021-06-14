@@ -16,6 +16,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogComponent } from 'app/shared/dialog/dialog.component';
 import { Page } from 'app/shared/page';
 import { DeleteBoxComponent } from 'app/shared/delete-box/delete-box.component';
+import { LayoutService } from 'app/layouts/layout.service';
 
 @Component({
   selector: 'app-list',
@@ -33,11 +34,14 @@ export class ListComponent implements OnInit {
   sortType: string = 'desc';
   searchKey: any = null;
   formEmployeeSearch: FormGroup;
+  gendersArray: any = AppConst.genderArray;
+  roleArray: [] = [];
+  departmentArray: [] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
-  @Output() sendObjectData = new EventEmitter();
+  // @Output() sendObjectData = new EventEmitter();
 
   page = new Page();
   constructor(
@@ -45,43 +49,57 @@ export class ListComponent implements OnInit {
     private service: EmployeeService,
     private spinner: NgxSpinnerService,
     private sharedService: SharedService,
+    private layoutService: LayoutService,
     private authService: AuthService,
     private router: Router
   ) {
+    // Check If Loggin as Admin
+    this.sharedService.checkIfAdminLogged();
+  }
+
+
+  ngOnInit(): void {
     this.page.pageNumber = 0;
     this.page.size = this.PerPage;
     this.page.sortby = '';
     this.page.sortOrder = '';
 
     this.formEmployeeSearch = new FormGroup({
-      first_name: new FormControl(null),
-      middle_name: new FormControl(null),
-      last_name: new FormControl(null)
+      first_name: new FormControl(''),
+      middle_name: new FormControl(''),
+      last_name: new FormControl(''),
+      email: new FormControl(''),
+      mobile_number: new FormControl(''),
+      gender: new FormControl(''),
+      departmentId: new FormControl(''),
+      roleId: new FormControl('')
     });
     this.isLoading = true;
     this.spinner.show();
+    this.getDepartment();
+    this.getRoles();
     this.getEmployeeData();
   }
 
-
-  ngOnInit(): void {
-
-  }
-
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   applyFilter(event) {
     console.log(this.formEmployeeSearch.value);
-    let formValue = this.formEmployeeSearch.value;
-    let filteredObject = {
-      first_name: formValue.first_name,
-      middle_name: formValue.middle_name,
-      last_name: formValue.last_name
-    }
-    console.log(filteredObject);
+    // let formValue = this.formEmployeeSearch.value;
+    // let filteredObject = {
+    //   first_name: formValue.first_name ? formValue.first_name : '',
+    //   middle_name: formValue.middle_name ? formValue.middle_name : '',
+    //   last_name: formValue.last_name ? formValue.last_name : '',
+    //   email: formValue.email ? formValue.email : '',
+    //   mobile_number: formValue.mobile_number ? formValue.mobile_number : '',
+    //   gender: formValue.gender ? formValue.gender : '',
+    // }
+    // console.log(filteredObject);
 
     this.getEmployeeData();
   }
@@ -111,12 +129,29 @@ export class ListComponent implements OnInit {
       })
   }
 
+  getDepartment() {
+    this.layoutService.getDepartmentData().subscribe(res => {
+      if (res.userDepartment) {
+        this.departmentArray = res.userDepartment;
+      }
+      // this.getRoles();
+      console.log(this.departmentArray);
+    });
+  }
+
+  getRoles() {
+    this.layoutService.getRolesData().subscribe(res => {
+      console.log(res);
+      if (res.userRoles) {
+        this.roleArray = res.userRoles;
+      }
+      // this.setEmployeeData();
+    });
+  }
   onChangedPage(pageData: PageEvent) {
     // this.isLoading = true;
     this.spinner.show();
     console.log(pageData);
-    // this.PerPage = pageData.pageSize;
-    // this.currentPage = pageData.pageIndex + 1;
 
     this.page.size = pageData.pageSize;
     this.page.pageNumber = pageData.pageIndex + 1;
@@ -128,27 +163,9 @@ export class ListComponent implements OnInit {
   sortTable(event) {
     console.log(event);
     this.spinner.show();
-    // this.PerPage = event.active;
     this.page.sortby = event.active + ':' + event.direction;
-    // this.sortType = event.active + ':' + event.direction;
     this.getEmployeeData();
   }
-
-  // openDialog(action, obj) {
-  //   obj.action = action;
-  //   const dialogRef = this.dialog.open(DialogComponent, {
-  //     width: '400px',
-  //     data: obj
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-
-  //     if (result && result.event == 'Delete') {
-  //       this.deleteEmployee(result.id);
-  //       this.getEmployeeData();
-  //     }
-  //   });
-  // }
 
 
   openDialog(id): void {
@@ -174,6 +191,26 @@ export class ListComponent implements OnInit {
     console.log(action, obj);
     obj.action = action;
     this.router.navigate(['/employee/add']);
+  }
+
+  resetSearchFilter(): void {
+    this.formEmployeeSearch.reset();
+    this.setFormValueOnReset();
+    this.getEmployeeData();
+  }
+
+  setFormValueOnReset(): void {
+    let defaultValue = {
+      first_name: '',
+      middle_name: '',
+      last_name: '',
+      email: '',
+      mobile_number: '',
+      gender: '',
+      departmentId: '',
+      roleId: ''
+    }
+    this.formEmployeeSearch.patchValue(defaultValue)
   }
 
 }

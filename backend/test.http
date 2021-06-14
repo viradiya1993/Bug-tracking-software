@@ -10,7 +10,9 @@ POST http://localhost:3000/api/user/signup HTTP/1.1
 Content-Type: application/json
 
 {
-    "email":"lorem.provider_four@mailinator.com","password":"Lorem@123"
+    "email":"rajveer.09.rathod@gmail.com",
+    "password":"rajveer@manektech",
+    "roleId":"60c0ce922fd38c2458a6e2bb"
 }
 
 ###

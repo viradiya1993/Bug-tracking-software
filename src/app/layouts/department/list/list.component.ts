@@ -32,10 +32,13 @@ export class ListComponent implements OnInit {
     private authService: AuthService,
     public dialog: MatDialog,
   ) {
-    this.sharedService.showLoader();
+    // Check If Loggin as Admin
+    this.sharedService.checkIfAdminLogged();
+
   }
 
   ngOnInit(): void {
+    this.sharedService.showLoader();
     this.getDepartmentList();
   }
 

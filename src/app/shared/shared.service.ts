@@ -3,15 +3,46 @@ import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AppConst } from './../app.constant'
 
+import { RouteInfo } from "../model/routes.model";
+import { Router } from '@angular/router';
+// export const ROUTES: RouteInfo[] = [
+//   { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '', onlyAdmin: false },
+//   { path: '/user-profile', title: 'User Profile', icon: 'person', class: '', onlyAdmin: false },
+//   { path: '/table-list', title: 'Table List', icon: 'content_paste', class: '', onlyAdmin: false },
+//   { path: '/typography', title: 'Typography', icon: 'library_books', class: '', onlyAdmin: false },
+//   { path: '/icons', title: 'Icons', icon: 'bubble_chart', class: '', onlyAdmin: false },
+//   { path: '/maps', title: 'Maps', icon: 'location_on', class: '', onlyAdmin: false },
+//   { path: '/notifications', title: 'Notifications', icon: 'notifications', class: '', onlyAdmin: false },
+//   { path: '/employee', title: 'Employee', icon: 'content_paste', class: '', onlyAdmin: true },
+//   { path: '/technology', title: 'Technology', icon: 'content_paste', class: '', onlyAdmin: false },
+//   { path: '/department', title: 'Department', icon: 'dashboard', class: '', onlyAdmin: false },
+//   { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: false },
+// ];
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
-  constructor(private toastr: ToastrService, private spinner: NgxSpinnerService) { }
+  constructor(
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private router: Router
+  ) { }
 
-
+  ROUTES: RouteInfo[] = [
+    { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '', onlyAdmin: false },
+    { path: '/user-profile', title: 'User Profile', icon: 'person', class: '', onlyAdmin: false },
+    { path: '/table-list', title: 'Table List', icon: 'content_paste', class: '', onlyAdmin: false },
+    { path: '/typography', title: 'Typography', icon: 'library_books', class: '', onlyAdmin: false },
+    { path: '/icons', title: 'Icons', icon: 'bubble_chart', class: '', onlyAdmin: false },
+    { path: '/maps', title: 'Maps', icon: 'location_on', class: '', onlyAdmin: false },
+    { path: '/notifications', title: 'Notifications', icon: 'notifications', class: '', onlyAdmin: false },
+    { path: '/employee', title: 'Employee', icon: 'content_paste', class: '', onlyAdmin: true },
+    { path: '/technology', title: 'Technology', icon: 'content_paste', class: '', onlyAdmin: true },
+    { path: '/department', title: 'Department', icon: 'dashboard', class: '', onlyAdmin: true },
+    { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: false },
+  ];
 
   // for success message of toster
   loggerSuccess(msg: string, timeOut = 1500) {
@@ -64,5 +95,20 @@ export class SharedService {
   setLocalStorage(storageKey: any, storageValue: any) {
     localStorage.setItem(storageKey, storageValue);
   }
+
+  getIsAdmin() {
+    console.log(localStorage.getItem('isAdmin'));
+
+    return localStorage.getItem('isAdmin');
+  }
+
+  checkIfAdminLogged() {
+    let isAdmin = this.getIsAdmin();
+    if (isAdmin != "true") {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+
+
 
 }

@@ -94,10 +94,6 @@ exports.getDepartment = (req, res, next) => {
     const sort = {};
     let query = {};
     const search = req.query.q ? req.query.q : ''; // for searching
-    if (req.query.sortBy) {
-        const parts = req.query.sortBy.split(':');
-        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
-    }
     const pageOptions = {
         page: parseInt(req.query.skip) || constant.PAGE,
         limit: parseInt(req.query.limit) || constant.LIMIT

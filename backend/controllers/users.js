@@ -1,12 +1,15 @@
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
-const User = require('../models/users.js');
 const moment = require('moment');
-const dateFormat = require('../helper/dateFormate.helper');
-const constant = require('../config/constant');
-const forgotPasswordTemplate = require('../services/emailTemplate/forgotPasswordTemplate');
 const sendMail = require('../services/email.service');
 const userCreationTemplate = require('../services/emailTemplate/userCreationTemplate.js');
+const dateFormat = require('../helper/dateFormate.helper');
+const forgotPasswordTemplate = require('../services/emailTemplate/forgotPasswordTemplate');
+const constant = require('../config/constant');
+
+const User = require('../models/users.js');
+const UserRoles = require('../models/user_roles.js');
+
 
 
 exports.createUser = (req, res, next) => {
@@ -15,7 +18,8 @@ exports.createUser = (req, res, next) => {
         .then(hash => {
             const user = new User({
                 email: req.body.email,
-                password: hash
+                password: hash,
+                roleId: req.body.roleId
             });
             user.save()
                 .then(result => {
@@ -51,20 +55,32 @@ exports.loginUser = (req, res, next) => {
                     message: "Auth Failed"
                 });
             }
-            const token = jwt.sign(
-                {
-                    email: fetchedUser.email,
-                    userId: fetchedUser._id,
-                },
-                process.env.JWT_KEY,
-                { expiresIn: "1h" }
-            );
-            res.status(200).json({
-                token: token,
-                expiresIn: 3600,
-                userId: fetchedUser._id,
-                message: "Login Successfully"
-            })
+            UserRoles.findOne({ _id: fetchedUser.roleId })
+                .then(newRole => {
+                    let isAdmin = false;
+                    if (newRole.role == 'SuperAdmin') {
+                        isAdmin = true;
+                    }
+                    console.log(isAdmin);
+                    const token = jwt.sign(
+                        {
+                            email: fetchedUser.email,
+                            userId: fetchedUser._id,
+                            role: newRole.role,
+                            isAdmin: isAdmin
+                        },
+                        process.env.JWT_KEY,
+                        { expiresIn: "1h" }
+                    );
+                    res.status(200).json({
+                        token: token,
+                        expiresIn: 3600,
+                        userId: fetchedUser._id,
+                        message: "Login Successfully",
+                        role: newRole.role,
+                        isAdmin: isAdmin
+                    })
+                });
         })
         .catch(err => {
             return res.status(401).json({
@@ -235,9 +251,11 @@ exports.createDefaultUser = async (req, res, next) => {
     let user = {
         body: {
             email: req.email,
-            password: passwordString
+            password: passwordString,
+            roleId: req.roleId
         }
     }
+    console.log(user);
     this.createUserFromEmployee(user);
 }
 
@@ -248,7 +266,8 @@ exports.createUserFromEmployee = (req, res, next) => {
         .then(hash => {
             const user = new User({
                 email: req.body.email,
-                password: hash
+                password: hash,
+                roleId: req.body.roleId
             });
             user.save()
                 .then(result => {
