@@ -61,7 +61,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     }),
     NgSelectModule,
     NgMultiSelectDropDownModule.forRoot(),
-    AngularMultiSelectModule,
+    AngularMultiSelectModule
   ],
   declarations: [
     AppComponent,

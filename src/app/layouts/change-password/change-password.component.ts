@@ -12,13 +12,13 @@ import { ChangepasswordService } from './changepassword.service';
 })
 export class ChangePasswordComponent implements OnInit {
   changePassword = new ChangePassModel();
-  @ViewChild('changePasswordForm', null) changePasswordForm: NgForm;
+  @ViewChild('changePasswordForm', {}) changePasswordForm: NgForm;
   loader = false;
   loaderCancel = false;
   constructor(
     private router: Router,
     private service: ChangepasswordService,
-    private sharedService: SharedService
+    public sharedService: SharedService
   ) { }
 
   ngOnInit(): void {

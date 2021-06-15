@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   show_button: Boolean = false;
   show_eye: Boolean = false;
   emailPattern = AppConst.emailValidationPattern;
-  @ViewChild('loginForm', null) loginForm: NgForm;
+  @ViewChild('loginForm', {}) loginForm: NgForm;
 
   constructor(
     private authService: AuthService,
@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
   onLogin(form: NgForm) {
     if (form.invalid) {
       return
