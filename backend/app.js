@@ -49,4 +49,8 @@ app.use("/api/employee", employeesRoutes);
 app.use("/api/technology", technologyRoutes);
 app.use("/api/project", projectRoutes);
 
+
+app.use((req, res, next) => {
+    res.sendFile(path.join(__dirname, "angular", "index.html"));
+});
 module.exports = app;

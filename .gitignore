@@ -4,9 +4,12 @@
 /dist
 /tmp
 /out-tsc
+/backend/angular
+/backend/build.zip
 
 # dependencies
 /node_modules
+/backend/node_modules
 
 # IDEs and editors
 /.idea

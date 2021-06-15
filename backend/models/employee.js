@@ -41,8 +41,8 @@ const employeeRoles = mongoose.Schema({
     },
     email: {
         type: String,
-        email: EmailValidator,
-        required: true
+        required: true,
+        unique: true
     },
     created_at: {
         type: Number,
