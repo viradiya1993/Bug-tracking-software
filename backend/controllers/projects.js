@@ -1,9 +1,9 @@
 const dateFormat = require('../helper/dateFormate.helper');
 const constant = require('../config/constant');
+const commonFunction = require('../helper/commonFunction.helper')
 const project = require('../models/projects');
 const empyolee = require('../models/employee');
 const Technology = require('../models/technology');
-const { findOne } = require('../models/technology');
 const ObjectID = require('mongodb').ObjectID;
 const mongoose = require('mongoose');
 
@@ -116,136 +116,73 @@ exports.getTechnology = async (req, res, next) => {
 }
 
 exports.getProjectList = async (req, res, next) => {
+	//query.$and = [
+    //         { 'technologys._id': mongoose.Types.ObjectId(req.query.technology_id) },
+    //     ]
     console.log('amit')
     try {
-        // let query = {
-        //     department_id: '60c0afc99214780b84a4fad1'
-        // }
-        // const projects = await project.find(
-        //    query
-        // )
-        //  .sort({ created_at: -1 })
-        //  .populate({
-        //     path: 'department_id',
-        //     select: 'department',
-        //     model: 'UserDepartment',
-        //   })
-        //   console.log(JSON.stringify(projects))
-      //  console.log(projects)
-      const sort = {};
-      var query = {};
-      const search = req.query.q ? req.query.q : ''; // for searching
-      if (req.query.sortBy) { // for sorting
-          const parts = req.query.sortBy.split(':');
-          sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
-      }
-      const pageOptions = {
-        page: parseInt(req.query.skip) || constant.PAGE,
-        limit: parseInt(req.query.limit) || constant.LIMIT
-      }
-    //   let query = {
-        
-    //     //department_id: "60c0afc99214780b84a4fad1"
-    //     //technology_id: "60c3330437b4375114a1185a"
-    //     //employee_id: "60c0db5513a24c276cb3a0a4"
-    //   }
-    //   query.$and = [
-    //     { 'department_id': ObjectID('60c0afc99214780b84a4fad1') },
-    //     { 'technology_id': ObjectID('60c3330437b4375114a1185a') },
-    //     { 'employee_id': ObjectID('60c0db5513a24c276cb3a0a4') }
-    //   ]
-    //   const projects = await project.find(query)
-    if (req.query.technology_id) {
-        query.$and = [
-            { 'technologys._id': mongoose.Types.ObjectId(req.query.technology_id) },
-        ]
-    }
-    if (req.query.technology_id && req.query.employee_id && req.query.departmentId) {
-        query.$and = [
-            { 'technologys._id': mongoose.Types.ObjectId(req.query.technology_id) },
-            { 'employee._id': mongoose.Types.ObjectId(req.query.employee_id) },
-            { 'empdepartment._id': mongoose.Types.ObjectId(req.query.departmentId) }
-        ]
-    }
-     const projects = await project.aggregate([
-         {
-						$lookup: {
-								from: 'technology',
-								localField: 'technology_id',
-								foreignField: '_id',
-								as: 'technologys'
-						}
-         },	
+				var query = {};
+				var sort = {};
+				const search = req.query.q ? req.query.q : ''; // for searching
+				if (req.query.sortBy) { // for sorting
+					const parts = req.query.sortBy.split(':');
+					sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+				}
 
-				{ $unwind: '$technologys' },
+				if (search) {
+					query.$or = [
+							{ 'tech_name': new RegExp(search, 'i') },
+					]
+				}
 
-				{
-					$lookup: {
-							from: 'UserDepartment',
-							localField: 'departmentId',
-							foreignField: '_id',
-							as: 'departments'
-					}
-				},
+				const pageOptions = {
+					page: parseInt(req.query.skip) || constant.PAGE,
+					limit: parseInt(req.query.limit) || constant.LIMIT
+				}
 
-				{ $unwind: "$departments" },
-				
-				{
-					$lookup: {
-							from: 'EmployeeTable',
-							localField: 'employee_id',
-							foreignField: '_id',
-							as: 'empdepartment'
-					}
-				},
+        // query.$or = [
+				// 	{ technology_id: mongoose.Types.ObjectId(req.query.technology_id) },
+				// 	{	departmentId: mongoose.Types.ObjectId(req.query.departmentId) },
+				// 	{	employee_id: mongoose.Types.ObjectId(req.query.employee_id) }
+				// ]
+				query.$or = [
+					{ technology_id: mongoose.Types.ObjectId('60be1d84a2ac210534fbd57a') },
+					{ departmentId: mongoose.Types.ObjectId('60c0afc99214780b84a4fad1') },
+					{ employee_id: mongoose.Types.ObjectId('60c71f19da179629b4a15def') }
+				]
 
-				{ $unwind: '$empdepartment' },
-
-				{
-					$match: query
-				},
-				{
-					$group: {
-						_id: null,
-						count: { $sum: 1 },
-						'project_data': {
-							$push: {
-								'_id': '$_id',
-								'project_no': '$project_no',
-								'project_name': '$project_name',
-								'project_description': '$project_description',
-								'status': '$status',
-								'start_date': '$start_date',
-								'end_date': '$end_date',
-							  'technology_id': '$technologys._id',
-							  'tech_name': '$technologys.tech_name',
-							  'department': '$departments.department',
-								'departmentId': '$departments._id',
-								'employee_id': '$empdepartment._id',
-								'first_name': '$empdepartment.first_name'
-							}
-						}
-					}
-				},
-				
-     ]) 
-		 if (projects.length <= 0) {
-				return res.status(200).send({
-						message: 'success projects',
-						data: {
-								totalProjects: [{ count: 0 }],
-								projects: [{
-									project_data
-								}],
-						}
-				});
-		}
+        // const projects = await project.find(query)
+        const projects = await project.find()
+        .populate({
+            path: 'departmentId',
+            select: 'department',
+            model: 'UserDepartment',
+         })
+        .populate({
+            path: 'technology_id',
+            select: 'tech_name',
+            model: 'technology',
+        })
+        .populate({
+            path: 'employee_id',
+            select: 'first_name,',
+            model: 'EmployeeTable',
+         })
+        .skip(pageOptions.page * pageOptions.limit)
+        .limit(pageOptions.limit)
+        .collation({ locale: "en" })
+        .sort(sort);
+        const totalcount = await project.count(query);
+				console.log(projects)
+				console.log(totalcount)
+		return res.json(commonFunction.getStandardResponse(200,"Fetch Projects", {projects, totalcount}))
+		
+		
 
 		
-      console.log(projects,'-----------Oq')
-
+      
     } catch (error) {
-        console.log(error);
+        console.log(error,'-------- error');
     }
 }
 
