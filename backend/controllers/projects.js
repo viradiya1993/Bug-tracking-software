@@ -115,13 +115,6 @@ exports.getProjectList = async (req, res, next) => {
 				{ 'project_name': new RegExp(search, 'i') },
 				{ 'project_manager': new RegExp(search, 'i') },
 				{ 'status': new RegExp(search, 'i') },
-				// { 'technology_id': ObjectID(technology_id) },
-				// { 'employee_id': ObjectID(employee_id) },
-				{ 'departmentId': ObjectID(departmentId) },
-				{ 'tech_name': new RegExp(search, 'i') },
-				{ 'department': new RegExp(search, 'i') },
-				{ 'first_name': new RegExp(search, 'i') }
-
 			]
 		}
 
