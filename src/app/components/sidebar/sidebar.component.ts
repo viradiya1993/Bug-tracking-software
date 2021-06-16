@@ -41,11 +41,8 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.isAdminLogged = this.sharedService.getIsAdmin();
-    console.log(this.isAdminLogged);
-
     if (this.isAdminLogged == "true") {
       this.menuItems = this.sharedService.ROUTES.filter(menuItem => menuItem);
-      console.log(this.menuItems);
     } else {
       this.menuItems = this.sharedService.ROUTES.filter(menuItem => menuItem.onlyAdmin == false);
 

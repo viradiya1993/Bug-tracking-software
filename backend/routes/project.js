@@ -4,7 +4,7 @@ const projectsController = require('../controllers/projects');
 const checkAuth = require('../middleware/auth-check');
 const router = express.Router();
 
-router.get('/getemployee', projectsController.getEmployee);
+
 router.get('/gettechnology', projectsController.getTechnology);
 
 router.get('/get-project-list', projectsController.getProjectList)

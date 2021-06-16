@@ -8,7 +8,7 @@
               <h4 class="card-title" *ngIf="editable">Edit Project</h4>
           </div>
           <div class="card-body">
-            <form (submit)="onSave()" [formGroup]='projectForm'>
+            <form  [formGroup]='projectForm'>
               <div class="row">
                 <div class="col-md-6">
                   <mat-form-field class="example-full-width">
@@ -36,7 +36,7 @@
                             [items]="technologys"
                             formControlName="technology"
                             bindLabel="tech_name"
-                            bindValue="_id"
+                            bindValue="tech_name"
                             [addTag]="true"
                             addTagText="Create New"   
                             [multiple]="true"
@@ -49,7 +49,7 @@
                   </div>
               </div>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <ng-select 
                             [items]="departments"
                             bindLabel="department"
@@ -61,15 +61,27 @@
                         Department
                   </mat-error>
                 </div>
+                <div class="col-md-6">
+                  <ng-select 
+                            [items]="projectManager"
+                            bindLabel="first_name"
+                            placeholder="Select an Project Manager"
+                            formControlName="project_manager"
+                            bindValue="first_name">
+                  </ng-select>
+                  <mat-error *ngIf="projectForm.get('project_manager').invalid"> Please Select a
+                       Manager
+                  </mat-error>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
                   <ng-select 
-                            [items]="employees"
-                            bindLabel="first_name"
                             placeholder="Select an employee"
+                            [items]="employees"
                             formControlName="employee"
-                            bindValue="_id"
+                            bindLabel="first_name"
+                            bindValue="first_name"
                             [multiple]="true">
                   </ng-select>
                    <mat-error *ngIf="projectForm.get('employee').invalid"> Please Select a
@@ -108,6 +120,7 @@
                                   bindValue="value"
                                   formControlName="status">
                       </ng-select>
+                    
                       <mat-error *ngIf="projectForm.get('status').invalid">
                         Status is required
                       </mat-error>
@@ -134,23 +147,16 @@
               </div>
               <div class="row mt20">
                   <div class="col-md-12 text-right">
-                    <!-- <div class="row mt20">
-                      <div class="col-md-12 text-right">
-                        <a (click)="onSave(projectForm)"  style="cursor: pointer" 
-                        [ngClass]="
-                          !projectForm.valid
-                          ? 'btn btn-info disable-btn full_wid disable'
-                          : 'btn btn-info full_wid'">
-                          Save
-                        <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
-                       </a>  
-                      <button type="button" class="btn btn-danger btn_d_consist ml15" [routerLink]="['/project']">Cancel</button>
-                      </div> -->
-                      <button mat-raised-button type="submit" class="btn btn-info full_wid" [disabled]="projectForm.invalid">
-                              <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
-                          Save</button>
-                      <button mat-raised-button class="btn btn-danger btn_d_consist ml15" [routerLink]="['/project']"
-                      routerLinkActive="router-link-active">Cancel</button>
+                      <span class="pull-right mb15">
+                        <button type="submit" *ngIf="!editable" [disabled]="projectForm.invalid"
+                          [ngClass]="projectForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
+                          (click)="onSave('save')" class="mr-2">
+                          <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Add</button>
+                        <button type="submit" *ngIf="editable" [disabled]="projectForm.invalid"
+                          [ngClass]="projectForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
+                          (click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Update</button>
+                        <button type="button" class="btn btn-danger" [routerLink]="['/project']">Cancel</button>
+                      </span>
                 </div> 
               </div>
             </form>

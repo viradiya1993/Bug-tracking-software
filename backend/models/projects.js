@@ -31,7 +31,12 @@ const project = mongoose.Schema({
         require: true,
         unique: true
     },
+
     project_description: { 
+        type: String
+    },
+    
+    project_manager: {
         type: String
     },
 
@@ -43,16 +48,20 @@ const project = mongoose.Schema({
          type: Number,
          default : null
     },
+
     end_date: { 
         type: Number, 
         default : null 
     },
+
     created_at: { 
         type: Number 
     },
+
     updated_at: { 
         type: Number 
     },
+
     actual_updated_at: { 
         type: Number, 
         default: null

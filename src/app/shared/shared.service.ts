@@ -97,8 +97,6 @@ export class SharedService {
   }
 
   getIsAdmin() {
-    console.log(localStorage.getItem('isAdmin'));
-
     return localStorage.getItem('isAdmin');
   }
 
