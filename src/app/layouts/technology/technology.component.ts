@@ -47,6 +47,7 @@ export class TechnologyComponent implements OnInit {
         this.length = res.data.totalcount;
       } 
     }, err => {
+        this.sharedService.loggerError(err.error.message);
         this.sharedService.showLoader();
     })
   }

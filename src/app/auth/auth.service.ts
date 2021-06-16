@@ -10,8 +10,8 @@ const BACKEND_URL = environment.apiUrl + '/user/';
   providedIn: 'root'
 })
 export class AuthService {
-  private tokenTimer: NodeJS.Timer;
-  constructor(private http: HttpClient, private router: Router) { }
+  public tokenTimer: NodeJS.Timer;
+  constructor(private http: HttpClient, public router: Router) { }
 
   // get Token
   getToken() {
@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   // Remove login data
-  private clearAuthData() {
+  clearAuthData() {
     localStorage.removeItem("isLoggedin");
     localStorage.removeItem("expiration");
     localStorage.removeItem("userId");

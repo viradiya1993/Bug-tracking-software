@@ -104,22 +104,7 @@ Content-Type: application/json
 }
 
 
-###
-POST http://localhost:3000/api/project/create HTTP/1.1
-Content-Type: application/json
 
-{
-   
-    "technology_id": "609e72473230742358084d9c",
-    "department_id": "609e72473230742358084d9c",
-    "employee_id": "609e72473230742358084d9c",
-    "project_no": 1,
-    "project_name": "BTS",
-    "project_description": "BTS BUG",
-    "status": "Running",
-    "start_date": "",
-    "end_date": ""
-}
 
 
 ###
@@ -157,8 +142,24 @@ Content-Type: application/json
 }
 
 
+
+###
+POST http://localhost:3000/api/project/create HTTP/1.1
+Content-Type: application/json
+
+{
+   
+    "technology_id": "609e72473230742358084d9c",
+    "department_id": "609e72473230742358084d9c",
+    "employee_id": "609e72473230742358084d9c",
+    "project_no": 40,
+    "project_name": "BTS11",
+    "project_description": "BTS BUG",
+    "status": "Running",
+    "start_date": "",
+    "end_date": ""
+}
+
 ###
 GET http://localhost:3000/api/project/get-project-list HTTP/1.1
 Content-Type: application/json
-
-

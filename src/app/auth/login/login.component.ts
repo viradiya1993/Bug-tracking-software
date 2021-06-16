@@ -14,8 +14,8 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
   loader = false;
   token: string;
-  private userId: string;
-  private tokenTimer: NodeJS.Timer;
+  public userId: string;
+  public tokenTimer: NodeJS.Timer;
   private role: string;
   private isAdmin: boolean;
 
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('loginForm', {}) loginForm: NgForm;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private sharedService: SharedService,
     private router: Router
   ) { }
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
   }
 
   // Save Auth Data 
-  private saveAuthData(token: string, expirationDate: Date, userId: string, role: string, isAdmin: boolean) {
+  saveAuthData(token: string, expirationDate: Date, userId: string, role: string, isAdmin: boolean) {
     this.sharedService.setLocalStorage("isLoggedin", token);
     this.sharedService.setLocalStorage("expiration", expirationDate.toISOString());
     this.sharedService.setLocalStorage("userId", userId);
@@ -105,14 +105,14 @@ export class LoginComponent implements OnInit {
   }
 
   // Set Timer
-  private setAuthTimer(duration: number) {
+  setAuthTimer(duration: number) {
     this.tokenTimer = setTimeout(() => {
       this.authService.logout();
     }, duration * 1000);
   }
 
   // get auto authdata
-  private getAuthData() {
+  getAuthData() {
     const token = localStorage.getItem("isLoggedin");
     const expirationDate = localStorage.getItem("expiration");
     const userId = localStorage.getItem("userId");

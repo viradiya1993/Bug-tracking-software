@@ -11,6 +11,28 @@ const BACKEND_URL = environment.apiUrl + '';
 export class ProjectService {
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  //Fetch Project
+  getProjectList(limit: any, page: any, shortName: any, shortType: any, search: any) {
+    let url = BACKEND_URL + '/project/get-project-list';
+    if (limit !== undefined) {
+      url += '?limit=' + limit;
+    } else {
+      url += '?limit=5';
+    }
+    if (page !== undefined) {
+      url += '&skip=' + page;
+    } else {
+      url += '&skip=0';
+    }
+    if (shortName !== undefined) {
+      url += '&sortBy=' + shortName + ':' + shortType;
+    }
+    if (search != null) {
+      url += '&q=' + search;
+    }
+    return this.http.get(url);
+  } 
   
   //Add project
   addProject(data: any) {
@@ -23,7 +45,7 @@ export class ProjectService {
   }
 
   //Update Project details
-  updateProjectDetail(data, id) {
+  updateProject(data: any, id: any) {
     return this.http.post(BACKEND_URL + '/project/updateproject/' +  id, data);
   }
 
