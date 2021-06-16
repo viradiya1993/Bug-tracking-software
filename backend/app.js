@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({extended: true});
 //app.use(bodyParser.json());
 
-app.use("/images", express.static(path.join("images")));
+// app.use("/images", express.static(path.join("images")));
 
 // Set Static access for angular
 app.use("/", express.static(path.join(__dirname, "angular")));
