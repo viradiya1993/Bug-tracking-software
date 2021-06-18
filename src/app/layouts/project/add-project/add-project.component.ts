@@ -87,7 +87,7 @@ export class AddProjectComponent implements OnInit {
       end_date: new FormControl(null, {
         validators: [Validators.required]
       }),
-      status: new FormControl('open', {
+      status: new FormControl('Open', {
         validators: [Validators.required]
       }),
       project_description: new FormControl(null, {
@@ -110,26 +110,28 @@ export class AddProjectComponent implements OnInit {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       this.project_id = paramMap.get('id');
       if (paramMap.has('id')) {
+        this.sharedService.showLoader();
         this.editable = true;
         this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
-          var sdt = moment(projectData.projects.start_date);
-          var edt = moment(projectData.projects.end_date);
+          this.sharedService.hideLoader();
+          var sdt = moment(projectData.projectDetails.start_date);
+          var edt = moment(projectData.projectDetails.end_date);
           if (sdt.isValid && edt.isValid) {
             this.sDate = sdt.format("YYYY-MM-DD");
             this.eDate = edt.format("YYYY-MM-DD");
           }
           let fetachProject = {
             id: projectData._id,
-            project_no: projectData.projects.project_no,
-            project_name: projectData.projects.project_name,
-            technology: projectData.projects.technology_id,
-            department: projectData.projects.departmentId,
-            project_manager: projectData.projects.project_manager,
-            employee: projectData.projects.employee_id,
+            project_no: projectData.projectDetails.project_no,
+            project_name: projectData.projectDetails.project_name,
+            technology: projectData.projectDetails.technology_id,
+            department: projectData.projectDetails.departmentId,
+            project_manager: projectData.projectDetails.project_manager,
+            employee: projectData.projectDetails.employee_id,
             start_date: this.sDate,
             end_date: this.eDate,
-            status: projectData.projects.status,
-            project_description: projectData.projects.project_description
+            status: projectData.projectDetails.status,
+            project_description: projectData.projectDetails.project_description
           }
           this.projectForm.patchValue(fetachProject);
         });
@@ -162,11 +164,6 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  //Change Dpeartment
-  changeDepartment(department: any) {
-    console.log(department, 'department')
-  }
-
   //Get Employee
   getEmployee() {
     let data = {
@@ -192,26 +189,11 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  //select Employee
-  selectEmployee(employee: any) {
-    console.log(employee, 'emp')
-  }
-
   //Get Technology
   getTechnology() {
     this.layoutsService.getTechnology().subscribe((res: any) => {
       this.technologys = res.data;
     });
-  }
-
-  //selectStatus
-  selectStatus(status: any) {
-
-  }
-
-  getValues(value) {
-    console.log(value, 'item')
-
   }
 
   //filterDate

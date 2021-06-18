@@ -13,7 +13,7 @@ export class ProjectService {
   constructor(private http: HttpClient, private router: Router) { }
 
   //Fetch Project
-  getProjectList(limit: any, page: any, shortName: any, shortType: any, search: any) {
+  getProjectList(limit: any, page: any, shortName: any, shortType: any, search: any, sDate, eDate, departmentId: any, technology_id: any, employee_id: any, project_manager: any) {
     let url = BACKEND_URL + '/project/get-project-list';
     if (limit !== undefined) {
       url += '?limit=' + limit;
@@ -30,6 +30,21 @@ export class ProjectService {
     }
     if (search != null) {
       url += '&q=' + search;
+    }
+    if (sDate != null && eDate != null) {
+      url += '&start_date=' + sDate + '&end_date=' + eDate;
+    }
+    if (departmentId != null) {
+      url += '&departmentId=' + departmentId;
+    }
+    if (technology_id != null) {
+      url += '&technology_id=' + technology_id;
+    }
+    if (employee_id != null) {
+      url += '&employee_id=' + employee_id;
+    }
+    if (project_manager != null) {
+      url += '&project_manager=' + project_manager;
     }
     return this.http.get(url);
   } 

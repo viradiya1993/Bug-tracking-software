@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { AppConst } from 'app/app.constant';
 import { DeleteBoxComponent } from 'app/shared/delete-box/delete-box.component';
 import { SharedService } from 'app/shared/shared.service';
+import * as moment from 'moment';
+import { LayoutService } from '../layout.service';
 import { ProjectService } from './project.service';
 
 @Component({
@@ -22,26 +24,49 @@ export class ProjectComponent implements OnInit {
   sortName: String = 'project_no';
   sortType: String = 'desc';
   index: number;
- 
+  start_date: any;
+  end_date: any;
+  sDate: any;
+  eDate: any;
+  technologys: any = [];
+  departments: any = [];
+  projectManagerArray: any = [];
+  projectManager: any = [];
+  employeeArray: any = [];
+  employees: any = [];
+  departmentId: any;
+  technologyId: any;
+  employee_id: any;
+  manager_id: any;
+
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'start_date', 'end_date', 'status', 'project_description', 'action'];
   constructor(
     public projectService: ProjectService,
     public sharedService: SharedService,
+    public layoutsService: LayoutService,
     private router: Router,
     public dialog: MatDialog,
   ) { this.sharedService.showLoader() }
 
   ngOnInit(): void {
     this.getProjectList();
+    this.getTechnology();
+    this.getDepartment();
+
+    this.layoutsService.getRolesData().subscribe((res: any) => {
+      this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');
+      this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
+      this.getEmployee();
+      this.getProject();
+    })
   }
 
   getProjectList() {
-    var projects: any = [];
-    this.projectService.getProjectList(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
+    this.projectService.getProjectList(this.limit, this.page, this.sortName, this.sortType, this.searchKey, this.sDate, this.eDate, this.departmentId, this.technologyId, this.employee_id, this.manager_id)
     .subscribe((res: any) => {
       this.sharedService.hideLoader();
-      this.dataSource = new MatTableDataSource(res.data.projects);
+      this.dataSource = new MatTableDataSource(res.data.projectDetails);
       this.length = res.data.totalcount
     }, err => {
       this.sharedService.loggerError(err.error.message);
@@ -49,7 +74,90 @@ export class ProjectComponent implements OnInit {
     });
   }
 
+  selectTech(value: any) {
+    this.technologyId = value._id;
+    this.getProjectList();
+  }
+
+  
+  //Get Technology
+  getTechnology() {
+    this.layoutsService.getTechnology().subscribe((res: any) => {
+      this.technologys = res.data;
+    });
+  }
+
+
+  selectDepartment(value: any) {
+    this.departmentId = value._id;
+    this.getProjectList();
+  }
+
+  //Get Department
+  getDepartment() {
+    this.layoutsService.getDepartmentData().subscribe(res => {
+      if (res.userDepartment) {
+        this.departments = res.userDepartment;
+      }
+    });
+  }
+
+  selectEmp(value: any) {
+    this.employee_id = value._id
+    this.getProjectList();
+  }
+
+   //Get Employee
+  getEmployee() {
+    let data = {
+      roleId: this.employeeArray[0]._id
+    }
+    this.layoutsService.getEmployee(data).subscribe((res: any) => {
+      if (res.employeeLists) {
+        this.employees = res.employeeLists;
+      }
+    });
+
+  }
+
+  selectManager(value: any) {
+    console.log(value._id)
+    console.log(value)
+    this.manager_id = value._id
+    this.getProjectList();
+  }
+
+  //Get Project Manager
+  getProject() {
+    let data = {
+      roleId: this.projectManagerArray[0]._id
+    }
+    this.layoutsService.getEmployee(data).subscribe((res: any) => {
+      if (res.employeeLists) {
+        this.projectManager = res.employeeLists;
+      }
+    });
+  }
+
+  filterDate() {
+    var sdt = moment(this.start_date);
+    var edt = moment(this.end_date);
+    if (sdt.isValid && edt.isValid) {
+      this.sDate = sdt.format("x");
+      this.eDate = edt.format("x");
+      this.getProjectList();
+    }
+    console.log(this.sDate);
+    console.log(this.eDate);
+    
+    
+  }
+
   resetFilter() {
+    this.start_date = '';
+    this.end_date = '';
+    this.sDate = '';
+    this.eDate = '';
     this.page = 0;
     this.index = 0;
     this.getProjectList();
@@ -60,7 +168,7 @@ export class ProjectComponent implements OnInit {
   * // TODO: resetIndex
   * @param event
   */
-   resetIndex(e) {
+  resetIndex(e) {
     this.index = e;
   }
 

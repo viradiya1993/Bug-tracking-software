@@ -6,4 +6,6 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api'
+  //apiUrl: 'http://ded3138.inmotionhosting.com:4567/api'
+
 };

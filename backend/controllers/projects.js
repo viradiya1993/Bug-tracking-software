@@ -1,7 +1,7 @@
 const dateFormat = require('../helper/dateFormate.helper');
 const constant = require('../config/constant');
 const commonFunction = require('../helper/commonFunction.helper')
-const project = require('../models/projects');
+const projectData = require('../models/projects');
 const empyolee = require('../models/employee');
 const Technology = require('../models/technology');
 const ObjectID = require('mongodb').ObjectID;
@@ -23,7 +23,7 @@ exports.createProject = async (req, res, next) => {
 	} = req.body;
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
-		const isProjectNo = await project.findOne({
+		const isProjectNo = await projectData.findOne({
 			project_no
 		})
 		if (isProjectNo) {
@@ -31,7 +31,7 @@ exports.createProject = async (req, res, next) => {
 				message: "Project no already exist choose another one."
 			});
 		}
-		const isProjectName = await project.findOne({
+		const isProjectName = await projectData.findOne({
 			project_name
 		})
 		if (isProjectName) {
@@ -39,27 +39,27 @@ exports.createProject = async (req, res, next) => {
 				message: "Project Name already exist choose another one."
 			});
 		}
-		const projects = new project();
-		projects.technology_id = technology_id;
-		projects.departmentId = departmentId;
-		projects.employee_id = employee_id;
-		projects.project_no = project_no;
-		projects.project_name = project_name;
-		projects.project_description = project_description;
-		projects.project_manager = project_manager;
-		projects.status = status;
-		projects.created_at = currentTimeStamp;
-		projects.updated_at = currentTimeStamp;
-		projects.actual_updated_at = currentTimeStamp;
+		const projectDetails = new projectData();
+		projectDetails.technology_id = technology_id;
+		projectDetails.departmentId = departmentId;
+		projectDetails.employee_id = employee_id;
+		projectDetails.project_no = project_no;
+		projectDetails.project_name = project_name;
+		projectDetails.project_description = project_description;
+		projectDetails.project_manager = project_manager;
+		projectDetails.status = status;
+		projectDetails.created_at = currentTimeStamp;
+		projectDetails.updated_at = currentTimeStamp;
+		projectDetails.actual_updated_at = currentTimeStamp;
 
 		if (start_date) {
-			projects.start_date = dateFormat.convertTimestamp(start_date);
+			projectDetails.start_date = dateFormat.convertTimestamp(start_date);
 		}
 		if (end_date) {
-			projects.end_date = dateFormat.convertTimestamp(end_date);
+			projectDetails.end_date = dateFormat.convertTimestamp(end_date);
 		}
-		projects.save()
-			.then(projects => {
+		projectDetails.save()
+			.then(projectDetails => {
 				return res.status(200).json({
 					message: "Project added successfully.",
 				})
@@ -100,6 +100,9 @@ exports.getProjectList = async (req, res, next) => {
 		var query = {};
 		var sort = {};
 		const search = req.query.q ? req.query.q : ''; // for searching
+		start_date = req.query.start_date ? req.query.start_date : '';
+		end_date = req.query.end_date ? req.query.end_date : '';
+
 		if (req.query.sortBy) { // for sorting
 			const parts = req.query.sortBy.split(':');
 			sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
@@ -110,36 +113,137 @@ exports.getProjectList = async (req, res, next) => {
 			limit: parseInt(req.query.limit) || constant.LIMIT
 		}
 
-		if (search) {
+		if (req.query.technology_id) {
 			query.$or = [
-				{ 'project_name': new RegExp(search, 'i') },
-				{ 'project_manager': new RegExp(search, 'i') },
-				{ 'status': new RegExp(search, 'i') },
+				{ 'technology_id': mongoose.Types.ObjectId(req.query.technology_id) },
 			]
 		}
 
-		const projects = await project.find(query)
+		if (req.query.departmentId) {
+			query.$or = [
+				{ 'departmentId': mongoose.Types.ObjectId(req.query.departmentId) },
+			]
+		}
+
+
+		if (req.query.employee_id) {
+			query.$or = [
+				{ 'employee_id': mongoose.Types.ObjectId(req.query.employee_id) },
+			]
+		}
+
+		if (req.query.project_manager) {
+			query.$or = [
+				{ 'project_manager': mongoose.Types.ObjectId(req.query.project_manager) },
+			]
+			console.log(req.query.project_manager,'manager id');
+		}
+		if (search) {
+			query.$or = [
+				{ 'project_name': new RegExp(search, 'i') },
+				{ 'status': new RegExp(search, 'i') },
+			]
+		}
+		
+		if (start_date && end_date) {
+			query.start_date = { $gte: start_date },
+				query.$or = [
+					{ 'end_date': { $lte: end_date } },
+					{ 'end_date': { $eq: null } },
+				]
+		}
+	
+		// const projectDetails = await projectData.aggregate([
+		// 	{ 
+		// 		$lookup : { 
+		// 			from : "userdepartments", 
+		// 			localField : "departmentId", 
+		// 			foreignField : "_id", 
+		// 			as : "Departments"
+		// 		}
+		// 	},
+		// 	{$unwind: "$Departments"},
+		// 	{ 
+		// 		$lookup : { 
+		// 			from : "technologies", 
+		// 			localField : "technology_id", 
+		// 			foreignField : "_id", 
+		// 			as : "Tech"
+		// 		}
+		// 	},
+		// 	{$unwind: "$Tech"},
+		// 	 { 
+		// 		$lookup : { 
+		// 			from : "employeetables", 
+		// 			localField : "employee_id", 
+		// 			foreignField : "_id", 
+		// 			as : "Emp"
+		// 		}
+		// 	},
+		// 	{$unwind: "$Emp"}, 
+
+		// 	{
+        //         $match: query
+        //     },
+
+        //     {
+        //         $sort: sort
+        //     },
+
+        //     {
+        //         $skip: (pageOptions.page * pageOptions.limit)
+        //     },
+
+        //     {
+        //         $limit: pageOptions.limit
+        //     },
+			
+		// 	{
+		// 		$project: {
+		// 			project_no: 1,
+		// 			project_name: 1,
+		// 			project_description: 1,
+		// 			project_manager: 1,
+		// 			status: 1,
+		// 			start_date: 1,
+		// 			end_date: 1,
+		// 			department: "$Departments.department",
+		// 			tech_name: "$Tech.tech_name",
+		// 			employee_id: "$Emp.first_name"
+					
+		// 		}
+		// 	},
+		// ])
+		// console.log(projectDetails.length, 'projects')
+		const projectDetails = await projectData.find(query)
 			.populate({
 				path: 'departmentId',
 				select: 'department',
-				model: 'UserDepartment',
+				model: 'UserDepartment'
+				
 			})
 			.populate({
 				path: 'technology_id',
 				select: 'tech_name',
-				model: 'technology',
+				model: 'technology'
+				
 			})
 			.populate({
 				path: 'employee_id',
 				select: 'first_name',
-				model: 'EmployeeTable',
+				model: 'EmployeeTable'
+				
+			})
+			.populate({
+				path: 'project_manager',
+				select: 'first_name',
+				model: 'EmployeeTable'
 			})
 			.skip(pageOptions.page * pageOptions.limit)
 			.limit(pageOptions.limit)
 			.collation({ locale: "en" })
 			.sort(sort);
-
-		if (projects.length <= 0) {
+		if (projectDetails.length <= 0) {
 			return res.status(200).json({
 				message: "Projects not available.",
 				data: {
@@ -149,13 +253,13 @@ exports.getProjectList = async (req, res, next) => {
 			});
 		}
 
-		const totalcount = await project.countDocuments(query);
-		for (let index = 0; index < projects.length; index++) {
+		const totalcount = await projectData.countDocuments(query);
+		for (let index = 0; index < projectDetails.length; index++) {
 			let techname = [];
 			let employee = [];
-			const element = projects[index].technology_id;
-			const empValue = projects[index].employee_id;
-
+			
+			const element = projectDetails[index].technology_id;
+			const empValue = projectDetails[index].employee_id;
 			for (let i = 0; i < element.length; i++) {
 				const ele = element[i];
 				techname.push(ele.tech_name)
@@ -165,21 +269,21 @@ exports.getProjectList = async (req, res, next) => {
 				const element = empValue[index];
 				employee.push(element.first_name);
 			}
-
-			projects[index].technology_id = techname.join(',');
-			projects[index].employee_id = employee.join(',');
-
+			projectDetails[index].technology_id = techname.join(',');
+			projectDetails[index].employee_id = employee.join(',');
+		
 		}
-	
+		 
 		return res.status(200).json({
 			message: "Projects list fatch successfully.",
 			data: {
-				projects,
+				projectDetails,
 				totalcount
 			}
 		});
 
 	} catch (error) {
+		console.log(error);
 		return res.status(400).json({
 				message: "Something went wrong. Please try again later.",
 				data: {}
@@ -190,35 +294,35 @@ exports.getProjectList = async (req, res, next) => {
 //Fetch Project Details
 exports.getProjectDetail = async (req, res, next) => {
 	try {
-		const projects = await project.findOne({
+		const projectDetails = await projectData.findOne({
 			_id: req.params.id
 		});
-		if (!projects) {
+		if (!projectDetails) {
 			return res.status(404).json({
 				message: "Project details not available.",
 				data: {}
 			});
 		}
 		
-		for (let i = 0; i < projects.technology_id.length; i++) {
-			const ele = projects.technology_id[i];
+		for (let i = 0; i < projectDetails.technology_id.length; i++) {
+			const ele = projectDetails.technology_id[i];
 			await Technology.findOne({ _id: ObjectID(ele) })
 				.then(tech => {
-					projects.technology_id[i] = tech["tech_name"];
+					projectDetails.technology_id[i] = tech["tech_name"];
 				})
 		}
 		
-		for (let i = 0; i < projects.employee_id.length; i++) {
-			const ele = projects.employee_id[i];
+		for (let i = 0; i < projectDetails.employee_id.length; i++) {
+			const ele = projectDetails.employee_id[i];
 			await empyolee.findOne({_id: ObjectID(ele)})
 			.then(emp => {
-			 projects.employee_id[i] = emp["first_name"];
+			 projectDetails.employee_id[i] = emp["first_name"];
 			})
 		}
 
 		return res.status(200).json({
 			message: "Projects detail fetch successfully.",
-			projects
+			projectDetails
 		});
 
 	} catch (error) {
@@ -247,38 +351,38 @@ exports.updateProject = async (req, res, next) => {
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
 		
-		const projects = await project.findOne({
+		const projectDetails = await projectData.findOne({
 			_id: req.params.id
 		});
-		if (!projects) {
+		if (!projectDetails) {
 			return res.status(404).json({
 				message: "Project details not found.",
 				data: {}
 			});
 		}
 
-		projects.technology_id = technology_id;
-		projects.departmentId = departmentId;
-		projects.employee_id = employee_id;
-		projects.project_no = project_no;
-		projects.project_name = project_name;
-		projects.project_description = project_description;
-		projects.project_manager = project_manager;
-		projects.status = status;
-		projects.updated_at = currentTimeStamp;
-		projects.actual_updated_at = currentTimeStamp;
+		projectDetails.technology_id = technology_id;
+		projectDetails.departmentId = departmentId;
+		projectDetails.employee_id = employee_id;
+		projectDetails.project_no = project_no;
+		projectDetails.project_name = project_name;
+		projectDetails.project_description = project_description;
+		projectDetails.project_manager = project_manager;
+		projectDetails.status = status;
+		projectDetails.updated_at = currentTimeStamp;
+		projectDetails.actual_updated_at = currentTimeStamp;
 
 		if (start_date) {
-			projects.start_date = dateFormat.convertTimestamp(start_date);
+			projectDetails.start_date = dateFormat.convertTimestamp(start_date);
 		}
 		if (end_date) {
-			projects.end_date = dateFormat.convertTimestamp(end_date);
+			projectDetails.end_date = dateFormat.convertTimestamp(end_date);
 		}
-		projects.save()
-			.then(projects => {
+		projectDetails.save()
+			.then(projectDetails => {
 				res.status(200).json({
 					message: "Project Details updated.",
-					data: projects
+					data: projectDetails
 				});
 			});
 	} catch (error) {
@@ -292,10 +396,10 @@ exports.updateProject = async (req, res, next) => {
 //Delete Projects Details
 exports.deleteProject = async (req, res, next) => {
 	 try {
-        const projects = await project.findOne({
+        const projectDetails = await projectData.findOne({
             _id: req.params.id
         }); 
-        const query = await project.deleteOne(projects);
+        const query = await projectData.deleteOne(projectDetails);
         if (query.deletedCount === 1) {
             return res.status(200).json({
                 message: "Deletion successfull!",
