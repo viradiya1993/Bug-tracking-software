@@ -7,65 +7,63 @@ const project = mongoose.Schema({
         ref: 'technology',
         default: null
     }],
-    
-    departmentId: { 
+
+    departmentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserDepartment',
         default: null
     },
-   
-    employee_id: [{ 
+
+    employee_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeTable',
         default: null
     }],
 
-    project_no : { 
+    project_no: {
         type: Number,
-        require: true, 
+        require: true,
         unique: true
     },
 
-    project_name: { 
+    project_name: {
         type: String,
         require: true,
         unique: true
     },
 
-    project_description: { 
+    project_description: {
         type: String
     },
-    
+
     project_manager: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'EmployeeTable',
-        default: null
+        type: String
     },
 
-    status : { 
-        type : String 
+    status: {
+        type: String
     },
 
     start_date: {
-         type: Number,
-         default : null
+        type: Number,
+        default: null
     },
 
-    end_date: { 
-        type: Number, 
-        default : null 
+    end_date: {
+        type: Number,
+        default: null
     },
 
-    created_at: { 
-        type: Number 
+    created_at: {
+        type: Number
     },
 
-    updated_at: { 
-        type: Number 
+    updated_at: {
+        type: Number
     },
 
-    actual_updated_at: { 
-        type: Number, 
+    actual_updated_at: {
+        type: Number,
         default: null
     },
 
@@ -76,4 +74,5 @@ const project = mongoose.Schema({
 );
 
 project.plugin(uniqueValidator);
+
 module.exports = mongoose.model('project_master', project);
