@@ -1,14 +1,64 @@
 <div class="main-content">
     <div class="container-fluid">
       <div class="row">
+        <button mat-raised-button [routerLink]="['/project/add-project']">Add Project</button>
         <div class="col-md-12">
-          <button mat-raised-button [routerLink]="['/project/add-project']">Add Project</button>
-          <div class="col-md-2 mr-2 pull-right" >
-            <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
-          </div>
-          <div class="col-md-4 mb-2 pull-right">
-            <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"></app-search-textbox>
-          </div>
+          <div class="card-body row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-3">
+                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"></app-search-textbox>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="datepicker-color">
+                    <input matInput (dateChange)="filterDate()" [(ngModel)]="start_date" [matDatepicker]="picker"
+                      placeholder="Start Date" disabled>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="datepicker-color">
+                    <input matInput [min]="start_date" (dateChange)="filterDate()" [(ngModel)]="end_date"
+                      [matDatepicker]="picker1" placeholder="End Date" disabled>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3" >
+                  <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+                </div>
+              </div>
+            </div>
+            <!-- DropDown Start-->
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-3">
+                  <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name"
+                      bindValue="_id" (change)="selectTech($event)">
+                  </ng-select>
+                </div>
+                <div class="col-md-3">
+                  <ng-select placeholder="Department" [items]="departments" bindLabel="department"
+                      bindValue="_id" (change)="selectDepartment($event)">
+                  </ng-select>
+                </div>
+                <div class="col-md-3">
+                  <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name"
+                     bindValue="_id" (change)="selectEmp($event)">
+                  </ng-select>
+                </div>
+                <div class="col-md-3">
+                  <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name"
+                      bindValue="_id" (change)="selectManager($event)">
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <!-- DropDown End -->
+          </div>  
+        </div>
+          <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-danger">
               <div class="row">
@@ -54,7 +104,7 @@
                     <th width="5%" (click)="sortItem('project_manager')" mat-header-cell *matHeaderCellDef mat-sort-header
                       class="text-primary">
                       Project Manager </th>
-                    <td width="5%" mat-cell *matCellDef="let element"> {{element?.project_manager}} </td>
+                    <td width="5%" mat-cell *matCellDef="let element"> {{element?.project_manager.first_name}} </td>
                   </ng-container>
 
                   <ng-container matColumnDef="employee">

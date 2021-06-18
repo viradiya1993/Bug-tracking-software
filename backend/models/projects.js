@@ -37,7 +37,9 @@ const project = mongoose.Schema({
     },
     
     project_manager: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'EmployeeTable',
+        default: null
     },
 
     status : { 
