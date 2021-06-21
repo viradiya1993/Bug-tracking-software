@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -38,7 +39,7 @@ export class ProjectComponent implements OnInit {
   technologyId: any;
   employee_id: any;
   manager_id: any;
-
+  projectFilter: FormGroup;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'start_date', 'end_date', 'status', 'project_description', 'action'];
   constructor(
@@ -53,6 +54,16 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
     this.getTechnology();
     this.getDepartment();
+
+    this.projectFilter = new FormGroup({
+      start_date: new FormControl(''),
+      end_date: new FormControl(''),
+      technology_id: new FormControl(''),
+      departmentId: new FormControl(''),
+      employee_id: new FormControl(''),
+      manager_id: new FormControl(''),
+      mobile_number: new FormControl('')
+    });
 
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');

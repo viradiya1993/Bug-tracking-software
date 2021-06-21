@@ -4,10 +4,10 @@
         <button mat-raised-button [routerLink]="['/project/add-project']">Add Project</button>
         <div class="col-md-12">
           <div class="card-body row">
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="row">
+                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"></app-search-textbox>
                 <div class="col-md-3">
-                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"></app-search-textbox>
                 </div>
                 <div class="col-md-3">
                   <mat-form-field class="datepicker-color">
@@ -30,32 +30,108 @@
                 </div>
               </div>
             </div>
-            <!-- DropDown Start-->
             <div class="col-12">
-              <div class="row">
-                <div class="col-md-3">
-                  <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name"
-                      bindValue="_id" (change)="selectTech($event)">
-                  </ng-select>
+              <form (submit)="applyFilter()" [formGroup]='projectFilter' *ngIf="!isLoading">
+                <div class="row">
+                  <div class="col-md-3">
+                    <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name"
+                        bindValue="_id" (change)="selectTech($event)" formControlName="technology_id">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-3">
+                    <ng-select placeholder="Department" [items]="departments" bindLabel="department"
+                        bindValue="_id" (change)="selectDepartment($event)"  formControlName="departmentId">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-3">
+                    <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name"
+                      bindValue="_id" (change)="selectEmp($event)" formControlName="employee_id">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-3">
+                    <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name"
+                        bindValue="_id" (change)="selectManager($event)" formControlName="manager_id">
+                    </ng-select>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <ng-select placeholder="Department" [items]="departments" bindLabel="department"
-                      bindValue="_id" (change)="selectDepartment($event)">
-                  </ng-select>
-                </div>
-                <div class="col-md-3">
-                  <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name"
-                     bindValue="_id" (change)="selectEmp($event)">
-                  </ng-select>
-                </div>
-                <div class="col-md-3">
-                  <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name"
-                      bindValue="_id" (change)="selectManager($event)">
-                  </ng-select>
-                </div>
-              </div>
+              </form>
+            </div> -->
+            <div class="col-10">
+              <mat-label>Filters</mat-label>
             </div>
-            <!-- DropDown End -->
+          <div class="col-12">
+            <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"></app-search-textbox>
+              <form (submit)="applyFilter()" [formGroup]='projectFilter'>
+                  <div class="row">
+                      <div class="col-md-4">
+                        <!-- <mat-form-field class="datepicker-color">
+                          <input matInput (dateChange)="filterDate()" [(ngModel)]="start_date" formControlName="start_date" [matDatepicker]="picker"
+                            placeholder="Start Date" disabled>
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker disabled="false"></mat-datepicker>
+                        </mat-form-field> -->
+                      </div>
+                      <div class="col-md-4">
+                        <!-- <mat-form-field class="datepicker-color">
+                          <input matInput [min]="start_date" (dateChange)="filterDate()"[(ngModel)]="end_date" formControlName="end_date"
+                            [matDatepicker]="picker1" placeholder="End Date" disabled>
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                        </mat-form-field> -->
+                      </div>
+                      <div class="col-md-4">
+                        <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name"
+                            bindValue="_id" (change)="selectTech($event)" formControlName="technology_id">
+                        </ng-select>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-4">
+                        <ng-select placeholder="Department" [items]="departments" bindLabel="department"
+                            bindValue="_id" (change)="selectDepartment($event)"  formControlName="departmentId">
+                         </ng-select>
+                      </div>
+                      <div class="col-md-4">
+                        <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name"
+                            bindValue="_id" (change)="selectEmp($event)" formControlName="employee_id">
+                        </ng-select>
+                      </div>
+                      <div class="col-md-4">
+                        <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name"
+                            bindValue="_id" (change)="selectManager($event)" formControlName="manager_id">
+                        </ng-select>
+                      </div>
+                  </div>
+                 
+                  <div class="row">
+                      <div class="col-3">
+                          &nbsp;
+                      </div>
+                      <div class="col-6 row">
+                          <div class="col" style="align-items: center;">
+                              <button mat-button type="submit" mat-flat-button color="primary"> Search
+                                  <span class="material-icons">
+                                      search
+                                  </span>
+                              </button>
+                          </div>
+                          <div class="col">
+                              <button mat-button mat-flat-button (click)="resetSearchFilter()" color="warn"
+                                  style="margin-left: 25px;">
+                                  Reset
+                                  <span class="material-icons">
+                                      clear
+                                  </span>
+                              </button>
+                          </div>
+                      </div>
+
+                      <div class="col-3">
+                          &nbsp;
+                      </div>
+                  </div>
+              </form>
+          </div>
           </div>  
         </div>
           <div class="col-md-12">
