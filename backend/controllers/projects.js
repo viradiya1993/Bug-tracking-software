@@ -115,20 +115,11 @@ exports.getProjectList = async (req, res, next) => {
 		if (search) {
 			query.$or = [
 				{ 'project_name': new RegExp(search, 'i') },
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 				{ 'project_manager': new RegExp(search, 'i') },
 				{ 'status': new RegExp(search, 'i') },
-=======
 				{ 'project_description': new RegExp(search, 'i') },
->>>>>>> Stashed changes
-=======
 				{ 'project_description': new RegExp(search, 'i') },
->>>>>>> Stashed changes
-=======
 				{ 'project_description': new RegExp(search, 'i') },
->>>>>>> Stashed changes
 			]
 		}
 
@@ -167,21 +158,8 @@ exports.getProjectList = async (req, res, next) => {
 		for (let index = 0; index < projects.length; index++) {
 			let techname = [];
 			let employee = [];
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-			const element = projects[index].technology_id;
-			const empValue = projects[index].employee_id;
-
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
 			const element = projectDetails[index].technology_id;
 			const empValue = projectDetails[index].employee_id;
->>>>>>> Stashed changes
 			for (let i = 0; i < element.length; i++) {
 				const ele = element[i];
 				techname.push(ele.tech_name)
