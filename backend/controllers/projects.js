@@ -117,8 +117,12 @@ exports.getProjectList = async (req, res, next) => {
 				{ 'project_name': new RegExp(search, 'i') },
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 				{ 'project_manager': new RegExp(search, 'i') },
 				{ 'status': new RegExp(search, 'i') },
+=======
+				{ 'project_description': new RegExp(search, 'i') },
+>>>>>>> Stashed changes
 =======
 				{ 'project_description': new RegExp(search, 'i') },
 >>>>>>> Stashed changes
@@ -165,10 +169,13 @@ exports.getProjectList = async (req, res, next) => {
 			let employee = [];
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 			const element = projects[index].technology_id;
 			const empValue = projects[index].employee_id;
 
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
