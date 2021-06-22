@@ -1,6 +1,8 @@
 const dateFormat = require('../helper/dateFormate.helper');
+const sendMail = require('../services/email.service');
+const projectCreationTemplete = require('../services/emailTemplate/projectCreationTemplate'); 
+const projectAssignTemplate = require('../services/emailTemplate/projectAssignTemplate');
 const constant = require('../config/constant');
-const commonFunction = require('../helper/commonFunction.helper')
 const ObjectID = require('mongodb').ObjectID;
 const mongoose = require('mongoose');
 
@@ -23,8 +25,40 @@ exports.createProject = async (req, res, next) => {
 		start_date,
 		end_date,
 	} = req.body;
+
+	
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
+		const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+		const devloper = await empyolee.find({
+            _id: req.body.employee_id
+        });
+
+		const manager = await empyolee.findOne({
+			 _id: req.body.project_manager
+		});
+
+		if (devloper) {
+			let devName = [];
+			for (let i = 0; i < devloper.length; i++) {
+				devName.push(devloper[i].first_name)
+				sendMail(devloper[i].email, 'Project Created.',
+				projectCreationTemplete({ 
+					 logo: logoUrl, 
+					 projectName: req.body.project_name,
+					 projectManger: manager.first_name
+				 }));
+
+			}
+				sendMail(manager.email, 'Project Assigned to developer.',
+				projectAssignTemplate({ 
+					 logo: logoUrl, 
+					 projectName: req.body.project_name,
+					 developer: devName.join(',')
+				 }));
+		
+		}
+		
 		const isProjectNo = await project.findOne({
 			project_no
 		})
@@ -53,7 +87,7 @@ exports.createProject = async (req, res, next) => {
 		projects.created_at = currentTimeStamp;
 		projects.updated_at = currentTimeStamp;
 		projects.actual_updated_at = currentTimeStamp;
-
+		projects.created_by = req.userData.userId
 		if (start_date) {
 			projects.start_date = dateFormat.convertTimestamp(start_date);
 		}
@@ -68,7 +102,6 @@ exports.createProject = async (req, res, next) => {
 			})
 
 	} catch (error) {
-
 		res.status(400).json({
 			message: "Something went wrong. Please try again later"
 		});
@@ -97,6 +130,7 @@ exports.getTechnology = async (req, res, next) => {
 		});
 }
 
+//Fetch Project Detail
 exports.getProjectList = async (req, res, next) => {
 	try {
 		var query = {};
@@ -119,6 +153,35 @@ exports.getProjectList = async (req, res, next) => {
 			]
 		}
 
+		if (req.query.departmentId) {
+			query.$or = [
+				{ 'departmentId': mongoose.Types.ObjectId(req.query.departmentId) },
+			]
+		}
+
+		if (req.query.technology_id) {
+			query.$or = [
+				{ 'technology_id': mongoose.Types.ObjectId(req.query.technology_id) },
+			]
+		}
+
+		if (req.query.employee_id) {
+			query.$or = [
+				{ 'employee_id': mongoose.Types.ObjectId(req.query.employee_id) },
+			]
+		}
+
+		if (req.query.project_manager) {
+			query.$or = [
+				{ 'project_manager': mongoose.Types.ObjectId(req.query.project_manager) },
+			]
+		}
+
+		if (req.query.status) {
+			query.$or = [
+				{ 'status': mongoose.Types.ObjectId(req.query.status) },
+			]
+		}
 		const projects = await project.find(query)
 			.populate({
 				path: 'departmentId',
@@ -134,6 +197,16 @@ exports.getProjectList = async (req, res, next) => {
 				path: 'employee_id',
 				select: 'first_name',
 				model: 'EmployeeTable',
+			})
+			.populate({
+				path: 'project_manager',
+				select: 'first_name',
+				model: 'EmployeeTable',
+			})
+			.populate({
+				path: 'status',
+				select: 'value',
+				model: 'Project_Status',
 			})
 			.skip(pageOptions.page * pageOptions.limit)
 			.limit(pageOptions.limit)
@@ -246,6 +319,34 @@ exports.updateProject = async (req, res, next) => {
 
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
+		const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+
+		const devloper = await empyolee.find({
+            _id: req.body.employee_id
+        });
+
+		const manager = await empyolee.findOne({
+			 _id: req.body.project_manager
+		});
+		if (devloper) {
+			let devName = [];
+			for (let i = 0; i < devloper.length; i++) {
+				devName.push(developer[i].first_name)
+				sendMail(devloper[i].email, 'Project Created.',
+				projectCreationTemplete({ 
+					 logo: logoUrl, 
+					 projectName: req.body.project_name,
+					 projectManger: manager.first_name
+				 }));
+
+			}
+				sendMail(manager.email, 'Project Assigned to developer.',
+				projectAssignTemplate({ 
+					 logo: logoUrl, 
+					 projectName: req.body.project_name,
+					 developer: devName.join(',')
+				 }));
+		}
 
 		const projects = await project.findOne({
 			_id: req.params.id
@@ -267,6 +368,7 @@ exports.updateProject = async (req, res, next) => {
 		projects.status = status;
 		projects.updated_at = currentTimeStamp;
 		projects.actual_updated_at = currentTimeStamp;
+		projects.updated_by = req.userData.userId
 
 		if (start_date) {
 			projects.start_date = dateFormat.convertTimestamp(start_date);
@@ -315,10 +417,8 @@ exports.deleteProject = async (req, res, next) => {
 
 exports.addStatus = async (req, res, next) => {
 	try {
-		// console.log(req.body);
 		Project_Status.findOne({ value: req.body.value })
 			.then(user => {
-				// console.log(user);
 				if (user) {
 					return res.status(400).json({
 						message: "This Status is Already Exist"
@@ -332,14 +432,12 @@ exports.addStatus = async (req, res, next) => {
 				});
 				Status.save()
 					.then(result => {
-						// console.log(result);
 						res.status(200).json({
 							message: 'Status Created Succesfully',
 							result: result
 						})
 					})
 					.catch(err => {
-						// console.log(err);
 						res.status(500).json({
 							message: "Invalid Authentication Credential!"
 						})
@@ -353,6 +451,7 @@ exports.addStatus = async (req, res, next) => {
 	}
 }
 
+//Get Project Status
 exports.getStatus = async (req, res, next) => {
 	try {
 		const postQuery = Project_Status.find();

@@ -37,11 +37,28 @@ const project = mongoose.Schema({
     },
 
     project_manager: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'EmployeeTable',
+        default: null
+    },
+    
+    created_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
     },
 
+    updated_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+
+
     status: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project_Status',
+        default: null
     },
 
     start_date: {

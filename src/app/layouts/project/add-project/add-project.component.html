@@ -114,10 +114,10 @@
                         </mat-error>
                   </div>
                   <div class="col-md-4">
-                      <ng-select  [items]="allStatus"
-                                  bindLabel="viewValue"
+                      <ng-select  [items]="projectStatus"
+                                  bindLabel="value"
                                   placeholder="Select an status"
-                                  bindValue="value"
+                                  bindValue="_id"
                                   formControlName="status">
                       </ng-select>
                     

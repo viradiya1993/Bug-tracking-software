@@ -1,11 +1,7 @@
-module.exports = userCreation => {
-    return `
-    <!DOCTYPE html>
-
+module.exports = projectAssign => {
+	return `
+<!DOCTYPE html>
 <html>
-
-
-
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -53,15 +49,10 @@ module.exports = userCreation => {
 
 
 <body style="margin:0; padding:0;background: #F2F2F2">
-
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
-
         <tbody>
-
             <tr>
-
                 <td valign="top" align="center" style="margin:0; padding:0;">
-
                     <table align="center" border="0" cellpadding="0" cellspacing="0"
 
                         style="max-width: 750px;width: 100%;background-color:#fff">
@@ -100,7 +91,7 @@ module.exports = userCreation => {
 
                                                                         style="width:230px; display: inline-block;">
 
-                                                                        <img src="${userCreation.logo}" alt="Bug Tracking Software"
+                                                                        <img src="${projectAssign.logo}" alt="Bug Tracking Software"
 
                                                                             style="border:none; max-width:100%;" />
 
@@ -171,8 +162,10 @@ module.exports = userCreation => {
                                                                     <p
 
                                                                         style="font-weight: 400; margin:0;line-height:24px;">
-
-                                                                        Your Username and Password is mentioned below
+                                                                       
+                                                                        You have assigned a new project to the developer.
+                                                                        The developer's name is mentioned below.
+                                                                        
 
                                                                     </p>
 
@@ -180,7 +173,7 @@ module.exports = userCreation => {
 
                                                                         style="font-weight: 400; margin:5px 0 0px 0;line-height:24px;">
 
-                                                                        <strong>Username:</strong> ${userCreation.email}
+                                                                        <strong>Project Name:</strong> ${projectAssign.projectName}
 
                                                                     </p>
 
@@ -188,7 +181,7 @@ module.exports = userCreation => {
 
                                                                         style="font-weight: 400; margin:0;line-height:24px;">
 
-                                                                        <strong>Password:</strong> ${userCreation.password}
+                                                                        <strong>Developer Name:</strong> ${projectAssign.developer}
 
                                                                     </p>
 

@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const constant=require('../config/constant');
+
 
 const sendMail = async(to, subject, body) => {
     try {

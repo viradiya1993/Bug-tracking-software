@@ -26,19 +26,14 @@ export class AddProjectComponent implements OnInit {
   projectManagerArray: any = [];
   projectManager: any = [];
   employeeArray: any = [];
+  projectStatus: any = [];
   start_date: any =  new Date();
   end_date: any =  new Date();
   sDate: any;
   eDate: any;
   loader: boolean = false;
 
-  allStatus = [
-    { value: 'Open', viewValue: 'Open' },
-    { value: 'In Progress', viewValue: 'In Progress' },
-    { value: 'Completed', viewValue: 'Completed' },
-    { value: 'Put on Hold', viewValue: 'Put on Hold' },
-    { value: 'Cancelled', viewValue: 'Cancelled' }
-  ];
+  
   //project = new Projects()
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
@@ -61,6 +56,7 @@ export class AddProjectComponent implements OnInit {
     this.getDepartment();
     this.getTechnology();
     this.setProjectDetails();
+    this.getStatus();
 
     this.projectForm = new FormGroup({
       project_no: new FormControl(null, {
@@ -114,24 +110,24 @@ export class AddProjectComponent implements OnInit {
         this.editable = true;
         this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
           this.sharedService.hideLoader();
-          var sdt = moment(projectData.projectDetails.start_date);
-          var edt = moment(projectData.projectDetails.end_date);
+          var sdt = moment(projectData.projects.start_date);
+          var edt = moment(projectData.projects.end_date);
           if (sdt.isValid && edt.isValid) {
             this.sDate = sdt.format("YYYY-MM-DD");
             this.eDate = edt.format("YYYY-MM-DD");
           }
           let fetachProject = {
             id: projectData._id,
-            project_no: projectData.projectDetails.project_no,
-            project_name: projectData.projectDetails.project_name,
-            technology: projectData.projectDetails.technology_id,
-            department: projectData.projectDetails.departmentId,
-            project_manager: projectData.projectDetails.project_manager,
-            employee: projectData.projectDetails.employee_id,
+            project_no: projectData.projects.project_no,
+            project_name: projectData.projects.project_name,
+            technology: projectData.projects.technology_id,
+            department: projectData.projects.departmentId,
+            project_manager: projectData.projects.project_manager,
+            employee: projectData.projects.employee_id,
             start_date: this.sDate,
             end_date: this.eDate,
-            status: projectData.projectDetails.status,
-            project_description: projectData.projectDetails.project_description
+            status: projectData.projects.status,
+            project_description: projectData.projects.project_description
           }
           this.projectForm.patchValue(fetachProject);
         });
@@ -196,6 +192,16 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  //get Status
+  getStatus() {
+    this.projectService.getProjectStatus().subscribe((res: any) => {
+      if (res.status) {
+        this.projectStatus = res.status
+      }
+    });
+  }
+
+
   //filterDate
   filterDate() {
     var sdt = moment(this.start_date);
@@ -238,6 +244,7 @@ export class AddProjectComponent implements OnInit {
       status: formValue.status,
       project_description: formValue.project_description
     }
+    console.log(data,'final data');
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {

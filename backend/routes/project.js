@@ -5,14 +5,14 @@ const checkAuth = require('../middleware/auth-check');
 const router = express.Router();
 
 
-router.get('/gettechnology', projectsController.getTechnology);
+router.get('/gettechnology', checkAuth, projectsController.getTechnology);
 
-router.get('/get-project-list', projectsController.getProjectList)
-router.get('/getproject/:id', projectsController.getProjectDetail);
-router.post('/create', projectsController.createProject);
-router.post('/updateproject/:id', projectsController.updateProject);
-router.delete('/delete-projects/:id', projectsController.deleteProject);
+router.get('/get-project-list', checkAuth, projectsController.getProjectList)
+router.get('/getproject/:id', checkAuth, projectsController.getProjectDetail);
+router.post('/create', checkAuth, projectsController.createProject);
+router.post('/updateproject/:id', checkAuth, projectsController.updateProject);
+router.delete('/delete-projects/:id', checkAuth, projectsController.deleteProject);
 
-router.post('/status/add', projectsController.addStatus);
-router.get('/status', projectsController.getStatus);
+router.post('/status/add', checkAuth, projectsController.addStatus);
+router.get('/status', checkAuth, projectsController.getStatus);
 module.exports = router;

@@ -7,6 +7,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ViewDetailsComponent } from './view-details/view-details.component';
 
 const routes: Routes = [
   { path: '', component: ProjectComponent },
@@ -16,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ProjectComponent, AddProjectComponent],
+  declarations: [ProjectComponent, AddProjectComponent, ViewDetailsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

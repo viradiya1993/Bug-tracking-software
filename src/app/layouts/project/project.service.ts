@@ -13,7 +13,7 @@ export class ProjectService {
   constructor(private http: HttpClient, private router: Router) { }
 
   //Fetch Project
-  getProjectList(limit: any, page: any, shortName: any, shortType: any, search: any, sDate, eDate, departmentId: any, technology_id: any, employee_id: any, project_manager: any) {
+  getProjectList(limit: any, page: any, shortName: any, shortType: any, search: any, departmentId: any, technology_id: any, employee_id: any, project_manager: any, status: any) {
     let url = BACKEND_URL + '/project/get-project-list';
     if (limit !== undefined) {
       url += '?limit=' + limit;
@@ -31,9 +31,7 @@ export class ProjectService {
     if (search != null) {
       url += '&q=' + search;
     }
-    if (sDate != null && eDate != null) {
-      url += '&start_date=' + sDate + '&end_date=' + eDate;
-    }
+    
     if (departmentId != null) {
       url += '&departmentId=' + departmentId;
     }
@@ -45,6 +43,9 @@ export class ProjectService {
     }
     if (project_manager != null) {
       url += '&project_manager=' + project_manager;
+    }
+    if (status != null) {
+      url += '&status=' + status;
     }
     return this.http.get(url);
   } 
@@ -98,6 +99,11 @@ export class ProjectService {
   //Add project
   addProject(data: any) {
     return this.http.post(BACKEND_URL + '/project/create', data);
+  }
+
+  getProjectStatus() {
+    return this.http.get<{ message: string, status: any, count: number }>
+      (BACKEND_URL + '/project/status');
   }
 
   //get project detail

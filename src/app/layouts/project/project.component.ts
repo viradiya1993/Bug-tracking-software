@@ -10,6 +10,8 @@ import { SharedService } from 'app/shared/shared.service';
 import * as moment from 'moment';
 import { LayoutService } from '../layout.service';
 import { ProjectService } from './project.service';
+import { ViewDetailsComponent } from './view-details/view-details.component';
+
 
 @Component({
   selector: 'app-project',
@@ -35,13 +37,16 @@ export class ProjectComponent implements OnInit {
   projectManager: any = [];
   employeeArray: any = [];
   employees: any = [];
+  projectStatus: any = []
   departmentId: any;
   technologyId: any;
   employee_id: any;
   manager_id: any;
-  projectFilter: FormGroup;
+  status_id: any;
+  viewContent: any;
+
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'start_date', 'end_date', 'status', 'project_description', 'action'];
+  displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'status', 'project_description', 'action'];
   constructor(
     public projectService: ProjectService,
     public sharedService: SharedService,
@@ -54,16 +59,8 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
     this.getTechnology();
     this.getDepartment();
-
-    this.projectFilter = new FormGroup({
-      start_date: new FormControl(''),
-      end_date: new FormControl(''),
-      technology_id: new FormControl(''),
-      departmentId: new FormControl(''),
-      employee_id: new FormControl(''),
-      manager_id: new FormControl(''),
-      mobile_number: new FormControl('')
-    });
+    this.getStatus();
+   
 
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');
@@ -74,10 +71,10 @@ export class ProjectComponent implements OnInit {
   }
 
   getProjectList() {
-    this.projectService.getProjectList(this.limit, this.page, this.sortName, this.sortType, this.searchKey, this.sDate, this.eDate, this.departmentId, this.technologyId, this.employee_id, this.manager_id)
+    this.projectService.getProjectList(this.limit, this.page, this.sortName, this.sortType, this.searchKey, this.departmentId, this.technologyId, this.employee_id, this.manager_id, this.status_id,)
     .subscribe((res: any) => {
       this.sharedService.hideLoader();
-      this.dataSource = new MatTableDataSource(res.data.projectDetails);
+      this.dataSource = new MatTableDataSource(res.data.projects);
       this.length = res.data.totalcount
     }, err => {
       this.sharedService.loggerError(err.error.message);
@@ -86,7 +83,7 @@ export class ProjectComponent implements OnInit {
   }
 
   selectTech(value: any) {
-    this.technologyId = value._id;
+    this.technologyId = value?._id;
     this.getProjectList();
   }
 
@@ -100,7 +97,7 @@ export class ProjectComponent implements OnInit {
 
 
   selectDepartment(value: any) {
-    this.departmentId = value._id;
+    this.departmentId = value?._id;
     this.getProjectList();
   }
 
@@ -114,7 +111,7 @@ export class ProjectComponent implements OnInit {
   }
 
   selectEmp(value: any) {
-    this.employee_id = value._id
+    this.employee_id = value?._id
     this.getProjectList();
   }
 
@@ -132,9 +129,7 @@ export class ProjectComponent implements OnInit {
   }
 
   selectManager(value: any) {
-    console.log(value._id)
-    console.log(value)
-    this.manager_id = value._id
+    this.manager_id = value?._id
     this.getProjectList();
   }
 
@@ -148,6 +143,22 @@ export class ProjectComponent implements OnInit {
         this.projectManager = res.employeeLists;
       }
     });
+  }
+
+  //get Status
+  getStatus() {
+    this.projectService.getProjectStatus().subscribe((res: any) => {
+      if (res.status) {
+        this.projectStatus = res.status
+      }
+    });
+  }
+
+  //selectStatus
+  selectStatus(value: any) {
+    console.log(value._id);
+    this.status_id = value?._id;
+    this.getProjectList();
   }
 
   filterDate() {
@@ -171,6 +182,11 @@ export class ProjectComponent implements OnInit {
     this.eDate = '';
     this.page = 0;
     this.index = 0;
+    this.departmentId = '';
+    this.technologyId = '';
+    this.employee_id = '';
+    this.manager_id = '';
+    this.status_id = '';
     this.getProjectList();
   }
 
@@ -224,6 +240,19 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
   }
 
+ /**
+   * for popup detail
+  * // TODO: viewDetail
+  * @param id
+  * @returns detail with perticular id
+  */
+  viewDetail(viewData: any) {
+  const dialogRef = this.dialog.open(ViewDetailsComponent, {
+      width: '650px',
+      data: {viewDetail: viewData}
+    });
+  }
+   
   openDialog(id: any): void {
     const dialogRef = this.dialog.open(DeleteBoxComponent, {
       width: '350px',
