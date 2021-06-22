@@ -26,7 +26,9 @@ app.use(bodyParser.json());
 // app.use("/images", express.static(path.join("images")));
 
 // Set Static access for angular
-app.use("/", express.static(path.join(__dirname, "angular")));
+app.use("/",
+express.static(path.join(__dirname, "angular")));
+console.log("Angular"),
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -51,6 +53,7 @@ app.use("/api/project", projectRoutes);
 
 
 app.use((req, res, next) => {
+    // console.log(req);
     res.sendFile(path.join(__dirname, "angular", "index.html"));
 });
 module.exports = app;

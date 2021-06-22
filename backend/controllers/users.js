@@ -93,6 +93,7 @@ exports.changePassword = async (req, res, next) => {
     let fetchedUser;
     let reqdata = req.body;
     let currentDate = moment();
+    console.log(reqdata);
     User.findOne({ _id: req.userData.userId })
         .then(user => {
             if (!user) {
@@ -125,13 +126,13 @@ exports.changePassword = async (req, res, next) => {
                     })
                 })
                 .catch(err => {
-                    return res.status(401).json({
+                    return res.status(400).json({
                         message: "Something went wrong. Please try again later"
                     });
                 });
         })
         .catch(err => {
-            return res.status(401).json({
+            return res.status(500).json({
                 message: "Something went wrong. Please try again later"
             });
         });
