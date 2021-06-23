@@ -32,17 +32,17 @@ export class SharedService {
 
   ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '', onlyAdmin: false },
-    { path: '/user-profile', title: 'User Profile', icon: 'person', class: '', onlyAdmin: false },
-    { path: '/table-list', title: 'Table List', icon: 'content_paste', class: '', onlyAdmin: false },
-    { path: '/typography', title: 'Typography', icon: 'library_books', class: '', onlyAdmin: false },
-    { path: '/icons', title: 'Icons', icon: 'bubble_chart', class: '', onlyAdmin: false },
-    { path: '/maps', title: 'Maps', icon: 'location_on', class: '', onlyAdmin: false },
-    { path: '/notifications', title: 'Notifications', icon: 'notifications', class: '', onlyAdmin: false },
+    // { path: '/user-profile', title: 'User Profile', icon: 'person', class: '', onlyAdmin: false },
+    // { path: '/table-list', title: 'Table List', icon: 'content_paste', class: '', onlyAdmin: false },
+    // { path: '/typography', title: 'Typography', icon: 'library_books', class: '', onlyAdmin: false },
+    // { path: '/icons', title: 'Icons', icon: 'bubble_chart', class: '', onlyAdmin: false },
+    // { path: '/maps', title: 'Maps', icon: 'location_on', class: '', onlyAdmin: false },
+    // { path: '/notifications', title: 'Notifications', icon: 'notifications', class: '', onlyAdmin: false },
     { path: '/employee', title: 'Employee', icon: 'content_paste', class: '', onlyAdmin: true },
     { path: '/technology', title: 'Technology', icon: 'content_paste', class: '', onlyAdmin: true },
     { path: '/department', title: 'Department', icon: 'dashboard', class: '', onlyAdmin: true },
-    { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: false },
-    { path: '/bugs', title: 'Bug', icon: 'content_paste', class: '', onlyAdmin: false },
+    { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: true },
+    { path: '/bugs', title: 'Bug', icon: 'content_paste', class: '', onlyAdmin: true },
   ];
 
   // for success message of toster
