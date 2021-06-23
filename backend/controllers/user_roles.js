@@ -3,10 +3,8 @@ const dateFormat = require('../helper/dateFormate.helper');
 
 
 exports.createUserRole = (req, res, next) => {
-    console.log(req.body);
     UserRoles.findOne({ role: req.body.role })
         .then(result => {
-            console.log(result);
             if (result) {
                 return res.status(401).json({
                     message: "This User Role is Already Exist"
@@ -27,7 +25,6 @@ exports.createUserRole = (req, res, next) => {
                     })
                 })
                 .catch(err => {
-                    console.log(err);
                     res.status(500).json({
                         message: "Invalid Authentication Credential!"
                     })

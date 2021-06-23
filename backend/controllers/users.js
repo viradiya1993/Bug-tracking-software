@@ -13,7 +13,6 @@ const UserRoles = require('../models/user_roles.js');
 
 
 exports.createUser = (req, res, next) => {
-    console.log(req.body);
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -61,7 +60,6 @@ exports.loginUser = (req, res, next) => {
                     if (newRole.role == 'SuperAdmin') {
                         isAdmin = true;
                     }
-                    console.log(isAdmin);
                     const token = jwt.sign(
                         {
                             email: fetchedUser.email,
@@ -93,7 +91,6 @@ exports.changePassword = async (req, res, next) => {
     let fetchedUser;
     let reqdata = req.body;
     let currentDate = moment();
-    console.log(reqdata);
     User.findOne({ _id: req.userData.userId })
         .then(user => {
             if (!user) {
@@ -157,7 +154,6 @@ exports.forgotPassword = async (req, res, next) => {
                 sendMail(email, 'Password Reset', forgotPasswordTemplate({ url: mailUrl + '/' + token, logo: logoUrl }));
                 user.save()
                     .then(result => {
-                        console.log(result);
                         return res.status(200).json({
                             message: 'Email send successully please check your email.',
                             error: false
@@ -246,7 +242,6 @@ exports.setNewPassword = async (req, res, next) => {
 }
 
 exports.createDefaultUser = async (req, res, next) => {
-    console.log(req);
     let first_name = req.first_name;
     let passwordString = first_name + "@manektech"
     let user = {
@@ -256,12 +251,10 @@ exports.createDefaultUser = async (req, res, next) => {
             roleId: req.roleId
         }
     }
-    console.log(user);
     this.createUserFromEmployee(user);
 }
 
 exports.createUserFromEmployee = (req, res, next) => {
-    console.log(req.body);
     let email = req.body.email;
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -294,7 +287,6 @@ exports.createUserFromEmployee = (req, res, next) => {
                     }
                 })
                 .catch(err => {
-                    console.log(err);
                     res.status(401).json({
                         message: "Invalid Authentication Credential!"
                     })

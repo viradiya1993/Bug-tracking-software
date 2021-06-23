@@ -244,7 +244,7 @@ export class AddProjectComponent implements OnInit {
       status: formValue.status,
       project_description: formValue.project_description
     }
-    console.log(data,'final data');
+    
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {

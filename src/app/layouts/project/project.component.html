@@ -117,8 +117,15 @@
                     </ng-container>
     
                     <ng-container matColumnDef="action">
-                      <th width="10%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
-                      <td width="10%" mat-cell *matCellDef="let element" class="text-center">
+                      <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
+                      <td width="15%" mat-cell *matCellDef="let element" class="text-center">
+
+                        <a [routerLink]="'/bugs/add-bug/' + element._id" matTooltip="Add Bug"
+                          [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                          class="btn  btn-link btn-sm btn-just-icon">
+                          <i class="material-icons">add_circle</i>
+                        </a>
+                        
                         <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
                             matTooltipClass="mat_pop" class="btn  btn-link btn-sm btn-just-icon"
                             (click)="viewDetail(element)" data-toggle="modal" data-target="#viewModel">
@@ -154,96 +161,4 @@
     </div>
   </div>
   
-  <!-- <div class="modal fade pl300" id="viewModel" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content" style="border-radius: 0;">
-        <div class="modal-header pad0">
-          <h4 class="modal-title text-capitalize"> <b>Project Detail </b></h4>
-          <button type="button" class="close" data-dismiss="modal" (click)="closeModel('viewmember','collapseExample')">
-            <img c15="" alt="Image" src="assets/img/ModelWindowClose.svg" width="20">
-          </button>
-  
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="row col-md-12">
-              <div class="col-md-4 text-left ">
-                <h4 class="font-weight-bold">Project Id:</h4>
-              </div>
-              <div class="col-md-8 text-left">
-                <h4>{{viewContent?.project.project_id}}</h4>
-              </div>
-            </div>
-            <div class="row col-md-12">
-              <div class="col-md-4 text-left ">
-                <h4 class="font-weight-bold">Project Name:</h4>
-              </div>
-              <div class="col-md-8 text-left">
-                <h4>{{viewContent?.project.project_name}}</h4>
-              </div>
-            </div>
-            <div class="row col-md-12">
-              <div class="col-md-4 text-left ">
-                <h4 class="font-weight-bold">Location:</h4>
-              </div>
-              <div class="col-md-8 text-left">
-                <h4>{{viewContent?.project.project_location}}</h4>
-              </div>
-            </div>
-            <div class="row col-md-12">
-              <div class="col-md-4 text-left ">
-                <h4 class="font-weight-bold">Description:</h4>
-              </div>
-              <div class="col-md-8 text-left">
-                <h4>{{viewContent?.project.project_description}}</h4>
-              </div>
-            </div>
-            <div class="row col-md-12">
-              <div class="col-md-4 text-left ">
-                <h4 class="font-weight-bold">Start Date:</h4>
-              </div>
-              <div class="col-md-8 text-left">
-                <span *ngIf="viewContent?.project.start_date !== null">
-                  <h4>{{viewContent?.project.start_date| dateFormatPipe}}</h4>
-                </span>
-                <span *ngIf="viewContent?.project.start_date == null"> - </span>
-              </div>
-            </div>
-            <div class="row col-md-12">
-              <div class="col-md-4 text-left ">
-                <h4 class="font-weight-bold">End date:</h4>
-              </div>
-              <div class="col-md-8 text-left">
-                <span *ngIf="viewContent?.project.end_date !== null">
-                  <h4>{{viewContent?.project.end_date| dateFormatPipe}}</h4>
-                </span>
-                <span *ngIf="viewContent?.project.end_date == null"> - </span>
-              </div>
-            </div>
-          </div>
-          <button id="viewmember" class="btn btn-primary btn_red text-center w-100" type="button" data-toggle="collapse"
-            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            View Members
-          </button>
-          <div class="collapse" id="collapseExample">
-            <div *ngIf="viewContent?.projectMembers.length > 0" class="card card-body view_member">
-              <div class="gaadiex-list" *ngFor="let data of viewContent?.projectMembers">
-                <div class="gaadiex-list-item border-b-1">
-                  <img class="gaadiex-list-item-img"
-                    src="{{data?.user_id.profile_pic ? data?.user_id.profile_pic : 'assets/img/user.png'}}" alt="user">
-                  <div class="gaadiex-list-item-text">
-                    <h4>{{data?.user_id.user_name}}</h4>
-                    <p>{{data?.user_id.email}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="viewContent?.projectMembers.length === 0" class="card card-body">
-              <h4 class="text-center">No Members Available</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
   

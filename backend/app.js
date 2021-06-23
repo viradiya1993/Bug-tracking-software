@@ -6,6 +6,7 @@ const usersRoutes = require("./routes/users");
 const employeesRoutes = require("./routes/employee");
 const technologyRoutes = require("./routes/technology");
 const projectRoutes = require("./routes/project");
+const bugsRoutes = require("./routes/bugs");
 
 const app = express();
 
@@ -50,10 +51,11 @@ app.use("/api/user", usersRoutes);
 app.use("/api/employee", employeesRoutes);
 app.use("/api/technology", technologyRoutes);
 app.use("/api/project", projectRoutes);
+app.use("/api/bugs", bugsRoutes);
 
 
 app.use((req, res, next) => {
-    // console.log(req);
     res.sendFile(path.join(__dirname, "angular", "index.html"));
 });
+
 module.exports = app;
