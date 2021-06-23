@@ -3,7 +3,6 @@ const express = require("express");
 const UserController = require("../controllers/users");
 const UserTypeController = require("../controllers/user_type");
 const UserRoleController = require("../controllers/user_roles");
-const UserDepartmentController = require("../controllers/department");
 
 const checkAuth = require('../middleware/auth-check');
 
@@ -29,14 +28,8 @@ router.post("/create-designation", checkAuth, UserTypeController.createUserType)
 
 router.get("/getUserTypeList", checkAuth, UserTypeController.getUserType);
 
-router.post("/create-department", checkAuth, UserDepartmentController.createDepartment);
+router.post('/gender/add', checkAuth, UserController.addGender);
 
-router.get("/getDepartmentList", checkAuth, UserDepartmentController.getDepartment);
-
-router.get("/getDepartmentByID/:id", checkAuth, UserDepartmentController.getDepartmentByID);
-
-router.delete("/delete-department/:id", checkAuth, UserDepartmentController.deleteDepartment);
-
-router.put('/update-department/:id', checkAuth, UserDepartmentController.updateDepartment);
+router.get('/gender', checkAuth, UserController.getGender);
 
 module.exports = router;

@@ -69,7 +69,7 @@ exports.getEmployee = (req, res, next) => {
     if (req.query.sortBy) {
         const parts = req.query.sortBy.split(':');
         sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
-        console.log(sort);
+        // console.log(sort);
     }
     if (pageSize && currentPage) {
         postQuery
@@ -190,7 +190,7 @@ exports.editEmployee = (req, res, next) => {
             result => {
                 let fetchedData = {};
                 fetchedData = result;
-                console.log("fetchedData", fetchedData);
+                // console.log("fetchedData", fetchedData);
                 EmployeeTable.findOne({
                     $and: [
                         { email: req.body.email }
@@ -199,16 +199,16 @@ exports.editEmployee = (req, res, next) => {
                     result => {
                         let fetchedEmailData = {};
                         fetchedEmailData = result;
-                        console.log("fetchedEmailData", fetchedEmailData);
+                        // console.log("fetchedEmailData", fetchedEmailData);
                         EmployeeTable.findOne({
                             $and: [
                                 { mobile_number: req.body.mobile_number }
                             ]
                         }).then(result => {
-                            console.log(result);
+                            // console.log(result);
                             let fetchedMobileData = {};
                             fetchedMobileData = result;
-                            console.log("fetchedMobileData", fetchedMobileData);
+                            // console.log("fetchedMobileData", fetchedMobileData);
 
                             if (fetchedEmailData && fetchedEmailData._id != req.body.id && fetchedEmailData.email === req.body.email) {
                                 return res.status(400).json({
@@ -221,7 +221,7 @@ exports.editEmployee = (req, res, next) => {
                                     errorType: "Mobile"
                                 });
                             } else {
-                                console.log("else", result);
+                                // console.log("else", result);
                                 UserRoles.findOne({ _id: ObjectID(req.body.roleId) })
                                     .then(newRole => {
                                         UserDepartment.findOne({ _id: ObjectID(req.body.departmentId) })

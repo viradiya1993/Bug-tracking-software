@@ -3,10 +3,6 @@
         <div class="row">
             <div class="col-md-12">
                 <button mat-raised-button [routerLink]="['/department/add']">Add Department</button>
-                <div class="col-md-2 mr-2 pull-right">
-                    <button style="float:right" mat-raised-button (click)="resetFilter()">Reset
-                        Filter</button>
-                </div>
                 <div class="col-md-4 mb-2 pull-right">
                     <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)">
                     </app-search-textbox>
@@ -24,11 +20,11 @@
                         <div class="table-responsive">
                             <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
                                 class="mat-elevation-z8 table-hover" width="100%" *ngIf="length > 0">
-                                <ng-container matColumnDef="no">
+                                <!-- <ng-container matColumnDef="no">
                                     <th width="33%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef
                                         mat-sort-header class="text-primary"> No </th>
                                     <td width="8%" mat-cell *matCellDef="let element ; let i = index"> {{i + 1}} </td>
-                                </ng-container>
+                                </ng-container> -->
 
                                 <ng-container matColumnDef="department">
                                     <th width="33%" (click)="sortItem('department')" mat-header-cell *matHeaderCellDef

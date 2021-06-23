@@ -8,9 +8,9 @@ const BACKEND_URL = environment.apiUrl + '';
   providedIn: 'root'
 })
 export class LayoutService {
- 
+
   constructor(private http: HttpClient, private router: Router) { }
- 
+
   //get employee list
   getEmployeeList(PerPage: number, currentPage: number) {
     const queryParams = `?pageSize=${PerPage}&page=${currentPage}`
@@ -20,7 +20,7 @@ export class LayoutService {
 
   getDepartmentData() {
     return this.http.get<{ message: string, userDepartment: any, count: number }>
-      (BACKEND_URL + '/user/getDepartmentList');
+      (BACKEND_URL + '/department/getDepartmentList');
   }
 
   getRolesData() {
@@ -28,9 +28,14 @@ export class LayoutService {
       (BACKEND_URL + '/user/getRole');
   }
 
+  getGenderData() {
+    return this.http.get<{ message: string, data: any, data_count: number }>
+      (BACKEND_URL + '/user/gender');
+  }
+
   getEmployee(data: any) {
     let params = new HttpParams()
-    .set('roleId', data.roleId)
+      .set('roleId', data.roleId)
     return this.http.get<{ message: string, employee: any, count: number }>
       (BACKEND_URL + '/employee/', { params });
   }
@@ -39,10 +44,10 @@ export class LayoutService {
     return this.http.get<{ message: string, technologoy: any, count: number }>
       (BACKEND_URL + '/project/gettechnology');
   }
-  
+
 }
 
-/* 
+/*
    let params = new HttpParams()
     .set("?limit", limit)
     .set("page", page)

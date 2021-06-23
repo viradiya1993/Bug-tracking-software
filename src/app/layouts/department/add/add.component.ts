@@ -66,6 +66,7 @@ export class AddComponent implements OnInit {
     if (this.formDepartment.invalid) {
       return;
     }
+    this.spinner.show();
     let formValue = this.formDepartment.value;
 
     const data = {
@@ -77,24 +78,28 @@ export class AddComponent implements OnInit {
         data["id"] = this.departmentId;
         this.service.updateDepartment(data).subscribe((res: any) => {
           if (res) {
+            this.spinner.hide();
             this.loader = false;
             this.router.navigate(['/department']);
             this.formDepartment.reset();
             this.sharedService.loggerSuccess(res.message);
           }
         }, err => {
+          this.spinner.hide();
           this.loader = false;
           this.sharedService.loggerError(err.error.message);
         });
       } else {
         this.service.addDepartment(data).subscribe((res: any) => {
           if (res) {
+            this.spinner.hide();
             this.loader = false;
             this.formDepartment.reset();
             this.sharedService.loggerSuccess(res.message);
             this.router.navigate(['/department']);
           }
         }, err => {
+          this.spinner.hide();
           this.loader = false;
           this.sharedService.loggerError(err.error.message);
         });

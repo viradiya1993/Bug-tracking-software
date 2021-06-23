@@ -39,7 +39,7 @@
 							<div class="row">
 								<div class="col-md-4">
 									<ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value"
-										bindValue="id" formControlName="gender">
+										bindValue="_id" formControlName="gender">
 									</ng-select>
 									<mat-error *ngIf="formEmployee.get('gender').invalid"> Please Select a Gender
 									</mat-error>

@@ -6,6 +6,7 @@ const usersRoutes = require("./routes/users");
 const employeesRoutes = require("./routes/employee");
 const technologyRoutes = require("./routes/technology");
 const projectRoutes = require("./routes/project");
+const department = require("./routes/department");
 
 const app = express();
 
@@ -27,21 +28,21 @@ app.use(bodyParser.json());
 
 // Set Static access for angular
 app.use("/",
-express.static(path.join(__dirname, "angular")));
+    express.static(path.join(__dirname, "angular")));
 console.log("Angular"),
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-    )
-    next();
-});
+    app.use((req, res, next) => {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader(
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+        );
+        res.setHeader(
+            "Access-Control-Allow-Methods",
+            "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+        )
+        next();
+    });
 
 
 
@@ -50,6 +51,7 @@ app.use("/api/user", usersRoutes);
 app.use("/api/employee", employeesRoutes);
 app.use("/api/technology", technologyRoutes);
 app.use("/api/project", projectRoutes);
+app.use("/api/department", department);
 
 
 app.use((req, res, next) => {

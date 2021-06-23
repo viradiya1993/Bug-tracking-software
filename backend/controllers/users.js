@@ -9,7 +9,71 @@ const constant = require('../config/constant');
 
 const User = require('../models/users.js');
 const UserRoles = require('../models/user_roles.js');
+const Gender = require('../models/gender');
 
+// Add Gender
+exports.addGender = async (req, res, next) => {
+    try {
+        Gender.findOne({ value: req.body.value })
+            .then(user => {
+                if (user) {
+                    return res.status(400).json({
+                        message: "This Gender is Already Exist"
+                    });
+                }
+                const gender = new Gender({
+                    value: req.body.value
+                });
+                gender.save()
+                    .then(result => {
+                        res.status(200).json({
+                            message: 'Gender Created Succesfully',
+                            result: result
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            message: "Invalid Authentication Credential!"
+                        })
+                    })
+            });
+    } catch {
+        return res.status(400).json({
+            message: "Something went wrong. Please try again later.",
+            data: {}
+        });
+    }
+}
+
+//Get Gender
+exports.getGender = async (req, res, next) => {
+    try {
+        const postQuery = Gender.find();
+        let fetchedPosts;
+        postQuery
+            .then(documents => {
+                fetchedPosts = documents;
+                return Gender.countDocuments();
+            })
+            .then(count => {
+                res.status(200).json({
+                    message: "Gender fetched successfully",
+                    data: fetchedPosts,
+                    data_count: count
+                });
+            }).catch(error => {
+                res.status(500).json({
+                    err: error,
+                    message: "Fetching Gender Failed"
+                });
+            });
+    } catch {
+        return res.status(400).json({
+            message: "Something went wrong. Please try again later.",
+            data: {}
+        })
+    }
+}
 
 
 exports.createUser = (req, res, next) => {

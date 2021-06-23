@@ -24,7 +24,7 @@ export class ListComponent implements OnInit {
   sortName: String = 'no';
   sortType: String = 'desc';
   index: number;
-  displayedColumns: string[] = ['no', 'department', 'action'];
+  displayedColumns: string[] = ['department', 'action'];
   @ViewChild(MatSort) sort: MatSort;
   constructor(
     private service: DepartmentService,

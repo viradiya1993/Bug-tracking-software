@@ -19,7 +19,8 @@ export class AddComponent implements OnInit {
   isEdit = false;
   private mode = 'create';
   private employeeId: string;
-  gendersArray: any = AppConst.genderArray;
+  // gendersArray: any = AppConst.genderArray;
+  gendersArray: [] = [];
   roleArray: [] = [];
   departmentArray: [] = [];
   emailPattern = AppConst.emailValidationPattern;
@@ -36,6 +37,7 @@ export class AddComponent implements OnInit {
     this.spinner.show();
     this.getDepartment();
     this.getRoles();
+    this.getGender();
   }
 
   ngOnInit(): void {
@@ -85,7 +87,7 @@ export class AddComponent implements OnInit {
             first_name: employeeData.first_name,
             middle_name: employeeData.middle_name,
             last_name: employeeData.last_name,
-            gender: Number(employeeData.gender),
+            gender: (employeeData.gender),
             email: (employeeData.email),
             mobile_number: Number(employeeData.mobile_number),
             department: (employeeData.departmentId),
@@ -122,6 +124,15 @@ export class AddComponent implements OnInit {
     });
   }
 
+  getGender() {
+    this.layoutService.getGenderData().subscribe((res: any) => {
+      console.log(res);
+      if (res.data) {
+        this.gendersArray = res.data;
+      }
+      // this.setEmployeeData();
+    });
+  }
   onSave() {
     console.log(this.formEmployee.value);
     if (this.formEmployee.invalid) {

@@ -6,7 +6,7 @@ const constant = require('../config/constant');
 
 
 exports.createDepartment = (req, res, next) => {
-    UserDepartment.findOne({ department: req.body.department })
+    UserDepartment.findOne({ department: new RegExp(req.body.department, 'i') })
         .then(user => {
             // console.log(user);
             if (user) {
@@ -51,10 +51,10 @@ exports.updateDepartment = async (req, res, next) => {
             });
         }
 
-        UserDepartment.findOne({ department: req.body.department })
+        UserDepartment.findOne({ department: new RegExp(req.body.department, 'i') })
             .then(user => {
                 // console.log(user);
-                if (user) {
+                if (user && (user._id != req.params.id)) {
                     return res.status(401).json({
                         message: "This Department is Already Exist"
                     });
