@@ -30,7 +30,27 @@ exports.getBugstatus = async (req, res, next) => {
 }
 
 // Fetch Bug Type
-
+exports.getBugsType = async (req, res, next) => {
+    const query = bugType.find();
+    let data;
+    query
+    .then(status => {
+        data = status
+        return bugType.countDocuments();
+    })
+    .then(count => {
+        return res.status(200).json({
+            message: "Bug type fetched.",
+            data: data,
+            total: count
+        });
+    })
+    .catch(error => {
+        res.status(400).json({
+            message: "Something went wrong. Please try again later"
+        });
+    });
+}
 
 // Fetch Bug Priority
 exports.getBugsPriority = async (req, res, next) => {

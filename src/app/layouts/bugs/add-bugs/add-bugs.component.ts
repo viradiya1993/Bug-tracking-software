@@ -2,6 +2,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { LayoutService } from 'app/layouts/layout.service';
 import { BugsService } from '../bugs.service';
 
 @Component({
@@ -17,15 +18,20 @@ export class AddBugsComponent implements OnInit {
   bugStatus: any = [];
   bugsType: any = [];
   bugsPriority: any = [];
+  employeeArray: any = []
+  employees: any = [];
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
-  constructor(private route: ActivatedRoute, public bugservice: BugsService) {
+  constructor(
+    private route: ActivatedRoute, 
+    public bugservice: BugsService,
+    public layoutsService: LayoutService) {
     this.bugsID = this.route.snapshot.paramMap.get('id');
     console.log(this.bugsID);
    }
 
   ngOnInit(): void {
     this.getBugstatus();
-    //this.getBugsType();
+    this.getBugsType();
     this.getBugsPriority();
 
     this.bugsForm = new FormGroup({
@@ -51,30 +57,44 @@ export class AddBugsComponent implements OnInit {
         validators: [Validators.required]
       }),
     });
+    this.layoutsService.getRolesData().subscribe((res: any) => {
+      this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
+      this.getEmployee();
+    })
   }
 
   //Get Bug Status
   getBugstatus() {
     this.bugservice.getBugstatus().subscribe((res: any) => {
-      console.log(res,'status');
       this.bugStatus = res.data
     });
   }
 
-  // //Get Bug Type
-  // getBugsType() {
-  //   this.bugservice.getBugsType().subscribe((res: any) => {
-  //     console.log(res,'type');
-      
-  //   });
-  // }
+  //Get Bug Type
+  getBugsType() {
+    this.bugservice.getBugsType().subscribe((res: any) => {
+      this.bugsType = res.data;
+    });
+  }
 
   //Get Bug Priority
   getBugsPriority() {
     this.bugservice.getBugsPriority().subscribe((res: any) => {
-      console.log(res, 'Priority');
-      
+      this.bugsPriority = res.data;
     });
+  }
+
+  //Get Employee
+  getEmployee() {
+    let data = {
+      roleId: this.employeeArray[0]._id
+    }
+    this.layoutsService.getEmployee(data).subscribe((res: any) => {
+      if (res.employeeLists) {
+        this.employees = res.employeeLists;
+      }
+    });
+
   }
 
   onSave(type) {}

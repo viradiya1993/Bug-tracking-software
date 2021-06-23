@@ -5,7 +5,7 @@ const checkAuth = require('../middleware/auth-check');
 const router = express.Router();
 
 router.get('/getbugstatus', bugsController.getBugstatus);
-
+router.get('/getbugstype', bugsController.getBugsType)
 router.get('/getbugspriority', bugsController.getBugsPriority);
 
 

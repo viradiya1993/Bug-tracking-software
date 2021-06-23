@@ -23,11 +23,12 @@
 									<div class="col-md-12">
 										<ng-select 
 												placeholder="Select an developer"
-												[items]=""
+												[items]="employees"
 												formControlName="developer"
-												bindLabel=""
-												bindValue=""
-												[multiple]="true">
+												bindLabel="first_name"
+												bindValue="_id"
+												[multiple]="true"
+												[clearable]="false">
 										</ng-select>
 										<mat-error *ngIf="bugsForm.get('developer').invalid"> Please Select a
 													developer
@@ -42,7 +43,8 @@
 													bindLabel="status"
 													placeholder="Select an Bug Status"
 													formControlName="bugstatus"
-													bindValue="_id" [clearable]="false">
+													bindValue="_id"
+													[clearable]="false">
                     </ng-select>
                     <mat-error *ngIf="bugsForm.get('bugstatus').invalid"> Please Select a
                           Bug Status
@@ -50,11 +52,12 @@
                   </div>
                   <div class="col-md-4">
 										<ng-select  
-													[items]=""
-													bindLabel=""
+													[items]="bugsType"
+													bindLabel="bug_types"
 													placeholder="Select an Bug Type"
 													bindValue="_id"
-													formControlName="bugtype">
+													formControlName="bugtype"
+													[clearable]="false">
 										</ng-select>
 										<mat-error *ngIf="bugsForm.get('bugtype').invalid">
 											Bug Type is required
@@ -62,11 +65,12 @@
                   </div>
 									<div class="col-md-4">
 										<ng-select  
-													[items]=""
-													bindLabel=""
+													[items]="bugsPriority"
+													bindLabel="priority"
 													placeholder="Select an Priority "
-													bindValue=""
-													formControlName="priority">
+													bindValue="_id"
+													formControlName="priority"
+													[clearable]="false">
 										</ng-select>
 										<mat-error *ngIf="bugsForm.get('priority').invalid">
 											Bug Priority is required

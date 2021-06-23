@@ -13,19 +13,16 @@ export class BugsService {
 
   //Fetch Bug status
   getBugstatus() {
-    return this.http.get<{ message: string, data: any, count: number }>
-      (BACKEND_URL + '/bugs/getbugstatus');
+    return this.http.get(BACKEND_URL + '/bugs/getbugstatus');
   }
 
-  // //Fetch Bug type
-  // getBugsType() {
-  //   return this.http.get<{ message: string, data: any, count: number }>
-  //     (BACKEND_URL + '/bugs/getbugtypes');
-  // }
+  //Fetch Bug type
+  getBugsType() {
+    return this.http.get(BACKEND_URL + '/bugs/getbugstype');
+  }
 
   //Fetch Bug Priority
   getBugsPriority() {
-    return this.http.get<{ message: string, data: any, count: number }>
-    (BACKEND_URL + '/bugs/getbugspriority');
+    return this.http.get(BACKEND_URL + '/bugs/getbugspriority');
   }
 }

@@ -331,7 +331,7 @@ exports.updateProject = async (req, res, next) => {
 		if (devloper) {
 			let devName = [];
 			for (let i = 0; i < devloper.length; i++) {
-				devName.push(developer[i].first_name)
+				devName.push(devloper[i].first_name)
 				sendMail(devloper[i].email, 'Project Created.',
 				projectCreationTemplete({ 
 					 logo: logoUrl, 
