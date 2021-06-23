@@ -1,4 +1,5 @@
 const dateFormat = require('../helper/dateFormate.helper');
+const ObjectID = require('mongodb').ObjectID;
 const constant = require('../config/constant');
 const Technology = require("../models/technology");
 
@@ -113,16 +114,6 @@ exports.getTechnology = async (req, res, next) => {
 exports.updateTechnology = async (req, res, next) => {
     const { tech_name } = req.body;
     try {
-        const isTechnologyExist = await Technology.findOne({
-            tech_name
-        });
-        
-        if (isTechnologyExist) {
-            return res.status(400).send({
-                message: "Technology already exist choose another one",
-                data: {}
-            });
-        }
         const technology = await  Technology.findOne({
             _id: req.params.id
         });
@@ -133,18 +124,34 @@ exports.updateTechnology = async (req, res, next) => {
                 data: {}
             });
         }
-     
-        technology.tech_name = tech_name;
-        technology.updated_at = await dateFormat.set_current_timestamp();
-        technology.actual_updated_at = await dateFormat.set_current_timestamp();
-        technology.save()
-        .then(technology => {
-            return res.status(200).json({
-                message: "Technology updated.",
-                data: technology
-            });
+      
+        Technology.findOne({tech_name: req.body.tech_name})
+        .then(tech => {
+            if (tech && (tech._id != req.params.id)) {
+                return res.status(400).send({
+                    message: "Technology already exist choose another one",
+                    data: {}
+                });
+            }
+            technology.tech_name = tech_name;
+            technology.updated_at = dateFormat.set_current_timestamp();
+            technology.actual_updated_at =  dateFormat.set_current_timestamp();
+            technology.save()
+            .then(technology => {
+                return res.status(200).json({
+                    message: "Technology updated.",
+                    data: technology
+                });
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message: "Invalid Authentication Credential!"
+                })
+            })
         })
+      
     } catch (error) {
+        console.log(error);
         return res.status(400).json({
             message: "Something went wrong. Please try again later.",
             data: {}

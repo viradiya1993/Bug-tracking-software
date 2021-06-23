@@ -3,7 +3,6 @@ const UserType = require('../models/user_type.js');
 
 
 exports.createUserType = (req, res, next) => {
-    // console.log(req.body);
     UserType.findOne({ designation: req.body.designation })
         .then(user => {
             if (user) {

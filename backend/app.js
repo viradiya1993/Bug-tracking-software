@@ -7,6 +7,7 @@ const employeesRoutes = require("./routes/employee");
 const technologyRoutes = require("./routes/technology");
 const projectRoutes = require("./routes/project");
 const department = require("./routes/department");
+const bugsRoutes = require("./routes/bugs");
 
 const app = express();
 
@@ -52,10 +53,11 @@ app.use("/api/employee", employeesRoutes);
 app.use("/api/technology", technologyRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/department", department);
+app.use("/api/bugs", bugsRoutes);
 
 
 app.use((req, res, next) => {
-    // console.log(req);
     res.sendFile(path.join(__dirname, "angular", "index.html"));
 });
+
 module.exports = app;

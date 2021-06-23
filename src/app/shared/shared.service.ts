@@ -42,6 +42,7 @@ export class SharedService {
     { path: '/technology', title: 'Technology', icon: 'content_paste', class: '', onlyAdmin: true },
     { path: '/department', title: 'Department', icon: 'dashboard', class: '', onlyAdmin: true },
     { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: false },
+    { path: '/bugs', title: 'Bug', icon: 'content_paste', class: '', onlyAdmin: false },
   ];
 
   // for success message of toster

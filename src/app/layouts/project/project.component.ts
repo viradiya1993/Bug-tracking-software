@@ -247,7 +247,7 @@ export class ProjectComponent implements OnInit {
   * @returns detail with perticular id
   */
   viewDetail(viewData: any) {
-  const dialogRef = this.dialog.open(ViewDetailsComponent, {
+    const dialogRef = this.dialog.open(ViewDetailsComponent, {
       width: '650px',
       data: {viewDetail: viewData}
     });

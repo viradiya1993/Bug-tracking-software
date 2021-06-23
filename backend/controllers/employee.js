@@ -8,7 +8,6 @@ const users = require('./users');
 const { body, validationResult } = require('express-validator');
 
 exports.getEmployee = (req, res, next) => {
-    // console.log(req.query);
     const sort = {};
     const pageSize = +req.query.pageSize;
     const currentPage = +req.query.page;
@@ -63,7 +62,6 @@ exports.getEmployee = (req, res, next) => {
             { 'departmentId': ObjectID(departmentId) },
         ]
     }
-    // console.log(query);
     const postQuery = EmployeeTable.find(query);
     let fetchedPosts;
     if (req.query.sortBy) {
@@ -96,7 +94,6 @@ exports.getEmployee = (req, res, next) => {
 }
 
 exports.createEmployee = (req, res, next) => {
-    // console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -178,7 +175,6 @@ exports.getEmployeeById = (req, res, next) => {
 }
 
 exports.editEmployee = (req, res, next) => {
-    // console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -241,7 +237,6 @@ exports.editEmployee = (req, res, next) => {
                                                     updated_at: dateFormat.set_current_timestamp(),
                                                     actual_updated_at: dateFormat.set_current_timestamp(),
                                                 };
-                                                // console.log("object===================", req.params.id, employeeNew);
                                                 EmployeeTable.updateOne(
                                                     { _id: ObjectID(req.body.id) },
                                                     employeeNew,
@@ -283,7 +278,6 @@ exports.editEmployee = (req, res, next) => {
 }
 
 exports.deleteEmployee = (req, res, next) => {
-    // console.log(req.params.id);
     EmployeeTable.deleteOne({ _id: req.params.id }).then((result) => {
         if (result.n > 0) {
             res.status(200).json({

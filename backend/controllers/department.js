@@ -8,7 +8,6 @@ const constant = require('../config/constant');
 exports.createDepartment = (req, res, next) => {
     UserDepartment.findOne({ department: new RegExp(req.body.department, 'i') })
         .then(user => {
-            // console.log(user);
             if (user) {
                 return res.status(401).json({
                     message: "This Department is Already Exist"
@@ -22,14 +21,12 @@ exports.createDepartment = (req, res, next) => {
             });
             userType.save()
                 .then(result => {
-                    // console.log(result);
                     res.status(200).json({
                         message: 'User Department Created Succesfully',
                         result: result
                     })
                 })
                 .catch(err => {
-                    // console.log(err);
                     res.status(500).json({
                         message: "Invalid Authentication Credential!"
                     })
@@ -69,14 +66,12 @@ exports.updateDepartment = async (req, res, next) => {
                     userType,
                     { new: true })
                     .then(result => {
-                        // console.log(result);
                         res.status(200).json({
                             message: 'User Department Updated Succesfully',
                             result: result
                         })
                     })
                     .catch(err => {
-                        console.log(err);
                         res.status(500).json({
                             message: "Invalid Authentication Credential!"
                         })
@@ -137,7 +132,6 @@ exports.getDepartment = (req, res, next) => {
 
 // Fetch department details
 exports.getDepartmentByID = async (req, res, next) => {
-    // console.log(req.body);
     try {
         const department = await UserDepartment.findOne({
             _id: req.params.id
