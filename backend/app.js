@@ -27,9 +27,9 @@ app.use(bodyParser.json());
 
 // app.use("/images", express.static(path.join("images")));
 
-// Set Static access for angular
+// Set Static access for front
 app.use("/",
-    express.static(path.join(__dirname, "angular")));
+    express.static(path.join(__dirname, "front")));
 console.log("Angular"),
 
     app.use((req, res, next) => {
@@ -57,7 +57,7 @@ app.use("/api/bugs", bugsRoutes);
 
 
 app.use((req, res, next) => {
-    res.sendFile(path.join(__dirname, "angular", "index.html"));
+    res.sendFile(path.join(__dirname, "front", "index.html"));
 });
 
 module.exports = app;
