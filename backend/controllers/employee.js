@@ -3,15 +3,17 @@ const UserRoles = require('../models/user_roles.js');
 const UserDepartment = require('../models/departments.js');
 const dateFormat = require('../helper/dateFormate.helper');
 const ObjectID = require('mongodb').ObjectID;
+const constant = require('../config/constant');
 
 const users = require('./users');
 const { body, validationResult } = require('express-validator');
 
 exports.getEmployee = (req, res, next) => {
     const sort = {};
+
     const pageSize = +req.query.pageSize;
     const currentPage = +req.query.page;
-    // const sort = +req.query.sortBy;
+
     const first_name = req.query.first_name != null ? req.query.first_name : ''
     const middle_name = req.query.middle_name != null ? req.query.middle_name : ''
     const last_name = req.query.last_name != null ? req.query.last_name : ''
@@ -20,7 +22,16 @@ exports.getEmployee = (req, res, next) => {
     const gender = req.query.gender != null ? req.query.gender : ''
     const roleId = req.query.roleId != null ? req.query.roleId : ''
     const departmentId = req.query.departmentId != null ? req.query.departmentId : ''
-
+    
+    if (req.query.sortBy) {
+        const parts = req.query.sortBy.split(':');
+        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+        console.log(sort);
+    }
+    const pageOptions = {
+        page: parseInt(currentPage) || constant.PAGE,
+        limit: parseInt(pageSize) || constant.LIMIT
+    }
     let query = {};
     if (first_name) {
         query.$and = [
@@ -80,22 +91,17 @@ exports.getEmployee = (req, res, next) => {
         })
     // console.log(postQuery);
     let fetchedPosts;
-    if (req.query.sortBy) {
-        const parts = req.query.sortBy.split(':');
-        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
-        // console.log(sort);
-    }
-    if (pageSize && currentPage) {
-        postQuery
-            .skip(pageSize * (currentPage - 1))
-            .limit(pageSize)
-            .sort(sort);
-    }
+    // currentPage ? currentPage : currentPage = 1;
+    postQuery
+        .skip(pageOptions.page * pageOptions.limit)
+        .limit(pageOptions.limit)
+        .sort(sort);
+
     postQuery
         .then(documents => {
             // console.log(documents);
             fetchedPosts = documents;
-            return postQuery.count();
+            return postQuery.countDocuments();
         })
         .then(count => {
             res.status(200).json({
