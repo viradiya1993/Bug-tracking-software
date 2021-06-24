@@ -133,6 +133,7 @@ exports.getTechnology = async (req, res, next) => {
 //Fetch Project Detail
 exports.getProjectList = async (req, res, next) => {
 	try {
+		
 		var query = {};
 		var sort = {};
 		const search = req.query.q ? req.query.q : ''; // for searching
