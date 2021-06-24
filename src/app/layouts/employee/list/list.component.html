@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value"
-                                        bindValue="id" formControlName="gender">
+                                        bindValue="_id" formControlName="gender">
                                     </ng-select>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                         </button>
                                     </div>
                                     <div class="col">
-                                        <button mat-button mat-flat-button (click)="resetSearchFilter()" color="warn"
+                                        <button mat-button mat-flat-button type="reset" (click)="resetSearchFilter()" color="warn"
                                             style="margin-left: 25px;">
                                             Reset
                                             <span class="material-icons">

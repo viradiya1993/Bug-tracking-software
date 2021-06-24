@@ -156,9 +156,9 @@ export class AddComponent implements OnInit {
 
     if (this.mode === 'create') {
       this.service.addEmployee(data).subscribe((res: any) => {
-        this.spinner.hide();
         if (res.status = 200) {
           this.location.back();
+          this.spinner.hide();
           this.formEmployee.reset();
         }
       }, (err) => {
@@ -175,9 +175,9 @@ export class AddComponent implements OnInit {
     } else {
       data["id"] = this.employeeId;
       this.service.editEmployee(data, this.employeeId).subscribe((res: any) => {
-        this.spinner.hide();
         if (res.status = 200) {
           this.location.back();
+          this.spinner.hide();
           this.formEmployee.reset();
         }
       }, (err) => {

@@ -34,7 +34,8 @@ export class ListComponent implements OnInit {
   sortType: string = 'desc';
   searchKey: any = null;
   formEmployeeSearch: FormGroup;
-  gendersArray: any = AppConst.genderArray;
+  // gendersArray: any = AppConst.genderArray;
+  gendersArray: [] = [];
   roleArray: [] = [];
   departmentArray: [] = [];
 
@@ -78,6 +79,7 @@ export class ListComponent implements OnInit {
     this.spinner.show();
     this.getDepartment();
     this.getRoles();
+    this.getGender();
     this.getEmployeeData();
   }
 
@@ -88,19 +90,8 @@ export class ListComponent implements OnInit {
     }
   }
 
-  applyFilter(event) {
-    console.log(this.formEmployeeSearch.value);
-    // let formValue = this.formEmployeeSearch.value;
-    // let filteredObject = {
-    //   first_name: formValue.first_name ? formValue.first_name : '',
-    //   middle_name: formValue.middle_name ? formValue.middle_name : '',
-    //   last_name: formValue.last_name ? formValue.last_name : '',
-    //   email: formValue.email ? formValue.email : '',
-    //   mobile_number: formValue.mobile_number ? formValue.mobile_number : '',
-    //   gender: formValue.gender ? formValue.gender : '',
-    // }
-    // console.log(filteredObject);
-
+  applyFilter() {
+    // console.log(this.formEmployeeSearch.value);
     this.getEmployeeData();
   }
 
@@ -144,6 +135,16 @@ export class ListComponent implements OnInit {
       console.log(res);
       if (res.userRoles) {
         this.roleArray = res.userRoles;
+      }
+      // this.setEmployeeData();
+    });
+  }
+
+  getGender() {
+    this.layoutService.getGenderData().subscribe((res: any) => {
+      console.log(res);
+      if (res.data) {
+        this.gendersArray = res.data;
       }
       // this.setEmployeeData();
     });
@@ -195,22 +196,7 @@ export class ListComponent implements OnInit {
 
   resetSearchFilter(): void {
     this.formEmployeeSearch.reset();
-    this.setFormValueOnReset();
     this.getEmployeeData();
-  }
-
-  setFormValueOnReset(): void {
-    let defaultValue = {
-      first_name: '',
-      middle_name: '',
-      last_name: '',
-      email: '',
-      mobile_number: '',
-      gender: '',
-      departmentId: '',
-      roleId: ''
-    }
-    this.formEmployeeSearch.patchValue(defaultValue)
   }
 
 }

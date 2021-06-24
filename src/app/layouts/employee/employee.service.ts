@@ -31,17 +31,17 @@ export class EmployeeService {
   getEmployeeList(data: any) {
     // console.log(data);
     let params = new HttpParams()
-      .set('pageSize', data.size)
-      .set('page', data.pageNumber)
-      .set('sortBy', data.sortby)
-      .set('first_name', data.params.first_name)
-      .set('middle_name', data.params.middle_name)
-      .set('last_name', data.params.last_name)
-      .set('email', data.params.email)
-      .set('mobile_number', data.params.mobile_number)
-      .set('gender', data.params.gender)
-      .set('roleId', data.params.roleId)
-      .set('departmentId', data.params.departmentId)
+      .set('pageSize', data.size ? data.size : '')
+      .set('page', data.pageNumber ? data.pageNumber : '')
+      .set('sortBy', data.sortby ? data.sortby : '')
+      .set('first_name', data.params.first_name ? data.params.first_name : '')
+      .set('middle_name', data.params.middle_name ? data.params.middle_name : '')
+      .set('last_name', data.params.last_name ? data.params.last_name : '')
+      .set('email', data.params.email ? data.params.email : '')
+      .set('mobile_number', data.params.mobile_number ? data.params.mobile_number : '')
+      .set('gender', data.params.gender ? data.params.gender : '')
+      .set('roleId', data.params.roleId ? data.params.roleId : '')
+      .set('departmentId', data.params.departmentId ? data.params.departmentId : '')
 
     // const queryParams = `?pageSize=${data.size}&page=${data.pageNumber}&sortBy=${data.sortby}`
     return this.http.get<{ message: string, employeeLists: any, count: number }>

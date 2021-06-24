@@ -23,46 +23,62 @@ exports.getEmployee = (req, res, next) => {
 
     let query = {};
     if (first_name) {
-        query.$or = [
+        query.$and = [
             { 'first_name': new RegExp(first_name, 'i') },
         ]
     }
     if (middle_name) {
-        query.$or = [
+        query.$and = [
             { 'middle_name': new RegExp(middle_name, 'i') },
         ]
     }
     if (last_name) {
-        query.$or = [
+        query.$and = [
             { 'last_name': new RegExp(last_name, 'i') },
         ]
     }
     if (email) {
-        query.$or = [
+        query.$and = [
             { 'email': new RegExp(email, 'i') },
         ]
     }
     if (mobile_number) {
-        query.$or = [
+        query.$and = [
             { 'mobile_number': mobile_number },
         ]
     }
     if (gender) {
-        query.$or = [
-            { 'gender': gender },
+        query.$and = [
+            { 'gender': ObjectID(gender) },
         ]
     }
     if (roleId) {
-        query.$or = [
+        query.$and = [
             { 'roleId': ObjectID(roleId) },
         ]
     }
     if (departmentId) {
-        query.$or = [
+        query.$and = [
             { 'departmentId': ObjectID(departmentId) },
         ]
     }
-    const postQuery = EmployeeTable.find(query);
+    const postQuery = EmployeeTable.find(query)
+        .populate({
+            path: 'departmentId',
+            select: 'department',
+            model: 'UserDepartment',
+        })
+        .populate({
+            path: 'roleId',
+            select: 'role',
+            model: 'UserRoles',
+        })
+        .populate({
+            path: 'gender',
+            select: 'value',
+            model: 'GenderTable',
+        })
+    // console.log(postQuery);
     let fetchedPosts;
     if (req.query.sortBy) {
         const parts = req.query.sortBy.split(':');
@@ -77,6 +93,7 @@ exports.getEmployee = (req, res, next) => {
     }
     postQuery
         .then(documents => {
+            // console.log(documents);
             fetchedPosts = documents;
             return postQuery.count();
         })
@@ -87,6 +104,7 @@ exports.getEmployee = (req, res, next) => {
                 count: count
             });
         }).catch(error => {
+            console.log(error);
             res.status(500).json({
                 message: "Fetching Employees List Failed"
             });
