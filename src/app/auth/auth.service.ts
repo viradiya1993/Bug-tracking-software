@@ -50,16 +50,17 @@ export class AuthService {
     localStorage.removeItem("isLoggedin");
     localStorage.removeItem("expiration");
     localStorage.removeItem("userId");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isAdmin");
   }
 
- 
-    
+
+
   // gettoken() {
   //   return !!localStorage.getItem("SeesionUser");
   // }
-  
+
   // setToken() {
   //   localStorage.getItem("SeesionUser")
   // }
 }
-  
