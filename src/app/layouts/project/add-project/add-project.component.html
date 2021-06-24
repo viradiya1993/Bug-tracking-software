@@ -4,24 +4,24 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-              <h4 class="card-title" *ngIf="!editable">Add Project</h4>
-              <h4 class="card-title" *ngIf="editable">Edit Project</h4>
+            <h4 class="card-title" *ngIf="!editable">Add Project</h4>
+            <h4 class="card-title" *ngIf="editable">Edit Project</h4>
           </div>
           <div class="card-body">
-            <form  [formGroup]='projectForm'>
+            <form [formGroup]='projectForm'>
               <div class="row">
                 <div class="col-md-6">
                   <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Project No" name="project_no" 
-                     type="number" formControlName="project_no">
+                    <input matInput placeholder="Project No" name="project_no" type="number"
+                      formControlName="project_no">
                   </mat-form-field>
                   <mat-error *ngIf="projectForm.get('project_no').invalid">
-                      Project no is required
+                    Project no is required
                   </mat-error>
                 </div>
                 <div class="col-md-6">
                   <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Project Name" name="project_name" formControlName="project_name">
+                    <input matInput placeholder="Project Name" name="project_name" formControlName="project_name">
                   </mat-form-field>
                   <mat-error *ngIf="projectForm.get('project_name').invalid">
                     Project Name is required
@@ -30,134 +30,120 @@
               </div>
               <!-- DropDown Start-->
               <div class="row">
-                  <div class="col-md-12">
-                      <ng-select 
-                            placeholder="Select an Technology"
-                            [items]="technologys"
-                            formControlName="technology"
-                            bindLabel="tech_name"
-                            bindValue="tech_name"
-                            [addTag]="true"
-                            addTagText="Create New"   
-                            [multiple]="true"
-                            [searchable]="true"
-                            (add)="onAdd($event)">
-                      </ng-select>
-                      <mat-error *ngIf="projectForm.get('technology').invalid"> Please Select a
-                        Technology
-                      </mat-error>
-                  </div>
+                <div class="col-md-12">
+                  <ng-select placeholder="Select an Technology" [items]="technologys" formControlName="technology"
+                    bindLabel="tech_name" bindValue="tech_name" [addTag]="true" addTagText="Create New"
+                    [multiple]="true" [searchable]="true" (add)="onAdd($event)">
+                  </ng-select>
+                  <mat-error *ngIf="projectForm.get('technology').invalid"> Please Select a
+                    Technology
+                  </mat-error>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <ng-select 
-                            [items]="departments"
-                            bindLabel="department"
-                            placeholder="Select an Department"
-                            formControlName="department"
-                            bindValue="_id">
+                  <ng-select [items]="departments" bindLabel="department" placeholder="Select an Department"
+                    formControlName="department" bindValue="_id">
                   </ng-select>
                   <mat-error *ngIf="projectForm.get('department').invalid"> Please Select a
-                        Department
+                    Department
                   </mat-error>
                 </div>
                 <div class="col-md-6">
-                  <ng-select 
-                            [items]="projectManager"
-                            bindLabel="first_name"
-                            placeholder="Select an Project Manager"
-                            formControlName="project_manager"
-                            bindValue="_id">
+                  <ng-select [items]="projectManager" bindLabel="first_name" placeholder="Select an Project Manager"
+                    formControlName="project_manager" bindValue="_id">
                   </ng-select>
                   <mat-error *ngIf="projectForm.get('project_manager').invalid"> Please Select a
-                       Manager
+                    Manager
                   </mat-error>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <ng-select 
-                            placeholder="Select an employee"
-                            [items]="employees"
-                            formControlName="employee"
-                            bindLabel="first_name"
-                            bindValue="first_name"
-                            [multiple]="true">
+                  <ng-select placeholder="Select an employee" [items]="employees" formControlName="employee"
+                    bindLabel="first_name" bindValue="first_name" [multiple]="true">
                   </ng-select>
-                   <mat-error *ngIf="projectForm.get('employee').invalid"> Please Select a
-                        employee
-                   </mat-error>
+                  <mat-error *ngIf="projectForm.get('employee').invalid"> Please Select a
+                    employee
+                  </mat-error>
                 </div>
               </div>
               <div class="row">
-                  <div class="col-md-4">
-                        <mat-form-field class="datepicker-color">
-                          <input matInput  [matDatepicker]="picker"
-                            placeholder="Start Date" (dateChange)="filterDate()"  [(ngModel)]="start_date"   formControlName="start_date">
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker disabled="false"></mat-datepicker>
-                        </mat-form-field>  
+                <div class="col-md-4">
+                  <mat-form-field class="datepicker-color">
+                    <!-- <input matInput [matDatepicker]="picker" placeholder="Start Date" (dateChange)="filterDate()"
+                      [(ngModel)]="start_date" formControlName="start_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker> -->
+                    <input formControlName="start_date" (dateInput)="startDate('input', $event)"
+                            (dateChange)="filterDate('change', $event)" matInput [matDatepicker]="picker2"
+                            placeholder="Start Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field>
 
-                        <mat-error *ngIf="projectForm.get('start_date').invalid">
-                          Start Date is required
-                        </mat-error>
-                  </div>
-                  <div class="col-md-4">
-                      <mat-form-field class="datepicker-color">
-                          <input matInput [min]="start_date"[matDatepicker]="picker1"
-                            placeholder="End Date" [(ngModel)]="end_date" (dateChange)="filterDate()"  formControlName="end_date">
-                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <mat-error *ngIf="projectForm.get('end_date').invalid">
-                          End Date is required
-                        </mat-error>
-                  </div>
-                  <div class="col-md-4">
-                      <ng-select  [items]="projectStatus"
-                                  bindLabel="value"
-                                  placeholder="Select an status"
-                                  bindValue="_id"
-                                  formControlName="status">
-                      </ng-select>
-                    
-                      <mat-error *ngIf="projectForm.get('status').invalid">
-                        Status is required
-                      </mat-error>
-                  </div>
-                  <!--Dropdown End -->
+                  <!-- <mat-error *ngIf="projectForm.get('start_date').invalid">
+                    Start Date is required
+                  </mat-error> -->
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="datepicker-color">
+                    <!-- <input matInput [min]="start_date" [matDatepicker]="picker1" placeholder="End Date"
+                      [(ngModel)]="end_date" (dateChange)="filterDate()" formControlName="end_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1 disabled="false"></mat-datepicker> -->
+
+                    <input formControlName="end_date" (dateInput)="endDate('input', $event)"
+                            (dateChange)="filterDate('change', $event)" matInput [matDatepicker]="picker3"
+                            placeholder="Start Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                  </mat-form-field>
+
+                
+                  <!-- <mat-error *ngIf="projectForm.get('end_date').invalid">
+                    End Date is required
+                  </mat-error> -->
+                </div>
+                <div class="col-md-4">
+                  <ng-select [items]="projectStatus" bindLabel="value" placeholder="Select an status" bindValue="_id"
+                    formControlName="status">
+                  </ng-select>
+
+                  <mat-error *ngIf="projectForm.get('status').invalid">
+                    Status is required
+                  </mat-error>
+                </div>
+                <!--Dropdown End -->
               </div>
               <div class="row">
-								<div class="col-md-12">
-									<mat-form-field>
-											<mat-label>Project Description</mat-label>
-											<textarea matInput
-												cdkTextareaAutosize
-												#autosize="cdkTextareaAutosize"
-												cdkAutosizeMinRows="1"
-												cdkAutosizeMaxRows="5" id="project_description"
-                        name="project_description" formControlName="project_description">
+                <div class="col-md-12">
+                  <mat-form-field>
+                    <mat-label>Project Description</mat-label>
+                    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="5" id="project_description" name="project_description"
+                      formControlName="project_description">
 											</textarea>
-										</mat-form-field>
-                    <mat-error class="text-left"
-                    *ngIf="projectForm.get('project_description').invalid">
-                       Project Description is required
+                  </mat-form-field>
+                  <mat-error class="text-left" *ngIf="projectForm.get('project_description').invalid">
+                    Project Description is required
                   </mat-error>
-								</div>
+                </div>
               </div>
               <div class="row mt20">
-                  <div class="col-md-12 text-right">
-                      <span class="pull-right mb15">
-                        <button type="submit" *ngIf="!editable" [disabled]="projectForm.invalid"
-                          [ngClass]="projectForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
-                          (click)="onSave('save')" class="mr-2">
-                          <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Add</button>
-                        <button type="submit" *ngIf="editable" [disabled]="projectForm.invalid"
-                          [ngClass]="projectForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
-                          (click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Update</button>
-                        <button type="button" class="btn btn-danger" [routerLink]="['/project']">Cancel</button>
-                      </span>
-                </div> 
+                <div class="col-md-12 text-right">
+                  <span class="pull-right mb15">
+                    <button type="submit" *ngIf="!editable" [disabled]="projectForm.invalid"
+                      [ngClass]="projectForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
+                      (click)="onSave('save')" class="mr-2">
+                      <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Add</button>
+                    <button type="submit" *ngIf="editable" [disabled]="projectForm.invalid"
+                      [ngClass]="projectForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
+                      (click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner"
+                        *ngIf="loader"></i>Update</button>
+                    <button type="button" class="btn btn-danger" [routerLink]="['/project']">Cancel</button>
+                  </span>
+                </div>
               </div>
             </form>
           </div>

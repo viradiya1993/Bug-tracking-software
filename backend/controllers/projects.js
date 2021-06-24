@@ -225,25 +225,6 @@ exports.getProjectList = async (req, res, next) => {
 		}
 
 		const totalcount = await project.countDocuments(query);
-		for (let index = 0; index < projects.length; index++) {
-			let techname = [];
-			let employee = [];
-			const element = projects[index].technology_id;
-			const empValue = projects[index].employee_id;
-			for (let i = 0; i < element.length; i++) {
-				const ele = element[i];
-				techname.push(ele.tech_name)
-			}
-
-			for (let index = 0; index < empValue.length; index++) {
-				const element = empValue[index];
-				employee.push(element.first_name);
-			}
-
-			projects[index].technology_id = techname.join(',');
-			projects[index].employee_id = employee.join(',');
-
-		}
 
 		return res.status(200).json({
 			message: "Projects list fatch successfully.",
@@ -296,10 +277,11 @@ exports.getProjectDetail = async (req, res, next) => {
 		});
 
 	} catch (error) {
-		return res.status(400).json({
-			message: "Something went wrong. Please try again later.",
-			data: {}
-		})
+		console.log(error);
+		// return res.status(400).json({
+		// 	message: "Something went wrong. Please try again later.",
+		// 	data: {}
+		// })
 	}
 }
 

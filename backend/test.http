@@ -135,12 +135,9 @@ Content-Type: application/json
    
 }
 ###
-GET  http://localhost:3000/api/project/getproject/60c3331937b4375114a1185b HTTP/1.1
+GET  http://localhost:3000/api/project/getproject/60d46106e3b324379097d19f HTTP/1.1
 Content-Type: application/json
 
-{
-    "_id": "60c3331937b4375114a1185b"
-}
 
 
 

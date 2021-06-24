@@ -74,6 +74,26 @@ export class ProjectComponent implements OnInit {
     this.projectService.getProjectList(this.limit, this.page, this.sortName, this.sortType, this.searchKey, this.departmentId, this.technologyId, this.employee_id, this.manager_id, this.status_id,)
     .subscribe((res: any) => {
       this.sharedService.hideLoader();
+      for (let index = 0; index < res.data.projects.length; index++) {
+        let techName = [];
+        let empName = [];
+        const techElement = res.data.projects[index].technology_id;
+        const empElement = res.data.projects[index].employee_id;
+
+        for (let i = 0; i < techElement.length; i++) {
+          const techObj = techElement[i];
+          techName.push(techObj.tech_name);
+        }
+      
+        for (let j = 0; j < empElement.length; j++) {
+          const element = empElement[j];
+          empName.push(element.first_name);
+        }
+        res.data.projects[index].technology_id = techName.join(',');
+        res.data.projects[index].employee_id = empName.join(',');
+       
+      }
+      
       this.dataSource = new MatTableDataSource(res.data.projects);
       this.length = res.data.totalcount
     }, err => {
@@ -156,7 +176,6 @@ export class ProjectComponent implements OnInit {
 
   //selectStatus
   selectStatus(value: any) {
-    console.log(value._id);
     this.status_id = value?._id;
     this.getProjectList();
   }
@@ -169,9 +188,6 @@ export class ProjectComponent implements OnInit {
       this.eDate = edt.format("x");
       this.getProjectList();
     }
-    console.log(this.sDate);
-    console.log(this.eDate);
-    
     
   }
 

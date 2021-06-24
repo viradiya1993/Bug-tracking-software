@@ -51,7 +51,7 @@
 								</div>
 								<div class="col-md-4">
 									<ng-select [items]="bugsPriority" bindLabel="priority"
-										placeholder="Select an Priority " bindValue="_id" formControlName="priority"
+										placeholder="Select an Priority" bindValue="_id" formControlName="priority"
 										[clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('priority').invalid">
@@ -61,7 +61,7 @@
 							</div>
 
 							<div class="row">
-								<!-- <div class="col-md-6">
+								<div class="col-md-6">
 									<mat-form-field class="datepicker-color">
 										<input matInput [matDatepicker]="picker" placeholder="Start Date"
 											(dateChange)="filterDate()" [(ngModel)]="start_date"
@@ -72,7 +72,7 @@
 									<mat-error *ngIf="bugsForm.get('start_date').invalid">
 										Start Date is required
 									</mat-error>
-								</div> -->
+								</div>
 
 								<div class="col-md-6">
 									<mat-form-field>

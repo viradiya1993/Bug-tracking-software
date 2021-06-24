@@ -14,6 +14,7 @@ export class AddBugsComponent implements OnInit {
   bugsForm: FormGroup;
   editable = false
   loader: boolean = false;
+  start_date: any =  new Date();
   bugsID: any
   bugStatus: any = [];
   bugsType: any = [];
@@ -95,6 +96,10 @@ export class AddBugsComponent implements OnInit {
       }
     });
 
+  }
+
+  filterDate() {
+    
   }
 
   onSave(type) {}
