@@ -277,11 +277,10 @@ exports.getProjectDetail = async (req, res, next) => {
 		});
 
 	} catch (error) {
-		console.log(error);
-		// return res.status(400).json({
-		// 	message: "Something went wrong. Please try again later.",
-		// 	data: {}
-		// })
+		return res.status(400).json({
+			message: "Something went wrong. Please try again later.",
+			data: {}
+		})
 	}
 }
 

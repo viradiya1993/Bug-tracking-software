@@ -55,39 +55,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.projectForm = new FormGroup({
-    //   project_no: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   project_name: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   technology: new FormControl([], {
-    //     validators: [Validators.required]
-    //   }),
-    //   department: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   project_manager: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   employee: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   start_date: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   end_date: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   status: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    //   project_description: new FormControl(null, {
-    //     validators: [Validators.required]
-    //   }),
-    // });
-    
     this.projectForm = this._formBuilder.group({
       project_no: ['', Validators.required],
       project_name: ['', Validators.required],
@@ -99,8 +66,8 @@ export class AddProjectComponent implements OnInit {
       end_date: [new Date()],
       status: ['', Validators.required],
       project_description: ['', Validators.required],
-      sdate: [this.datepipe.transform(new Date(), 'dd/MM/yyyy')],
-      edate: [this.datepipe.transform(new Date(), 'dd/MM/yyyy')],
+      sdate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
+      edate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
     })
 
     this.getDepartment();
@@ -111,6 +78,8 @@ export class AddProjectComponent implements OnInit {
    
   
     this.projectForm.controls['start_date'].disable();
+    
+    
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
@@ -127,13 +96,9 @@ export class AddProjectComponent implements OnInit {
         this.sharedService.showLoader();
         this.editable = true;
         this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
-          this.sharedService.hideLoader();
-          var sdt = moment(projectData.projects.start_date);
-          var edt = moment(projectData.projects.end_date);
-          if (sdt.isValid && edt.isValid) {
-            this.sDate = sdt.format("YYYY-MM-DD");
-            this.eDate = edt.format("YYYY-MM-DD");
-          }
+          console.log(projectData,'projectdata');
+          this.sDate = this.datepipe.transform(projectData.projects.start_date, 'yyyy-MM-dd');
+          this.eDate = this.datepipe.transform(projectData.projects.end_date, 'yyyy-MM-dd');
           let fetachProject = {
             id: projectData._id,
             project_no: projectData.projects.project_no,
@@ -226,22 +191,12 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  //filterDate
-  filterDate() {
-    var sdt = moment(this.start_date);
-    var edt = moment(this.end_date);
-    if (sdt.isValid && edt.isValid) {
-      this.sDate = sdt.format("YYYY-MM-DD");
-      this.eDate = edt.format("YYYY-MM-DD");
-    }
-  }
-
   startDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.projectForm.controls['sdate'].setValue(this.datepipe.transform(event.value, 'dd/MM/yyyy'))
+    this.projectForm.controls['sdate'].setValue(this.datepipe.transform(event.value, 'yyyy-MM-dd'))
   }
   
   endDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.projectForm.controls['edate'].setValue(this.datepipe.transform(event.value, 'dd/MM/yyyy'));
+    this.projectForm.controls['edate'].setValue(this.datepipe.transform(event.value, 'yyyy-MM-dd'));
   }
 
   // Save 
@@ -263,19 +218,7 @@ export class AddProjectComponent implements OnInit {
     if (this.projectForm.invalid) {
       return
     }
-    // let formValue = this.projectForm.value;
-    // let data = {
-    //   project_no: formValue.project_no,
-    //   project_name: formValue.project_name,
-    //   technology_id: technologyArray,
-    //   departmentId: formValue.department,
-    //   project_manager: formValue.project_manager,
-    //   employee_id: employeeArray,
-    //   start_date: this.sDate,
-    //   end_date: this.eDate,
-    //   status: formValue.status,
-    //   project_description: formValue.project_description
-    // }
+   
     let data = {
       project_no: this.f.project_no.value,
       project_name: this.f.project_name.value,
@@ -289,7 +232,7 @@ export class AddProjectComponent implements OnInit {
       project_description: this.f.project_description.value
     }
     console.log(data,'final data');
-   // return;
+    //return;
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {
