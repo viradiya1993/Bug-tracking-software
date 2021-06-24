@@ -2,7 +2,8 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { DatePipe } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { EmployeeService } from 'app/layouts/employee/employee.service';
 import { LayoutService } from 'app/layouts/layout.service';
@@ -19,7 +20,7 @@ import { ProjectService } from '../project.service';
 })
 export class AddProjectComponent implements OnInit {
   private project_id: string;
-  editable = false;
+  editable: boolean = false;
   departments: any = [];
   employees: any = [];
   technologys: any = [];
@@ -27,13 +28,13 @@ export class AddProjectComponent implements OnInit {
   projectManager: any = [];
   employeeArray: any = [];
   projectStatus: any = [];
-  start_date: any =  new Date();
-  end_date: any =  new Date();
+  start_date: any = new Date();
+  end_date: any = new Date();
   sDate: any;
   eDate: any;
   loader: boolean = false;
+  selected = '';
 
-  
   //project = new Projects()
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
@@ -48,59 +49,76 @@ export class AddProjectComponent implements OnInit {
     public technology: TechnologyService,
     public route: ActivatedRoute,
     public datepipe: DatePipe,
+    private _formBuilder: FormBuilder,
     private router: Router) {
-     
+
   }
 
   ngOnInit(): void {
+    // this.projectForm = new FormGroup({
+    //   project_no: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   project_name: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   technology: new FormControl([], {
+    //     validators: [Validators.required]
+    //   }),
+    //   department: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   project_manager: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   employee: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   start_date: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   end_date: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   status: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    //   project_description: new FormControl(null, {
+    //     validators: [Validators.required]
+    //   }),
+    // });
+    
+    this.projectForm = this._formBuilder.group({
+      project_no: ['', Validators.required],
+      project_name: ['', Validators.required],
+      technology: ['', Validators.required],
+      department: ['', Validators.required],
+      project_manager: ['', Validators.required],
+      employee: ['', Validators.required],
+      start_date: [new Date()],
+      end_date: [new Date()],
+      status: ['', Validators.required],
+      project_description: ['', Validators.required],
+      sdate: [this.datepipe.transform(new Date(), 'dd/MM/yyyy')],
+      edate: [this.datepipe.transform(new Date(), 'dd/MM/yyyy')],
+    })
+
     this.getDepartment();
     this.getTechnology();
     this.setProjectDetails();
     this.getStatus();
 
-    this.projectForm = new FormGroup({
-      project_no: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      project_name: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      technology: new FormControl([], {
-        validators: [Validators.required]
-      }),
-      department: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      project_manager: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      employee: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      start_date: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      end_date: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      status: new FormControl('Open', {
-        validators: [Validators.required]
-      }),
-      project_description: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-
-    });
+   
+  
+    this.projectForm.controls['start_date'].disable();
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
       this.getEmployee();
       this.getProject();
     })
-     
-     
   }
-
+ 
   //Set Project Details
   setProjectDetails() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -130,12 +148,15 @@ export class AddProjectComponent implements OnInit {
             project_description: projectData.projects.project_description
           }
           this.projectForm.patchValue(fetachProject);
+        }, err => {
+          this.sharedService.loggerError(err.error.error)
+          this.sharedService.hideLoader();
         });
       }
     });
   }
 
- //Add New Technology
+  //Add New Technology
   onAdd(event) {
     if (!event._id) {
       this.technology.addTechnology(event).subscribe((res: any) => {
@@ -197,10 +218,13 @@ export class AddProjectComponent implements OnInit {
     this.projectService.getProjectStatus().subscribe((res: any) => {
       if (res.status) {
         this.projectStatus = res.status
+        var index = this.projectStatus.findIndex(x => x.value == "Open");
+        this.selected = this.projectStatus[index]._id
+        this.projectForm.controls['status'].setValue(this.selected)
+        this.editable ? this.projectForm.controls['status'].enable() : this.projectForm.controls['status'].disable()
       }
     });
   }
-
 
   //filterDate
   filterDate() {
@@ -210,6 +234,14 @@ export class AddProjectComponent implements OnInit {
       this.sDate = sdt.format("YYYY-MM-DD");
       this.eDate = edt.format("YYYY-MM-DD");
     }
+  }
+
+  startDate(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.projectForm.controls['sdate'].setValue(this.datepipe.transform(event.value, 'dd/MM/yyyy'))
+  }
+  
+  endDate(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.projectForm.controls['edate'].setValue(this.datepipe.transform(event.value, 'dd/MM/yyyy'));
   }
 
   // Save 
@@ -231,20 +263,33 @@ export class AddProjectComponent implements OnInit {
     if (this.projectForm.invalid) {
       return
     }
-    let formValue = this.projectForm.value;
+    // let formValue = this.projectForm.value;
+    // let data = {
+    //   project_no: formValue.project_no,
+    //   project_name: formValue.project_name,
+    //   technology_id: technologyArray,
+    //   departmentId: formValue.department,
+    //   project_manager: formValue.project_manager,
+    //   employee_id: employeeArray,
+    //   start_date: this.sDate,
+    //   end_date: this.eDate,
+    //   status: formValue.status,
+    //   project_description: formValue.project_description
+    // }
     let data = {
-      project_no: formValue.project_no,
-      project_name: formValue.project_name,
+      project_no: this.f.project_no.value,
+      project_name: this.f.project_name.value,
       technology_id: technologyArray,
-      departmentId: formValue.department,
-      project_manager: formValue.project_manager,
+      departmentId: this.f.department.value,
+      project_manager: this.f.project_manager.value,
       employee_id: employeeArray,
-      start_date: this.sDate,
-      end_date: this.eDate,
-      status: formValue.status,
-      project_description: formValue.project_description
+      start_date: this.f.sdate.value,
+      end_date: this.f.edate.value,
+      status: this.f.status.value,
+      project_description: this.f.project_description.value
     }
-    
+    console.log(data,'final data');
+   // return;
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {
@@ -260,19 +305,23 @@ export class AddProjectComponent implements OnInit {
           this.sharedService.loggerError(err.error.message);
         });
       } else {
-          this.loader = true;
-          this.projectService.updateProject(data, this.project_id).subscribe((res: any) => {
-            console.log(res);
-            this.loader = false;
-            this.projectForm.reset();
-            this.sharedService.loggerSuccess(res.message);
-            this.router.navigate(['/project']);
-          }, err => {
-             this.loader = false
-             this.sharedService.loggerError(err.error.message);
-          });
+        this.loader = true;
+        this.projectService.updateProject(data, this.project_id).subscribe((res: any) => {
+          console.log(res);
+          this.loader = false;
+          this.projectForm.reset();
+          this.sharedService.loggerSuccess(res.message);
+          this.router.navigate(['/project']);
+        }, err => {
+          this.loader = false
+          this.sharedService.loggerError(err.error.message);
+        });
       }
     }
+  }
+
+  get f() {
+    return this.projectForm.controls;
   }
 }
 
