@@ -6,6 +6,7 @@
 /out-tsc
 /backend/angular
 /backend/build.zip
+/backend/front
 
 # dependencies
 /node_modules
