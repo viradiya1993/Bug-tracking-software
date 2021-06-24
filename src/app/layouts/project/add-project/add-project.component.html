@@ -72,7 +72,7 @@
                 <div class="col-md-4">
                   <mat-form-field class="datepicker-color">
                     <input formControlName="start_date" (dateInput)="startDate('input', $event)"
-                            (dateChange)="filterDate('change', $event)" matInput [matDatepicker]="picker2"
+                            (dateChange)="startDate('change', $event)" matInput [matDatepicker]="picker2"
                             placeholder="Start Date">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
@@ -82,7 +82,7 @@
                 <div class="col-md-4">
                   <mat-form-field class="datepicker-color">
                     <input formControlName="end_date" (dateInput)="endDate('input', $event)"
-                            (dateChange)="filterDate('change', $event)" matInput [matDatepicker]="picker3"
+                            (dateChange)="endDate('change', $event)" matInput [matDatepicker]="picker3"
                             placeholder="Start Date">
                     <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>

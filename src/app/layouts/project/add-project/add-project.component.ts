@@ -28,8 +28,6 @@ export class AddProjectComponent implements OnInit {
   projectManager: any = [];
   employeeArray: any = [];
   projectStatus: any = [];
-  start_date: any = new Date();
-  end_date: any = new Date();
   sDate: any;
   eDate: any;
   loader: boolean = false;
@@ -232,7 +230,7 @@ export class AddProjectComponent implements OnInit {
       project_description: this.f.project_description.value
     }
     console.log(data,'final data');
-    //return;
+   
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {
