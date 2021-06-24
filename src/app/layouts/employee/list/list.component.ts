@@ -91,15 +91,15 @@ export class ListComponent implements OnInit {
   }
 
   applyFilter() {
-    // console.log(this.formEmployeeSearch.value);
+    console.log(this.formEmployeeSearch.value);
     this.getEmployeeData();
   }
 
   getEmployeeData() {
     this.page["params"] = this.formEmployeeSearch.value;
-    console.log(this.page);
+    // console.log(this.page);
     this.service.getEmployeeList(this.page).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.isLoading = false;
       this.spinner.hide();
       if (res.employeeLists) {
@@ -108,7 +108,7 @@ export class ListComponent implements OnInit {
       }
     },
       (err) => {
-        console.log(err);
+        // console.log(err);
         if (err.error.message) {
           this.spinner.hide();
           if (err.status == 401) {
@@ -126,13 +126,13 @@ export class ListComponent implements OnInit {
         this.departmentArray = res.userDepartment;
       }
       // this.getRoles();
-      console.log(this.departmentArray);
+      // console.log(this.departmentArray);
     });
   }
 
   getRoles() {
     this.layoutService.getRolesData().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res.userRoles) {
         this.roleArray = res.userRoles;
       }
@@ -142,7 +142,7 @@ export class ListComponent implements OnInit {
 
   getGender() {
     this.layoutService.getGenderData().subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       if (res.data) {
         this.gendersArray = res.data;
       }
@@ -152,7 +152,7 @@ export class ListComponent implements OnInit {
   onChangedPage(pageData: PageEvent) {
     // this.isLoading = true;
     this.spinner.show();
-    console.log(pageData);
+    // console.log(pageData);
 
     this.page.size = pageData.pageSize;
     this.page.pageNumber = pageData.pageIndex + 1;
@@ -162,7 +162,7 @@ export class ListComponent implements OnInit {
   }
 
   sortTable(event) {
-    console.log(event);
+    // console.log(event);
     this.spinner.show();
     this.page.sortby = event.active + ':' + event.direction;
     this.getEmployeeData();
@@ -177,7 +177,7 @@ export class ListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.service.deleteEmployee(id).subscribe((res: any) => {
-          console.log(res);
+          // console.log(res);
 
           this.getEmployeeData();
           this.sharedService.loggerSuccess(res.message);
@@ -189,7 +189,7 @@ export class ListComponent implements OnInit {
   }
 
   create(action, obj) {
-    console.log(action, obj);
+    // console.log(action, obj);
     obj.action = action;
     this.router.navigate(['/employee/add']);
   }

@@ -110,13 +110,13 @@ export class AddComponent implements OnInit {
         this.departmentArray = res.userDepartment;
       }
       // this.getRoles();
-      console.log(this.departmentArray);
+      // console.log(this.departmentArray);
     });
   }
 
   getRoles() {
     this.layoutService.getRolesData().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res.userRoles) {
         this.roleArray = res.userRoles;
       }
@@ -126,7 +126,7 @@ export class AddComponent implements OnInit {
 
   getGender() {
     this.layoutService.getGenderData().subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       if (res.data) {
         this.gendersArray = res.data;
       }
@@ -134,7 +134,7 @@ export class AddComponent implements OnInit {
     });
   }
   onSave() {
-    console.log(this.formEmployee.value);
+    // console.log(this.formEmployee.value);
     if (this.formEmployee.invalid) {
       return;
     }
@@ -163,7 +163,7 @@ export class AddComponent implements OnInit {
         }
       }, (err) => {
         this.spinner.hide();
-        console.log(err);
+        // console.log(err);
         if (err.error.errorType == "Email") {
           this.emailErrorOccured();
         }
@@ -182,7 +182,7 @@ export class AddComponent implements OnInit {
         }
       }, (err) => {
         this.spinner.hide();
-        console.log(err);
+        // console.log(err);
         if (err.error.errorType == "Email") {
           this.emailErrorOccured();
         }

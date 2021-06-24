@@ -1,40 +1,43 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, ErrorHandler, Injector , NgZone } from '@angular/core';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ErrorsHandlerService implements ErrorHandler {
 
-    constructor(private injector: Injector,
-        private toastr: ToastrService, private zone: NgZone) {
-    }
+export class HttpErrorInterceptor implements HttpInterceptor {
+    constructor(
+        public toasterService: ToastrService,
+        private router: Router
+    ) { }
 
-    handleError(error: Error | HttpErrorResponse) {
-        const router = this.injector.get(Router);
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(request)
+            .pipe(
+                catchError((error: HttpErrorResponse) => {
+                    let errorMsg = '';
+                    if (error.error instanceof ErrorEvent) {
+                        console.log('this is client side error');
+                        errorMsg = `Error: ${error.error.message}`;
 
-        if (error instanceof HttpErrorResponse) {
-            // Server or connection error happened
-            if (!navigator.onLine) {
-                // Handle offline error
-            } else {
-                // Handle Http Error (error.status === 403, 404...)
-                if (error.status === 401) {
-                    localStorage.clear();
-                    this.toastr.error(error.error.message, 'Error', { timeOut: 2500, progressBar: true });
-                    this.zone.run(() => { router.navigate(['/login']) });
-                } else if (error.error) {
-                    this.toastr.error(error.error.message, 'Error', { timeOut: 2500, progressBar: true });
-               }
-                // if(error.status === 401){
-                //     let router = this.injector.get(Router);
-                //     document.getElementById('logoutJD').click();
-                //     router.navigate(['signin']);
-                // }
-            }
-        } else {
-            // Handle Client Error (Angular Error, ReferenceError...)     
-        }
-        console.log(error)
+                    }
+                    else {
+                        console.log('this is server side error');
+                        errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+                        if (error.status === 401) {
+                            localStorage.clear();
+                            this.toasterService.error(error.error.message, 'Error', { timeOut: 2500, progressBar: true });
+                            this.router.navigateByUrl('/login');
+                        } else if (error.error) {
+                            this.toasterService.error(error.error.message, 'Error', { timeOut: 2500, progressBar: true });
+                        }
+                    }
+                    console.log(error.error);
+                    return throwError(error);
+                })
+            )
     }
 }

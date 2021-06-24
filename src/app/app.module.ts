@@ -30,7 +30,7 @@ import { SharedService } from './shared/shared.service';
 
 import { AuthService } from './auth/auth.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { ErrorsHandlerService } from './shared/error-handler';
+import { HttpErrorInterceptor } from './shared/error-handler';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LayoutService } from "./layouts/layout.service";
 import { ListComponent } from './layouts/employee/list/list.component';
@@ -83,6 +83,11 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     {
       provide: ErrorHandler,
       //useClass: ErrorsHandlerService
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
     },
     LayoutService
   ],
