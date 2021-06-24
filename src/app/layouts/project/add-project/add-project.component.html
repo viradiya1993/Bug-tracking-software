@@ -71,39 +71,23 @@
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field class="datepicker-color">
-                    <!-- <input matInput [matDatepicker]="picker" placeholder="Start Date" (dateChange)="filterDate()"
-                      [(ngModel)]="start_date" formControlName="start_date">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker disabled="false"></mat-datepicker> -->
                     <input formControlName="start_date" (dateInput)="startDate('input', $event)"
                             (dateChange)="filterDate('change', $event)" matInput [matDatepicker]="picker2"
                             placeholder="Start Date">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                   </mat-form-field>
-
-                  <!-- <mat-error *ngIf="projectForm.get('start_date').invalid">
-                    Start Date is required
-                  </mat-error> -->
+                  
                 </div>
                 <div class="col-md-4">
                   <mat-form-field class="datepicker-color">
-                    <!-- <input matInput [min]="start_date" [matDatepicker]="picker1" placeholder="End Date"
-                      [(ngModel)]="end_date" (dateChange)="filterDate()" formControlName="end_date">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1 disabled="false"></mat-datepicker> -->
-
                     <input formControlName="end_date" (dateInput)="endDate('input', $event)"
                             (dateChange)="filterDate('change', $event)" matInput [matDatepicker]="picker3"
                             placeholder="Start Date">
                     <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>
                   </mat-form-field>
-
                 
-                  <!-- <mat-error *ngIf="projectForm.get('end_date').invalid">
-                    End Date is required
-                  </mat-error> -->
                 </div>
                 <div class="col-md-4">
                   <ng-select [items]="projectStatus" bindLabel="value" placeholder="Select an status" bindValue="_id"
