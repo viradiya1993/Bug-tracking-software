@@ -1,164 +1,164 @@
 <div class="main-content">
-    <div class="container-fluid">
-      <div class="row">
-        <button mat-raised-button [routerLink]="['/project/add-project']">Add Project</button>
-        <div class="col-md-12">
-          <div class="card-body row">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-md-4">
-                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"></app-search-textbox>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name"
-                        bindValue="_id" (change)="selectTech($event)" [(ngModel)]="technologyId" [clearable]="false">
-                  </ng-select>
-                </div>
-                <div class="col-md-4" >
-                  <ng-select placeholder="Department" [items]="departments" bindLabel="department"
-                     bindValue="_id" (change)="selectDepartment($event)" [(ngModel)]="departmentId" [clearable]="false">
-                  </ng-select>
-                
-                </div>
+  <div class="container-fluid">
+    <div class="row">
+      <button mat-raised-button [routerLink]="['/project/add-project']">Add Project</button>
+      <div class="col-md-12">
+        <div class="card-body row">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-4">
+                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                  [message]="send"></app-search-textbox>
               </div>
-            </div>
-            <div class="col-12">
-                <div class="row">
-                  <div class="col-md-3">
-                    <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name"
-                        bindValue="_id" (change)="selectEmp($event)" [(ngModel)]="employee_id" [clearable]="false">
-                    </ng-select>
-                  </div>
-                  <div class="col-md-3">
-                    <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name"
-                       bindValue="_id" (change)="selectManager($event)" [(ngModel)]="manager_id" [clearable]="false">
-                    </ng-select>
-                  </div>
-                  <div class="col-md-3">
-                    <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value"
-                       bindValue="_id" (change)="selectStatus($event)" [(ngModel)]="status_id" [clearable]="false">
-                    </ng-select>
-                  </div>
-                  <div class="col-md-3">
-                      <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
-                  </div>
-                </div>
-            </div>
-          </div>  
-        </div>
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header card-header-danger">
-                <div class="row">
-                  <div class="col-md-4">
-                    <h3 class="card-title ">Project List</h3>
-                  </div>
-                </div>
+              <div class="col-md-4">
+                <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name" bindValue="_id"
+                  (change)="selectTech($event)" [(ngModel)]="technologyId" [clearable]="false">
+                </ng-select>
               </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-                    class="mat-elevation-z8 table-hover" width="100%" *ngIf="length > 0">
+              <div class="col-md-4">
+                <ng-select placeholder="Department" [items]="departments" bindLabel="department" bindValue="_id"
+                  (change)="selectDepartment($event)" [(ngModel)]="departmentId" [clearable]="false">
+                </ng-select>
 
-                    <ng-container matColumnDef="project_no">
-                      <th width="8%" (click)="sortItem('project_no')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Project No </th>
-                      <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_no}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="project_name">
-                      <th width="8%" (click)="sortItem('project_name')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Project Name </th>
-                      <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_name}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="technology">
-                      <th width="8%" (click)="sortItem('technology')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Technology </th>
-                      <td width="8%" mat-cell *matCellDef="let element"> {{element?.technology_id}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="department">
-                      <th width="10%" (click)="sortItem('department')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Department Name </th>
-                      <td width="8%" mat-cell *matCellDef="let element"> {{element?.departmentId?.department}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="project_manager">
-                      <th width="8%" (click)="sortItem('project_manager')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Project Manager </th>
-                      <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_manager.first_name}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="employee">
-                      <th width="8%" (click)="sortItem('employee')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Employee Name </th>
-                      <td width="8%" mat-cell *matCellDef="let element"> {{element?.employee_id}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="status">
-                      <th width="8%" (click)="sortItem('status')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Status </th>
-                      <td width="8%" mat-cell *matCellDef="let element"> {{element?.status?.value}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="project_description">
-                      <th width="15%" (click)="sortItem('project_description')" mat-header-cell *matHeaderCellDef mat-sort-header
-                        class="text-primary">
-                        Project Description </th>
-                      <td width="15%" mat-cell *matCellDef="let element"> {{element?.project_description}} </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="action">
-                      <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
-                      <td width="15%" mat-cell *matCellDef="let element" class="text-center">
-
-                        <a [routerLink]="'/bugs/bug-list/' + element._id" matTooltip="Add Bug"
-                          [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                          class="btn  btn-link btn-sm btn-just-icon">
-                          <i class="material-icons">add_circle</i>
-                        </a>
-                        
-                        <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
-                            matTooltipClass="mat_pop" class="btn  btn-link btn-sm btn-just-icon"
-                            (click)="viewDetail(element)" data-toggle="modal" data-target="#viewModel">
-                            <i class="material-icons">visibility</i>
-                        </a>
-                        <a [routerLink]="'/project/edit-project/' + element._id" matTooltip="Edit"
-                          [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                          class="btn  btn-link btn-sm btn-just-icon">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-                          matTooltipClass="mat_pop" class="btn btn-link btn-sm btn-just-icon"
-                          (click)="openDialog(element._id)"><i class="material-icons">delete</i>
-                        </a>
-                      </td>
-                    </ng-container>
-    
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                  </table>
-                  <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
-                    No Record Found
-                    <hr>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)"></app-pagination>
               </div>
             </div>
           </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-3">
+                <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name" bindValue="_id"
+                  (change)="selectEmp($event)" [(ngModel)]="employee_id" [clearable]="false">
+                </ng-select>
+              </div>
+              <div class="col-md-3">
+                <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name" bindValue="_id"
+                  (change)="selectManager($event)" [(ngModel)]="manager_id" [clearable]="false">
+                </ng-select>
+              </div>
+              <div class="col-md-3">
+                <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value" bindValue="_id"
+                  (change)="selectStatus($event)" [(ngModel)]="status_id" [clearable]="false">
+                </ng-select>
+              </div>
+              <div class="col-md-3">
+                <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <div class="row">
+              <div class="col-md-4">
+                <h3 class="card-title ">Project List</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
+                class="mat-elevation-z8 table-hover" width="100%" *ngIf="length > 0">
+
+                <ng-container matColumnDef="project_no">
+                  <th width="8%" (click)="sortItem('project_no')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Project No </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_no}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="project_name">
+                  <th width="8%" (click)="sortItem('project_name')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Project Name </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="technology">
+                  <th width="8%" (click)="sortItem('technology')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Technology </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.technology_id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="department">
+                  <th width="10%" (click)="sortItem('department')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Department Name </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.departmentId?.department}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="project_manager">
+                  <th width="8%" (click)="sortItem('project_manager')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Project Manager </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_manager.first_name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="employee">
+                  <th width="8%" (click)="sortItem('employee')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Employee Name </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.employee_id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th width="8%" (click)="sortItem('status')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Status </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.status?.value}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="project_description">
+                  <th width="15%" (click)="sortItem('project_description')" mat-header-cell *matHeaderCellDef
+                    mat-sort-header class="text-primary">
+                    Project Description </th>
+                  <td width="15%" mat-cell *matCellDef="let element"> {{element?.project_description}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
+                  <td width="15%" mat-cell *matCellDef="let element" class="text-center">
+
+                    <a [routerLink]="'/bugs/bug-list/' + element._id" matTooltip="Add Bug"
+                      [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                      class="btn  btn-link btn-sm btn-just-icon">
+                      <i class="material-icons">add_circle</i>
+                    </a>
+
+                    <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
+                      matTooltipClass="mat_pop" class="btn  btn-link btn-sm btn-just-icon" (click)="viewDetail(element)"
+                      data-toggle="modal" data-target="#viewModel">
+                      <i class="material-icons">visibility</i>
+                    </a>
+                    <a [routerLink]="'/project/edit-project/' + element._id" matTooltip="Edit"
+                      [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                      class="btn  btn-link btn-sm btn-just-icon">
+                      <i class="material-icons">edit</i>
+                    </a>
+                    <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
+                      matTooltipClass="mat_pop" class="btn btn-link btn-sm btn-just-icon"
+                      (click)="openDialog(element._id)"><i class="material-icons">delete</i>
+                    </a>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
+                No Record Found
+                <hr>
+              </div>
+            </div>
+          </div>
+          <div>
+            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
+            </app-pagination>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  
-  
+</div>

@@ -4,7 +4,8 @@
             <div class="col-md-12">
                 <button mat-raised-button [routerLink]="['/department/add']">Add Department</button>
                 <div class="col-md-4 mb-2 pull-right">
-                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)">
+                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                        [message]="send">
                     </app-search-textbox>
                 </div>
                 <div class="card">

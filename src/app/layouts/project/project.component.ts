@@ -46,6 +46,7 @@ export class ProjectComponent implements OnInit {
   viewContent: any;
 
   @ViewChild(MatSort) sort: MatSort;
+  send: string = "Project";
   displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'status', 'project_description', 'action'];
   constructor(
     public projectService: ProjectService,
@@ -60,7 +61,7 @@ export class ProjectComponent implements OnInit {
     this.getTechnology();
     this.getDepartment();
     this.getStatus();
-   
+
 
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');
@@ -72,34 +73,34 @@ export class ProjectComponent implements OnInit {
 
   getProjectList() {
     this.projectService.getProjectList(this.limit, this.page, this.sortName, this.sortType, this.searchKey, this.departmentId, this.technologyId, this.employee_id, this.manager_id, this.status_id,)
-    .subscribe((res: any) => {
-      this.sharedService.hideLoader();
-      for (let index = 0; index < res.data.projects.length; index++) {
-        let techName = [];
-        let empName = [];
-        const techElement = res.data.projects[index].technology_id;
-        const empElement = res.data.projects[index].employee_id;
+      .subscribe((res: any) => {
+        this.sharedService.hideLoader();
+        for (let index = 0; index < res.data.projects.length; index++) {
+          let techName = [];
+          let empName = [];
+          const techElement = res.data.projects[index].technology_id;
+          const empElement = res.data.projects[index].employee_id;
 
-        for (let i = 0; i < techElement.length; i++) {
-          const techObj = techElement[i];
-          techName.push(techObj.tech_name);
+          for (let i = 0; i < techElement.length; i++) {
+            const techObj = techElement[i];
+            techName.push(techObj.tech_name);
+          }
+
+          for (let j = 0; j < empElement.length; j++) {
+            const element = empElement[j];
+            empName.push(element.first_name);
+          }
+          res.data.projects[index].technology_id = techName.join(',');
+          res.data.projects[index].employee_id = empName.join(',');
+
         }
-      
-        for (let j = 0; j < empElement.length; j++) {
-          const element = empElement[j];
-          empName.push(element.first_name);
-        }
-        res.data.projects[index].technology_id = techName.join(',');
-        res.data.projects[index].employee_id = empName.join(',');
-       
-      }
-      
-      this.dataSource = new MatTableDataSource(res.data.projects);
-      this.length = res.data.totalcount
-    }, err => {
-      this.sharedService.loggerError(err.error.message);
-      this.sharedService.hideLoader();
-    });
+
+        this.dataSource = new MatTableDataSource(res.data.projects);
+        this.length = res.data.totalcount
+      }, err => {
+        this.sharedService.loggerError(err.error.message);
+        this.sharedService.hideLoader();
+      });
   }
 
   selectTech(value: any) {
@@ -107,7 +108,7 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
   }
 
-  
+
   //Get Technology
   getTechnology() {
     this.layoutsService.getTechnology().subscribe((res: any) => {
@@ -135,7 +136,7 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
   }
 
-   //Get Employee
+  //Get Employee
   getEmployee() {
     let data = {
       roleId: this.employeeArray[0]._id
@@ -188,7 +189,7 @@ export class ProjectComponent implements OnInit {
       this.eDate = edt.format("x");
       this.getProjectList();
     }
-    
+
   }
 
   resetFilter() {
@@ -240,12 +241,12 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
   }
 
-   /**
-   * for shorting table value
-  * // TODO: sortItem
-  * @param sortItem
-  * @returns asc , desc
-  */
+  /**
+  * for shorting table value
+ * // TODO: sortItem
+ * @param sortItem
+ * @returns asc , desc
+ */
   sortItem(sortItem) {
     this.sortName = sortItem;
     if (this.sortType === 'desc') {
@@ -256,19 +257,19 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
   }
 
- /**
-   * for popup detail
-  * // TODO: viewDetail
-  * @param id
-  * @returns detail with perticular id
-  */
+  /**
+    * for popup detail
+   * // TODO: viewDetail
+   * @param id
+   * @returns detail with perticular id
+   */
   viewDetail(viewData: any) {
     const dialogRef = this.dialog.open(ViewDetailsComponent, {
       width: '650px',
-      data: {viewDetail: viewData}
+      data: { viewDetail: viewData }
     });
   }
-   
+
   openDialog(id: any): void {
     const dialogRef = this.dialog.open(DeleteBoxComponent, {
       width: '350px',
@@ -282,7 +283,7 @@ export class ProjectComponent implements OnInit {
         })
       }
     }, err => {
-       this.sharedService.loggerError(err.message);
+      this.sharedService.loggerError(err.message);
     });
-  } 
+  }
 }

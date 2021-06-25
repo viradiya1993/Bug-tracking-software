@@ -26,12 +26,15 @@ export class ListComponent implements OnInit {
   index: number;
   displayedColumns: string[] = ['department', 'action'];
   @ViewChild(MatSort) sort: MatSort;
+  send: string = "Department";
+
   constructor(
     private service: DepartmentService,
     private sharedService: SharedService,
     private authService: AuthService,
     public dialog: MatDialog,
   ) {
+
     // Check If Loggin as Admin
     this.sharedService.checkIfAdminLogged();
 

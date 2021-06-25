@@ -29,4 +29,11 @@ export class AppConst {
             id: 3
         }
     ];
+
+    public static labelForTextbox = {
+        "Default": "Search Value",
+        "Department": "Please Enter Department Name",
+        "Technology": "Please Enter Technology Name",
+        "Project": "Please Enter Project Name or Project Description"
+    }
 }

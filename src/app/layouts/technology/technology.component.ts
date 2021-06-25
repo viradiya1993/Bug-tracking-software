@@ -24,7 +24,8 @@ export class TechnologyComponent implements OnInit {
   sortName: String = 'no';
   sortType: String = 'desc';
   index: number;
-  displayedColumns: string[] = ['no',  'technology',  'action'];
+  displayedColumns: string[] = ['no', 'technology', 'action'];
+  send: string = "Technology";
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
@@ -32,24 +33,24 @@ export class TechnologyComponent implements OnInit {
     private sharedService: SharedService,
     private authService: AuthService,
     public dialog: MatDialog,
-  ) {   this.sharedService.showLoader() }
-  
+  ) { this.sharedService.showLoader() }
+
   ngOnInit(): void {
     this.getTechnology();
   }
 
   getTechnology() {
     this.service.getTechnology(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
-    .subscribe((res: any) => {
-      if (res) {
-        this.sharedService.hideLoader();
-        this.dataSource = new MatTableDataSource(res.data.technology);
-        this.length = res.data.totalcount;
-      } 
-    }, err => {
+      .subscribe((res: any) => {
+        if (res) {
+          this.sharedService.hideLoader();
+          this.dataSource = new MatTableDataSource(res.data.technology);
+          this.length = res.data.totalcount;
+        }
+      }, err => {
         this.sharedService.loggerError(err.error.message);
         this.sharedService.showLoader();
-    })
+      })
   }
 
   resetFilter() {
@@ -58,20 +59,20 @@ export class TechnologyComponent implements OnInit {
     this.getTechnology();
   }
 
-   /**
-   * for search after page goto 1
-  * // TODO: resetIndex
-  * @param event
-  */
-    resetIndex(e) {
-      this.index = e;
-    }
+  /**
+  * for search after page goto 1
+ * // TODO: resetIndex
+ * @param event
+ */
+  resetIndex(e) {
+    this.index = e;
+  }
 
-    /**
-  * for serching table
-  * // TODO: receiveSearchValue
-  * @returns list of project related to search
-  */
+  /**
+* for serching table
+* // TODO: receiveSearchValue
+* @returns list of project related to search
+*/
   receiveSearchValue(searchKey: any) {
     if (this.searchKey !== searchKey) {
       this.searchKey = searchKey;
@@ -86,42 +87,42 @@ export class TechnologyComponent implements OnInit {
     * // TODO: receiveMessage
     * @param event
     */
-   receiveMessage(event: any) {
+  receiveMessage(event: any) {
     this.limit = event.pageSize;
     this.page = event.pageIndex;
     this.getTechnology();
   }
 
-   /**
-   * for shorting table value
-  * // TODO: sortItem
-  * @param sortItem
-  * @returns asc , desc
-  */
-    sortItem(sortItem) {
-      this.sortName = sortItem;
-      if (this.sortType === 'desc') {
-        this.sortType = 'asc';
-      } else if (this.sortType === 'asc') {
-        this.sortType = 'desc';
-      }
-      this.getTechnology();
+  /**
+  * for shorting table value
+ * // TODO: sortItem
+ * @param sortItem
+ * @returns asc , desc
+ */
+  sortItem(sortItem) {
+    this.sortName = sortItem;
+    if (this.sortType === 'desc') {
+      this.sortType = 'asc';
+    } else if (this.sortType === 'asc') {
+      this.sortType = 'desc';
     }
+    this.getTechnology();
+  }
 
-    openDialog(id): void {
-      const dialogRef = this.dialog.open(DeleteBoxComponent, {
-        width: '350px',
-        data: AppConst.technologydeleteMessage
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.service.deletetechnology(id).subscribe((res: any) => {
-            this.getTechnology();
-            this.sharedService.loggerSuccess(res.message);
-          })
-        }
-      }, err => {
-         this.sharedService.loggerError(err.message);
-      });
-    } 
+  openDialog(id): void {
+    const dialogRef = this.dialog.open(DeleteBoxComponent, {
+      width: '350px',
+      data: AppConst.technologydeleteMessage
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.deletetechnology(id).subscribe((res: any) => {
+          this.getTechnology();
+          this.sharedService.loggerSuccess(res.message);
+        })
+      }
+    }, err => {
+      this.sharedService.loggerError(err.message);
+    });
+  }
 }
