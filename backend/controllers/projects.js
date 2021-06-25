@@ -1,6 +1,6 @@
 const dateFormat = require('../helper/dateFormate.helper');
 const sendMail = require('../services/email.service');
-const projectCreationTemplete = require('../services/emailTemplate/projectCreationTemplate'); 
+const projectCreationTemplete = require('../services/emailTemplate/projectCreationTemplate');
 const projectAssignTemplate = require('../services/emailTemplate/projectAssignTemplate');
 const constant = require('../config/constant');
 const ObjectID = require('mongodb').ObjectID;
@@ -26,16 +26,16 @@ exports.createProject = async (req, res, next) => {
 		end_date,
 	} = req.body;
 
-	
+
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
 		const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
 		const devloper = await empyolee.find({
-            _id: req.body.employee_id
-        });
+			_id: req.body.employee_id
+		});
 
 		const manager = await empyolee.findOne({
-			 _id: req.body.project_manager
+			_id: req.body.project_manager
 		});
 
 		if (devloper) {
@@ -43,25 +43,26 @@ exports.createProject = async (req, res, next) => {
 			for (let i = 0; i < devloper.length; i++) {
 				devName.push(devloper[i].first_name)
 				sendMail(devloper[i].email, 'Project Created.',
-				projectCreationTemplete({ 
-					 logo: logoUrl, 
-					 projectName: req.body.project_name,
-					 projectManger: manager.first_name
-				 }));
+					projectCreationTemplete({
+						logo: logoUrl,
+						projectName: req.body.project_name,
+						projectManger: manager.first_name
+					}));
 
 			}
-				sendMail(manager.email, 'Project Assigned to developer.',
-				projectAssignTemplate({ 
-					 logo: logoUrl, 
-					 projectName: req.body.project_name,
-					 developer: devName.join(',')
-				 }));
-		
+			sendMail(manager.email, 'Project Assigned to developer.',
+				projectAssignTemplate({
+					logo: logoUrl,
+					projectName: req.body.project_name,
+					developer: devName.join(',')
+				}));
+
 		}
-		
+
 		const isProjectNo = await project.findOne({
 			project_no
 		})
+
 		if (isProjectNo) {
 			return res.status(400).json({
 				message: "Project no already exist choose another one."
@@ -70,11 +71,13 @@ exports.createProject = async (req, res, next) => {
 		const isProjectName = await project.findOne({
 			project_name
 		})
+
 		if (isProjectName) {
 			return res.status(400).json({
 				message: "Project Name already exist choose another one."
 			});
 		}
+		
 		const projects = new project();
 		projects.technology_id = technology_id;
 		projects.departmentId = departmentId;
@@ -133,7 +136,7 @@ exports.getTechnology = async (req, res, next) => {
 //Fetch Project Detail
 exports.getProjectList = async (req, res, next) => {
 	try {
-		
+
 		var query = {};
 		var sort = {};
 		const search = req.query.q ? req.query.q : ''; // for searching
@@ -304,30 +307,30 @@ exports.updateProject = async (req, res, next) => {
 		const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
 
 		const devloper = await empyolee.find({
-            _id: req.body.employee_id
-        });
+			_id: req.body.employee_id
+		});
 
 		const manager = await empyolee.findOne({
-			 _id: req.body.project_manager
+			_id: req.body.project_manager
 		});
 		if (devloper) {
 			let devName = [];
 			for (let i = 0; i < devloper.length; i++) {
 				devName.push(devloper[i].first_name)
 				sendMail(devloper[i].email, 'Project Created.',
-				projectCreationTemplete({ 
-					 logo: logoUrl, 
-					 projectName: req.body.project_name,
-					 projectManger: manager.first_name
-				 }));
+					projectCreationTemplete({
+						logo: logoUrl,
+						projectName: req.body.project_name,
+						projectManger: manager.first_name
+					}));
 
 			}
-				sendMail(manager.email, 'Project Assigned to developer.',
-				projectAssignTemplate({ 
-					 logo: logoUrl, 
-					 projectName: req.body.project_name,
-					 developer: devName.join(',')
-				 }));
+			sendMail(manager.email, 'Project Assigned to developer.',
+				projectAssignTemplate({
+					logo: logoUrl,
+					projectName: req.body.project_name,
+					developer: devName.join(',')
+				}));
 		}
 
 		const projects = await project.findOne({

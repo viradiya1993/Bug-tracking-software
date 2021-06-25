@@ -23,7 +23,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<ng-select placeholder="Select an developer" [items]="employees"
-										formControlName="developer" bindLabel="first_name" bindValue="_id"
+										formControlName="developer" bindLabel="first_name" bindValue="first_name"
 										[multiple]="true" [clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('developer').invalid"> Please Select a
@@ -33,7 +33,7 @@
 							</div>
 
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<ng-select [items]="bugStatus" bindLabel="status" placeholder="Select an Bug Status"
 										formControlName="bugstatus" bindValue="_id" [clearable]="false">
 									</ng-select>
@@ -41,7 +41,17 @@
 										Bug Status
 									</mat-error>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-6">
+									<ng-select [items]="projects" bindLabel="project_name" placeholder="Select an project"
+										formControlName="project" bindValue="_id" [clearable]="false">
+									</ng-select>
+									<mat-error *ngIf="bugsForm.get('project').invalid"> Please Select a
+										Project 
+									</mat-error>
+								</div>
+							</div>
+							<div class="row">	
+								<div class="col-md-6">
 									<ng-select [items]="bugsType" bindLabel="bug_types" placeholder="Select an Bug Type"
 										bindValue="_id" formControlName="bugtype" [clearable]="false">
 									</ng-select>
@@ -49,7 +59,7 @@
 										Bug Type is required
 									</mat-error>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<ng-select [items]="bugsPriority" bindLabel="priority"
 										placeholder="Select an Priority" bindValue="_id" formControlName="priority"
 										[clearable]="false">
@@ -63,20 +73,17 @@
 							<div class="row">
 								<div class="col-md-6">
 									<mat-form-field class="datepicker-color">
-										<input matInput [matDatepicker]="picker" placeholder="Start Date"
-											(dateChange)="filterDate()" [(ngModel)]="start_date"
-											formControlName="start_date">
-										<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-										<mat-datepicker #picker disabled="false"></mat-datepicker>
+										<input formControlName="start_date" (dateInput)="startDate('input', $event)"
+											(dateChange)="startDate('change', $event)" matInput
+											[matDatepicker]="picker2" placeholder="Start Date">
+										<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+										<mat-datepicker #picker2></mat-datepicker>
 									</mat-form-field>
-									<mat-error *ngIf="bugsForm.get('start_date').invalid">
-										Start Date is required
-									</mat-error>
 								</div>
 
 								<div class="col-md-6">
 									<mat-form-field>
-										<mat-label>Project Description</mat-label>
+										<mat-label>Bug Description</mat-label>
 										<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
 											cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" id="bug_description"
 											name="bug_description" formControlName="bug_description">
@@ -89,15 +96,15 @@
 								<!--Dropdown End -->
 							</div>
 
-
+							<!--  [disabled]="bugsForm.invalid" [disabled]="bugsForm.invalid" -->
 							<div class="row mt20">
 								<div class="col-md-12 text-right">
 									<span class="pull-right mb15">
-										<button type="submit" *ngIf="!editable" [disabled]="bugsForm.invalid"
+										<button type="submit" *ngIf="!editable"
 											[ngClass]="bugsForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('save')" class="mr-2">
 											<i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Add</button>
-										<button type="submit" *ngIf="editable" [disabled]="bugsForm.invalid"
+										<button type="submit" *ngIf="editable" 
 											[ngClass]="bugsForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner"
 												*ngIf="loader"></i>Update</button>

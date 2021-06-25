@@ -25,4 +25,9 @@ export class BugsService {
   getBugsPriority() {
     return this.http.get(BACKEND_URL + '/bugs/getbugspriority');
   }
+
+  //Add bug
+  addBug(data: any) {
+    return this.http.post(BACKEND_URL + '/bugs/create', data);
+  }
 }

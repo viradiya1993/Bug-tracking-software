@@ -72,12 +72,8 @@ export class AddProjectComponent implements OnInit {
     this.getTechnology();
     this.setProjectDetails();
     this.getStatus();
-
-   
   
     this.projectForm.controls['start_date'].disable();
-    
-    
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
@@ -94,7 +90,6 @@ export class AddProjectComponent implements OnInit {
         this.sharedService.showLoader();
         this.editable = true;
         this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
-          console.log(projectData,'projectdata');
           this.sDate = this.datepipe.transform(projectData.projects.start_date, 'yyyy-MM-dd');
           this.eDate = this.datepipe.transform(projectData.projects.end_date, 'yyyy-MM-dd');
           let fetachProject = {
@@ -229,8 +224,6 @@ export class AddProjectComponent implements OnInit {
       status: this.f.status.value,
       project_description: this.f.project_description.value
     }
-    console.log(data,'final data');
-   
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {
@@ -248,7 +241,6 @@ export class AddProjectComponent implements OnInit {
       } else {
         this.loader = true;
         this.projectService.updateProject(data, this.project_id).subscribe((res: any) => {
-          console.log(res);
           this.loader = false;
           this.projectForm.reset();
           this.sharedService.loggerSuccess(res.message);

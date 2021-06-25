@@ -45,6 +45,11 @@ export class LayoutService {
       (BACKEND_URL + '/project/gettechnology');
   }
 
+  getProject() {
+    return this.http.get<{ message: string, project: any, count: number }>
+    (BACKEND_URL + '/bugs/getproject');
+  }
+
 }
 
 /*
