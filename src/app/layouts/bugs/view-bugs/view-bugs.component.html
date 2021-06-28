@@ -1,0 +1,63 @@
+<div class="col-md-12">
+    <button class="btn btn-danger pull-right" mat-button (click)="onCancle()" style="margin-bottom: 25px !important;">Close</button>
+    <div class="card">
+      <div class="card-header card-header-danger">
+        <div class="row">
+          <div class="col-md-4">
+            <h4 class="card-title ">Bugs Details</h4>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table  width="100%" >
+            <tr>
+              <th width="8%" class="text-primary"> Bug Title: </th>
+              <td width="8%" >{{viewContent?.bug_title}} </td>
+            </tr>
+
+            <tr>
+                <th width="8%" class="text-primary"> Project Name: </th>
+                <td width="8%" >{{viewContent?.project_id.project_name}} </td>
+            </tr>
+
+            <tr>
+                <th width="8%" class="text-primary"> Emplopyee Name: </th>
+                <td width="8%" >{{viewContent?.employee_id}} </td>
+            </tr>
+
+            <tr>
+                <th width="8%" class="text-primary"> Status: </th>
+                <td width="8%" >{{viewContent?.bug_status.status}} </td>
+            </tr>
+
+            <tr>
+                <th width="8%" class="text-primary"> Bug Type: </th>
+                <td width="8%" >{{viewContent?.bug_type.bug_types}} </td>
+            </tr>
+
+            <tr>
+                <th width="8%" class="text-primary"> Priority: </th>
+                <td width="8%" >{{viewContent?.bug_priority.priority}} </td>
+            </tr>
+
+            <tr>
+                <th width="8%" class="text-primary"> Start Date: </th>
+                <td width="8%" >
+                    <span *ngIf="viewContent?.start_date !== null">
+                        {{viewContent?.start_date | dateFormatPipe}}
+                    </span>
+                    <span *ngIf="viewContent?.start_date == null"> - </span>    
+                 </td>
+            </tr>
+
+            <tr>
+                <th width="8%" class="text-primary">Description: </th>
+                <td width="8%" >{{viewContent?.bug_description}} </td>
+            </tr>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+  </div>

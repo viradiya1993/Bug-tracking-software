@@ -3,20 +3,12 @@
   <input matInput [(ngModel)]="searchValue" value="searchValue" name="searchValue"
     (keydown.enter)="search($event.target.value)">
   <mat-icon matSuffix>
-    <!-- <button type="button" *ngIf="searchValue; else empty" (click)="cancel(searchValue)" class="search_button">
-      <i class="material-icons">close</i>
-    </button> -->
     <button mat-button mat-flat-button color="warn" *ngIf="searchValue; else empty" (click)="cancel(searchValue)">
       <span class="material-icons">
         clear
       </span>
     </button>
     <ng-template #empty>
-      <!-- <button type="button" class="search_button">
-        <span class="material-icons">
-          search
-        </span>
-      </button> -->
       <button mat-button mat-flat-button color="primary">
         <span class="material-icons">
           search

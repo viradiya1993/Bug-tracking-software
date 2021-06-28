@@ -4,11 +4,17 @@
         <div class="col-md-12">
           <button mat-raised-button [routerLink]="['/bugs/add-bug']">Add Bugs</button>
           <div class="col-md-2 mr-2 pull-right" >
-            <button style="float:right" mat-raised-button>Reset Filter</button>
+            <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
           </div>
           <div class="col-md-4 mb-2 pull-right">
-            <app-search-textbox></app-search-textbox>
+            <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+            [message]="send"></app-search-textbox>
           </div>
+          <!-- <div class="col-md-6">
+            <ng-select [items]="projects" bindLabel="project_name" placeholder="Select an project"
+              bindValue="_id" [clearable]="false"  [(ngModel)]="project_id" [clearable]="false">
+            </ng-select>
+          </div> -->
           <div class="card">
             <div class="card-header card-header-danger">
               <div class="row">
@@ -19,46 +25,95 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <!-- <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-                  class="mat-elevation-z8 table-hover" width="100%" *ngIf="length > 0">
-                  <ng-container matColumnDef="no">
-                    <th width="33%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header class="text-primary"> No </th>
-                    <td width="8%" mat-cell *matCellDef="let element ; let i = index"> {{i + 1}} </td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="technology">
-                    <th width="33%" (click)="sortItem('technology')" mat-header-cell *matHeaderCellDef mat-sort-header
-                      class="text-primary">
-                      Technology Name </th>
-                    <td width="20%" mat-cell *matCellDef="let element"> {{element?.tech_name}} </td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="action">
-                    <th width="33%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
-                    <td width="15%" mat-cell *matCellDef="let element" class="text-center">
-                      <a [routerLink]="'/technology/edit-technology/' + element._id" matTooltip="Edit"
-                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                        class="btn  btn-link btn-sm btn-just-icon">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-                        matTooltipClass="mat_pop" class="btn btn-link btn-sm btn-just-icon"
-                        (click)="openDialog(element._id)"><i class="material-icons">delete</i>
-                      </a>
-                    </td>
-                  </ng-container>
-  
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table> -->
-                <!-- <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
-                  No Record Found
-                  <hr>
-                </div> -->
+                <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
+                class="mat-elevation-z8 table-hover" width="100%" *ngIf="length > 0">
+
+                <ng-container matColumnDef="no">
+                  <th width="8%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                     No </th>
+                  <td width="8%" mat-cell *matCellDef="let element; let i = index"> {{i + 1}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="title">
+                  <th width="8%" (click)="sortItem('title')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                     Bug Title </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_title}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="project_name">
+                  <th width="8%" (click)="sortItem('project_name')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Project Name </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_id.project_name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="devloper">
+                  <th width="8%" (click)="sortItem('devloper')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Developer Name </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.employee_id}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="bug_status">
+                  <th width="8%" (click)="sortItem('bug_status')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Status </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_status.status}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="bug_type">
+                  <th width="8%" (click)="sortItem('bug_type')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Type </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_type.bug_types}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="bug_priority">
+                  <th width="8%" (click)="sortItem('bug_priority')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Priority </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_priority.priority}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="bug_description">
+                  <th width="8%" (click)="sortItem('bug_description')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    class="text-primary">
+                    Description </th>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_description}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
+                  <td width="15%" mat-cell *matCellDef="let element" class="text-center">
+                    <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
+                      matTooltipClass="mat_pop" class="btn  btn-link btn-sm btn-just-icon" (click)="viewDetail(element)">
+                      <i class="material-icons">visibility</i>
+                    </a>
+                    <a href="javascropt:void(0)" matTooltip="Edit"
+                      [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                      class="btn  btn-link btn-sm btn-just-icon">
+                      <i class="material-icons">edit</i>
+                    </a>
+                    <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
+                      matTooltipClass="mat_pop" class="btn btn-link btn-sm btn-just-icon"
+                      (click)="openDialog(element._id)"><i class="material-icons">delete</i>
+                    </a>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+               </table>
+               <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
+                No Record Found
+                <hr>
+              </div>
               </div>
             </div>
             <div>
-              <app-pagination></app-pagination>
+              <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)"></app-pagination>
             </div>
           </div>
         </div>

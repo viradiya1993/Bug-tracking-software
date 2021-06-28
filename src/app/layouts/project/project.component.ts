@@ -27,10 +27,6 @@ export class ProjectComponent implements OnInit {
   sortName: String = 'project_no';
   sortType: String = 'desc';
   index: number;
-  start_date: any;
-  end_date: any;
-  sDate: any;
-  eDate: any;
   technologys: any = [];
   departments: any = [];
   projectManagerArray: any = [];
@@ -181,22 +177,9 @@ export class ProjectComponent implements OnInit {
     this.getProjectList();
   }
 
-  filterDate() {
-    var sdt = moment(this.start_date);
-    var edt = moment(this.end_date);
-    if (sdt.isValid && edt.isValid) {
-      this.sDate = sdt.format("x");
-      this.eDate = edt.format("x");
-      this.getProjectList();
-    }
-
-  }
+ 
 
   resetFilter() {
-    this.start_date = '';
-    this.end_date = '';
-    this.sDate = '';
-    this.eDate = '';
     this.page = 0;
     this.index = 0;
     this.departmentId = '';

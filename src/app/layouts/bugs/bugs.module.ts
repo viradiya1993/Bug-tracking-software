@@ -7,6 +7,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ViewBugsComponent } from './view-bugs/view-bugs.component';
 
 const routes: Routes = [
   { path: '', component: BugsComponent },
@@ -17,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [BugsComponent, AddBugsComponent],
+  declarations: [BugsComponent, AddBugsComponent, ViewBugsComponent],
   imports: [
     CommonModule,
     CommonModule,

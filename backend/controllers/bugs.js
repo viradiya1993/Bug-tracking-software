@@ -6,6 +6,8 @@ const bugType = require('../models/bugtype');
 const bugPriority = require('../models/bugs-priority');
 const bugModel = require('../models/bug-details');
 
+const mongoose = require('mongoose');
+
 exports.createBugs = async (req, res, next) => {
 	const {
 			employee_id,
@@ -60,6 +62,93 @@ exports.createBugs = async (req, res, next) => {
 	}
 }
 
+exports.getBugsList = async (req, res, next) => {
+	 try {
+		  //project_id: '60d463a36ff27053d8cdc8cf'
+		  var query = {};
+			var sort = {};
+			const search = req.query.q ? req.query.q : ''; // for searching
+
+			if (req.query.sortBy) { // for sorting
+				const parts = req.query.sortBy.split(':');
+				sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+			}
+
+			const pageOptions = {
+				page: parseInt(req.query.skip) || constant.PAGE,
+				limit: parseInt(req.query.limit) || constant.LIMIT
+			}
+	
+			if (search) {
+				query.$or = [
+					{ 'bug_title': new RegExp(search, 'i') },
+					{ 'bug_description': new RegExp(search, 'i') },
+				]
+			}
+
+			if (req.query.project_id) {
+				query.$or = [
+					{ 'project_id': mongoose.Types.ObjectId(req.query.project_id) },
+				]
+			}
+
+			const bugsList = await bugModel.find(query)
+			 .populate({
+					path: 'employee_id',
+					select: 'first_name',
+					model: 'EmployeeTable',
+				})
+			 .populate({
+					path: 'project_id',
+					select: 'project_name',
+					model: 'project_master',
+				})
+				.populate({
+					path: 'bug_status',
+					select: 'status',
+					model: 'bug_status',
+				})
+				.populate({
+					path: 'bug_type',
+					select: 'bug_types',
+					model: 'bug_type',
+				})
+				.populate({
+					path: 'bug_priority',
+					select: 'priority',
+					model: 'bug_priority',
+				})
+				.skip(pageOptions.page * pageOptions.limit)
+				.limit(pageOptions.limit)
+				.collation({ locale: "en" })
+				.sort(sort);
+
+				if (bugsList.length <= 0) {
+					return res.status(200).json({
+						message: "Bugs not available.",
+						data: {
+							totalcount: 0,
+							bugsList: []
+						}
+					});
+				}
+		  const totalcount = await bugModel.countDocuments(query);
+			return res.status(200).json({
+				message: "Bug list fatch successfully.",
+				data: {
+					bugsList,
+					totalcount
+				}
+			});
+
+	 } catch (error) {
+		  console.log(error);
+			return res.status(400).json({
+				message: "Something went wrong. Please try again later.",
+				data: {}
+			})
+	 }
+}
 
 // Fetch Project 
 exports.getProjects = async (req, res, next) => {
