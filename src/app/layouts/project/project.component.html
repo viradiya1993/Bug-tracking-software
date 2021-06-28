@@ -7,8 +7,7 @@
           <div class="col-12">
             <div class="row">
               <div class="col-md-4">
-                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-                  [message]="send"></app-search-textbox>
+                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
               </div>
               <div class="col-md-4">
                 <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name" bindValue="_id"
@@ -19,7 +18,6 @@
                 <ng-select placeholder="Department" [items]="departments" bindLabel="department" bindValue="_id"
                   (change)="selectDepartment($event)" [(ngModel)]="departmentId" [clearable]="false">
                 </ng-select>
-
               </div>
             </div>
           </div>
@@ -159,8 +157,7 @@
             </div>
           </div>
           <div>
-            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
-            </app-pagination>
+            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)"></app-pagination>
           </div>
         </div>
       </div>

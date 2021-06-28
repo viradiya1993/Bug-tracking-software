@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LayoutService } from 'app/layouts/layout.service';
 import { SharedService } from 'app/shared/shared.service';
 import { BugsService } from '../bugs.service';
@@ -14,10 +14,12 @@ import { BugsService } from '../bugs.service';
   styleUrls: ['./add-bugs.component.css']
 })
 export class AddBugsComponent implements OnInit {
+  private bugs_id: string;
   bugsForm: FormGroup;
   editable = false
   loader: boolean = false;
-  start_date: any =  new Date();
+  start_date: any;
+  sDate: any;
   bugStatus: any = [];
   bugsType: any = [];
   bugsPriority: any = [];
@@ -31,7 +33,8 @@ export class AddBugsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     public sharedService: SharedService,
     public datepipe: DatePipe,
-    private router: Router) {}
+    private router: Router,
+    public route: ActivatedRoute,) {}
 
   ngOnInit(): void {
     this.bugsForm = this._formBuilder.group({
@@ -50,10 +53,40 @@ export class AddBugsComponent implements OnInit {
     this.getBugsType();
     this.getBugsPriority();
     this.getProject(); 
-
+    this.setBugsDetails();
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
       this.getEmployee();
+    })
+  }
+
+  //Set Bug Details
+  setBugsDetails() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      this.bugs_id = paramMap.get('id');
+      if (paramMap.has('id')) {
+        this.sharedService.showLoader();
+        this.editable = true;
+        this.bugservice.getBugsDetail(this.bugs_id).subscribe((bugData: any) => {
+          this.sharedService.hideLoader();
+          this.sDate = this.datepipe.transform(bugData.bugDetails.start_date, 'yyyy-MM-dd');
+          let getBugsDetail = {
+            id: bugData.bugDetails._id,
+            bug_title: bugData.bugDetails.bug_title,
+            developer: bugData.bugDetails.employee_id,
+            bugstatus: bugData.bugDetails.bug_status,
+            project: bugData.bugDetails.project_id,
+            bugtype:  bugData.bugDetails.bug_type,
+            priority:  bugData.bugDetails.bug_priority,
+            start_date:  this.sDate,
+            bug_description: bugData.bugDetails.bug_description
+          }
+          this.bugsForm.patchValue(getBugsDetail);
+        },  err => {
+          this.sharedService.loggerError(err.error.error)
+          this.sharedService.hideLoader();
+        });
+      }
     })
   }
   
@@ -122,7 +155,7 @@ export class AddBugsComponent implements OnInit {
       start_date: this.f.sdate.value,
       bug_description: this.f.bug_description.value,
     }
-    console.log(data,'final');
+  
     if (!this.loader) {
       this.loader = true
       if (type === 'save') {
@@ -136,6 +169,17 @@ export class AddBugsComponent implements OnInit {
         }, err => {
             this.loader = false
             this.sharedService.loggerError(err.error.message);
+        });
+      } else {
+        this.loader = true;
+        this.bugservice.updateBugDetails(data, this.bugs_id).subscribe((res: any) => {
+          this.loader = false;
+          this.bugsForm.reset();
+          this.sharedService.loggerSuccess(res.message);
+          this.router.navigate(['/bugs']);
+        }, err => {
+          this.loader = false
+          this.sharedService.loggerError(err.error.message);
         });
       }
     }

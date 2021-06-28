@@ -3,7 +3,6 @@ const sendMail = require('../services/email.service');
 const projectCreationTemplete = require('../services/emailTemplate/projectCreationTemplate');
 const projectAssignTemplate = require('../services/emailTemplate/projectAssignTemplate');
 const constant = require('../config/constant');
-const ObjectID = require('mongodb').ObjectID;
 const mongoose = require('mongoose');
 
 const project = require('../models/projects');
@@ -25,8 +24,6 @@ exports.createProject = async (req, res, next) => {
 		start_date,
 		end_date,
 	} = req.body;
-
-
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
 		const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
@@ -259,7 +256,7 @@ exports.getProjectDetail = async (req, res, next) => {
 
 		for (let i = 0; i < projects.technology_id.length; i++) {
 			const ele = projects.technology_id[i];
-			await Technology.findOne({ _id: ObjectID(ele) })
+			await Technology.findOne({ _id: mongoose.Types.ObjectId(ele) })
 				.then(tech => {
 					projects.technology_id[i] = tech["tech_name"];
 				})
@@ -267,7 +264,7 @@ exports.getProjectDetail = async (req, res, next) => {
 
 		for (let i = 0; i < projects.employee_id.length; i++) {
 			const ele = projects.employee_id[i];
-			await empyolee.findOne({ _id: ObjectID(ele) })
+			await empyolee.findOne({ _id: mongoose.Types.ObjectId(ele) })
 				.then(emp => {
 					projects.employee_id[i] = emp["first_name"];
 				})
@@ -467,20 +464,18 @@ exports.getStatus = async (req, res, next) => {
 
 
 exports.updateStatusById = async (req, res, next) => {
-	// console.log(req.body);
 	let projectId = req.body.projectId;
 	let statusId = req.body.statusId;
 	try {
-		let query = { _id: ObjectID(projectId) },
+		let query = { _id:  mongoose.Types.ObjectId(projectId) },
 			update = {
 				'$set': {
-					status: ObjectID(statusId)
+					status:  mongoose.Types.ObjectId(statusId)
 				}
 			}
 
 		project.findOneAndUpdate(query, update)
 			.then(result => {
-				// console.log(result);
 				res.status(200).json({
 					message: "Status Update successfully"
 				});

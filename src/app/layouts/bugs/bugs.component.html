@@ -3,18 +3,63 @@
       <div class="row">
         <div class="col-md-12">
           <button mat-raised-button [routerLink]="['/bugs/add-bug']">Add Bugs</button>
-          <div class="col-md-2 mr-2 pull-right" >
+          <!-- <div class="col-md-2 mr-2 pull-right" >
             <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
           </div>
           <div class="col-md-4 mb-2 pull-right">
             <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
             [message]="send"></app-search-textbox>
-          </div>
+          </div> -->
           <!-- <div class="col-md-6">
             <ng-select [items]="projects" bindLabel="project_name" placeholder="Select an project"
               bindValue="_id" [clearable]="false"  [(ngModel)]="project_id" [clearable]="false">
             </ng-select>
           </div> -->
+          <div class="col-md-12">
+            <div class="card-body row">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-md-4">
+                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
+                  </div>
+                  <div class="col-md-4">
+                    <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
+                    (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-4">
+                    <ng-select placeholder="Developer" [items]="employees" bindLabel="first_name" bindValue="_id"
+                    (change)="selectDeveloper($event)" [(ngModel)]="employee_id"  [clearable]="false">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-md-3">
+                    <ng-select placeholder="Status" [items]="bugStatus" bindLabel="status" bindValue="_id"
+                    (change)="selectBugStatus($event)"  [(ngModel)]="bug_status" [clearable]="false">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-3">
+                    <ng-select placeholder="Bug Type" [items]="bugsType" bindLabel="bug_types" bindValue="_id"
+                    (change)="selectBugType($event)"  [(ngModel)]="bug_type" [clearable]="false">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-3">
+                    <ng-select placeholder="Bug Priority" [items]="bugsPriority" bindLabel="priority" bindValue="_id"
+                    (change)="selectBugPriority($event)"  [(ngModel)]="bug_priority"  [clearable]="false">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-3">
+                    <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+        <div class="col-md-12">
           <div class="card">
             <div class="card-header card-header-danger">
               <div class="row">
@@ -31,14 +76,14 @@
                 <ng-container matColumnDef="no">
                   <th width="8%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
-                     No </th>
+                    No </th>
                   <td width="8%" mat-cell *matCellDef="let element; let i = index"> {{i + 1}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="title">
                   <th width="8%" (click)="sortItem('title')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
-                     Bug Title </th>
+                    Bug Title </th>
                   <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_title}}</td>
                 </ng-container>
 
@@ -91,7 +136,7 @@
                       matTooltipClass="mat_pop" class="btn  btn-link btn-sm btn-just-icon" (click)="viewDetail(element)">
                       <i class="material-icons">visibility</i>
                     </a>
-                    <a href="javascropt:void(0)" matTooltip="Edit"
+                    <a [routerLink]="'/bugs/edit-bug/' + element._id" matTooltip="Edit"
                       [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
                       class="btn  btn-link btn-sm btn-just-icon">
                       <i class="material-icons">edit</i>
@@ -105,8 +150,8 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-               </table>
-               <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
+              </table>
+              <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
                 No Record Found
                 <hr>
               </div>
@@ -116,7 +161,7 @@
               <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)"></app-pagination>
             </div>
           </div>
-        </div>
+        </div>  
       </div>
     </div>
 </div>

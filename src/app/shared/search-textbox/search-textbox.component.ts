@@ -15,10 +15,7 @@ export class SearchTextboxComponent implements OnInit {
   searchValue: any = '';
 
   labelText: string = '';
-  constructor() {
-    console.log(this.message);
-
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.checkLabelValue();

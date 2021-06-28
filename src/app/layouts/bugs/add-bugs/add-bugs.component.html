@@ -4,7 +4,8 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header card-header-danger">
-						<h4 class="card-title">Add Bug</h4>
+						<h4 class="card-title" *ngIf="!editable">Add Bug</h4>
+						<h4 class="card-title" *ngIf="editable">Edit Bug</h4>
 					</div>
 					<div class="card-body">
 						<form [formGroup]='bugsForm'>
@@ -95,21 +96,20 @@
 								</div>
 								<!--Dropdown End -->
 							</div>
-
-							<!--  [disabled]="bugsForm.invalid" [disabled]="bugsForm.invalid" -->
+						
 							<div class="row mt20">
 								<div class="col-md-12 text-right">
 									<span class="pull-right mb15">
-										<button type="submit" *ngIf="!editable"
+										<button type="submit" *ngIf="!editable"  [disabled]="bugsForm.invalid"
 											[ngClass]="bugsForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('save')" class="mr-2">
 											<i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Add</button>
-										<button type="submit" *ngIf="editable" 
+										<button type="submit" *ngIf="editable"  [disabled]="bugsForm.invalid"
 											[ngClass]="bugsForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner"
 												*ngIf="loader"></i>Update</button>
 										<button type="button" class="btn btn-danger"
-											[routerLink]="['/project']">Cancel</button>
+											[routerLink]="['/bugs']">Cancel</button>
 									</span>
 								</div>
 							</div>
