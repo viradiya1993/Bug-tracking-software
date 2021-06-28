@@ -47,7 +47,7 @@ exports.getRole = (req, res, next) => {
     postQuery
         .then(documents => {
             fetchedPosts = documents;
-            return UserRoles.count();
+            return UserRoles.countDocuments();
         })
         .then(count => {
             res.status(200).json({

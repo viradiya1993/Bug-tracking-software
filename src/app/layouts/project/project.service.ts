@@ -31,7 +31,7 @@ export class ProjectService {
     if (search != null) {
       url += '&q=' + search;
     }
-    
+
     if (departmentId != null) {
       url += '&departmentId=' + departmentId;
     }
@@ -48,7 +48,7 @@ export class ProjectService {
       url += '&status=' + status;
     }
     return this.http.get(url);
-  } 
+  }
 
   getProjectList1(limit: any, page: any, shortName: any, shortType: any, search: any, sDate, eDate, departmentId: any, technology_id: any, employee_id: any, project_manager: any) {
     let url = BACKEND_URL + '/project/get-project-list';
@@ -84,18 +84,18 @@ export class ProjectService {
     //   url += '&project_manager=' + project_manager;
     // }
     let params = new HttpParams()
-    .set('limit', limit)
-    .set('page', page)
-    .set('sortBy', + shortName + ':' + shortType)
-    .set('q', search)
-    .set('start_date', sDate)
-    .set('end_date', eDate)
-    .set('technology_id', technology_id)
-    .set('employee_id', employee_id)
-    .set('project_manager', project_manager)
+      .set('limit', limit)
+      .set('page', page)
+      .set('sortBy', + shortName + ':' + shortType)
+      .set('q', search)
+      .set('start_date', sDate)
+      .set('end_date', eDate)
+      .set('technology_id', technology_id)
+      .set('employee_id', employee_id)
+      .set('project_manager', project_manager)
     return this.http.get(url, { params });
-  } 
-  
+  }
+
   //Add project
   addProject(data: any) {
     return this.http.post(BACKEND_URL + '/project/create', data);
@@ -113,11 +113,19 @@ export class ProjectService {
 
   //Update Project details
   updateProject(data: any, id: any) {
-    return this.http.post(BACKEND_URL + '/project/updateproject/' +  id, data);
+    return this.http.post(BACKEND_URL + '/project/updateproject/' + id, data);
   }
 
   //Delete project details
   deleteProject(id: any) {
     return this.http.delete(BACKEND_URL + '/project/delete-projects/' + id);
+  }
+
+  updateStatusById(statusID, projectID) {
+    let data = {
+      'projectId': projectID,
+      'statusId': statusID
+    }
+    return this.http.post(BACKEND_URL + '/project/updateStatusById', data);
   }
 }

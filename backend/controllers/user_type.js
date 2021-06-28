@@ -42,7 +42,7 @@ exports.getUserType = (req, res, next) => {
     postQuery
         .then(documents => {
             fetchedPosts = documents;
-            return UserType.count();
+            return UserType.countDocuments();
         })
         .then(count => {
             res.status(200).json({

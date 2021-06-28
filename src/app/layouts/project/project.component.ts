@@ -72,8 +72,10 @@ export class ProjectComponent implements OnInit {
   }
 
   getProjectList() {
+    this.sharedService.showLoader();
     this.projectService.getProjectList(this.limit, this.page, this.sortName, this.sortType, this.searchKey, this.departmentId, this.technologyId, this.employee_id, this.manager_id, this.status_id,)
       .subscribe((res: any) => {
+        this.sharedService.hideLoader();
         this.sharedService.hideLoader();
         for (let index = 0; index < res.data.projects.length; index++) {
           let techName = [];
@@ -98,6 +100,7 @@ export class ProjectComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res.data.projects);
         this.length = res.data.totalcount
       }, err => {
+        this.sharedService.hideLoader();
         this.sharedService.loggerError(err.error.message);
         this.sharedService.hideLoader();
       });
@@ -179,6 +182,23 @@ export class ProjectComponent implements OnInit {
   selectStatus(value: any) {
     this.status_id = value?._id;
     this.getProjectList();
+  }
+
+  changeStatus(statusId: string, projectId: string) {
+    console.log(statusId, projectId);
+    debugger
+    this.sharedService.showLoader();
+    this.projectService.updateStatusById(
+      statusId, projectId
+    ).subscribe((res: any) => {
+      console.log(this.dataSource);
+      this.getProjectList();
+      this.sharedService.hideLoader();
+      this.sharedService.loggerSuccess(res.message);
+    }, err => {
+      this.sharedService.hideLoader();
+      this.sharedService.loggerError(err.error.message);
+    });
   }
 
   filterDate() {

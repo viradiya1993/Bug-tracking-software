@@ -77,7 +77,7 @@ exports.createProject = async (req, res, next) => {
 				message: "Project Name already exist choose another one."
 			});
 		}
-		
+
 		const projects = new project();
 		projects.technology_id = technology_id;
 		projects.departmentId = departmentId;
@@ -118,7 +118,7 @@ exports.getTechnology = async (req, res, next) => {
 	postQuery
 		.then(documents => {
 			fetchedPosts = documents;
-			return Technology.count();
+			return Technology.countDocuments();
 		})
 		.then(count => {
 			res.status(200).json({
@@ -462,6 +462,38 @@ exports.getStatus = async (req, res, next) => {
 		return res.status(400).json({
 			message: "Something went wrong. Please try again later.",
 			data: {}
+		})
+	}
+}
+
+
+exports.updateStatusById = async (req, res, next) => {
+	// console.log(req.body);
+	let projectId = req.body.projectId;
+	let statusId = req.body.statusId;
+	try {
+		let query = { _id: ObjectID(projectId) },
+			update = {
+				'$set': {
+					status: ObjectID(statusId)
+				}
+			}
+
+		project.findOneAndUpdate(query, update)
+			.then(result => {
+				// console.log(result);
+				res.status(200).json({
+					message: "Status Update successfully"
+				});
+			}).catch(error => {
+				res.status(500).json({
+					err: error,
+					message: "Updating Status Failed"
+				});
+			});
+	} catch {
+		return res.status(400).json({
+			message: "Something went wrong. Please try again later."
 		})
 	}
 }
