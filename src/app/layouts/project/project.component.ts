@@ -197,17 +197,6 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  filterDate() {
-    var sdt = moment(this.start_date);
-    var edt = moment(this.end_date);
-    if (sdt.isValid && edt.isValid) {
-      this.sDate = sdt.format("x");
-      this.eDate = edt.format("x");
-      this.getProjectList();
-    }
-
-  }
-
   resetFilter() {
     this.page = 0;
     this.index = 0;
