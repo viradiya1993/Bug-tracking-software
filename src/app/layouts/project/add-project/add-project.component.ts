@@ -90,6 +90,7 @@ export class AddProjectComponent implements OnInit {
         this.sharedService.showLoader();
         this.editable = true;
         this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
+          this.sharedService.hideLoader();
           this.sDate = this.datepipe.transform(projectData.projects.start_date, 'yyyy-MM-dd');
           this.eDate = this.datepipe.transform(projectData.projects.end_date, 'yyyy-MM-dd');
           let fetachProject = {

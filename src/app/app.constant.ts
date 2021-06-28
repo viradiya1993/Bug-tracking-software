@@ -13,6 +13,7 @@ export class AppConst {
     public static projectdeleteMessage = 'Are you sure you want to delete project ?';
     public static departmentDeleteMessage = 'Are you sure you want to delete department ?';
     public static emoployeeDeleteMessage = 'Are you sure you want to delete Employee ?';
+    public static bugdetailsDeleteMessage = 'Are you sure you want to delete Bug Detail ?';
 
 
     public static genderArray = [

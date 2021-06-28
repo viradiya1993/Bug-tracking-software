@@ -16,5 +16,6 @@ router.delete('/delete-projects/:id', checkAuth, projectsController.deleteProjec
 router.post('/status/add', checkAuth, projectsController.addStatus);
 router.get('/status', checkAuth, projectsController.getStatus);
 
-router.post('/updateStatusById', checkAuth, projectsController.updateStatusById)
+router.post('/updateStatusById', checkAuth, projectsController.updateStatusById);
+
 module.exports = router;
