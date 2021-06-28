@@ -9,6 +9,7 @@ router.get('/getbugstatus', bugsController.getBugstatus);
 router.get('/getbugstype', bugsController.getBugsType)
 router.get('/getbugspriority', bugsController.getBugsPriority);
 
+router.get('/get-bugs-list', bugsController.getBugsList);
 router.post('/create', checkAuth, bugsController.createBugs);
 
 module.exports = router;

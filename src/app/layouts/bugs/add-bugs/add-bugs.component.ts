@@ -18,7 +18,6 @@ export class AddBugsComponent implements OnInit {
   editable = false
   loader: boolean = false;
   start_date: any =  new Date();
-  bugsID: any
   bugStatus: any = [];
   bugsType: any = [];
   bugsPriority: any = [];
@@ -27,16 +26,12 @@ export class AddBugsComponent implements OnInit {
   projects: any = [];
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
   constructor(
-    private route: ActivatedRoute, 
     public bugservice: BugsService,
     public layoutsService: LayoutService,
     private _formBuilder: FormBuilder,
     public sharedService: SharedService,
     public datepipe: DatePipe,
-    private router: Router) {
-    this.bugsID = this.route.snapshot.paramMap.get('id');
-    console.log(this.bugsID);
-   }
+    private router: Router) {}
 
   ngOnInit(): void {
     this.bugsForm = this._formBuilder.group({

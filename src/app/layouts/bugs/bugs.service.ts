@@ -30,4 +30,30 @@ export class BugsService {
   addBug(data: any) {
     return this.http.post(BACKEND_URL + '/bugs/create', data);
   }
+
+  //Fetch Bug List
+  getBugsList(limit: any, page: any, shortName: any, shortType: any, search: any, project_id: any,) {
+    let url = BACKEND_URL + '/bugs/get-bugs-list';
+    if (limit !== undefined) {
+      url += '?limit=' + limit;
+    } else {
+      url += '?limit=5';
+    }
+    if (page !== undefined) {
+      url += '&skip=' + page;
+    } else {
+      url += '&skip=0';
+    }
+    if (shortName !== undefined) {
+      url += '&sortBy=' + shortName + ':' + shortType;
+    }
+    if (search != null) {
+      url += '&q=' + search;
+    }
+    if (project_id != null) {
+      url += '&project_id=' + project_id;
+    }
+    return this.http.get(url);
+  }
+  
 }

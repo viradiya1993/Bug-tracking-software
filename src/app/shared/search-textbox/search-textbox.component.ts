@@ -9,7 +9,6 @@ import { AppConst } from 'app/app.constant';
 export class SearchTextboxComponent implements OnInit {
   @Output() searchEvent = new EventEmitter<any>();
   @Output() resetIndex = new EventEmitter<any>();
-
   @Input() message: string;
 
   labelConst = AppConst.labelForTextbox;
