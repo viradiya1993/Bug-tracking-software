@@ -1,61 +1,70 @@
 <div class="page-header login-page header-filter middle_content" filter-color="black">
   <div class="container">
-    <div class="container-login100">
-      <div class="wrap-login100">
-        <form class="mt15" #loginForm="ngForm">
-          <span class="login100-form-logo">
-            <img class="logo" src="assets/img/MANEKTECH.jpeg">
-          </span>
-          <h2 class="text-center pb-3"><strong>Login</strong></h2>
-          <div class="textbox-full-width textbox-full-width-pb20">
-            <mat-form-field>
-              <mat-label>Email</mat-label>
-              <input matInput name="email" id="email" [(ngModel)]="user.email" #email="ngModel" required
-                [pattern]="emailPattern">
-            </mat-form-field>
-
-            <div *ngIf="(email.dirty || email.touched) && email.invalid">
-              <mat-error class="text-left" *ngIf="email.errors.required">
-                Email is required
-              </mat-error>
-              <mat-error class="text-left" *ngIf="email.errors.pattern">
-                Invalid Email
-              </mat-error>
+    <div class="row justify-content-center">
+      <div class="col-xxl-4 col-lg-5 container-login100 pt-2 pt-sm-5 pb-4 pb-sm-5">
+        <div class="wrap-login100">
+          <form class="mt15" #loginForm="ngForm">
+            <div class="card-header pt-4 pb-4 text-center bg-primary">
+              <span class="login100-form-logo">
+                <img class="logo" src="assets/img/MANEKTECH.jpeg">
+              </span>
             </div>
-          </div>
+            <div class="card-body p-4">
+              <div class="text-center w-75 m-auto">
+                <h4 class="text-center pb-4 text-dark-50 mt-0 fw-bold"><strong>Login</strong></h4>
+              </div>
+              <div class="textbox-full-width textbox-full-width-pb20">
+                <mat-form-field>
+                  <mat-label>Email</mat-label>
+                  <input matInput name="email" id="email" [(ngModel)]="user.email" #email="ngModel" required
+                    [pattern]="emailPattern">
+                </mat-form-field>
 
-          <div class="textbox-full-width mb10">
-            <mat-form-field>
-              <mat-label>Password</mat-label>
-              <input matInput [type]="show_button ? 'text' : 'password'" required name="password" id="password"
-                #password="ngModel" [(ngModel)]="user.password">
-              <i [class]="show_eye ? 'fa fa-eye password_hide_show' : 'fa fa-eye-slash password_hide_show'"
-                (click)="showPassword()"></i>
-            </mat-form-field>
+                <div *ngIf="(email.dirty || email.touched) && email.invalid">
+                  <mat-error class="text-left" *ngIf="email.errors.required">
+                    Email is required
+                  </mat-error>
+                  <mat-error class="text-left" *ngIf="email.errors.pattern">
+                    Invalid Email
+                  </mat-error>
+                </div>
+              </div>
+              <div class="textbox-full-width mb10">
+                <mat-form-field>
+                  <mat-label>Password</mat-label>
+                  <div class="input-group input-group-merge">
+                    <input matInput [type]="show_button ? 'text' : 'password'" required name="password" id="password"
+                    #password="ngModel" [(ngModel)]="user.password">
+                    <div class="input-group-text">
+                      <i [class]="show_eye ? 'fa fa-eye password_hide_show' : 'fa fa-eye-slash password_hide_show'"
+                    (click)="showPassword()"></i>
+                    </div>
+                  </div>
+                </mat-form-field>
 
-            <mat-error class="text-left" *ngIf="(password.dirty || password.touched) && password.invalid">
-              Password is required
-            </mat-error>
-            <div class="row">
-              <a class="text-muted col-6" routerLink="/signup">
-                <h6 class="text-left">Don't have an account? SignUp Now</h6>
-              </a>
-              <a class="text-muted col-6" routerLink="/forgot-password">
-                <h6 class="text-right">Forgot Password?</h6>
-              </a>
+                <mat-error class="text-left" *ngIf="(password.dirty || password.touched) && password.invalid">
+                  Password is required
+                </mat-error>
+                <div class="row">
+                  <a class="text-muted col-6" routerLink="/signup">
+                    <h6 class="text-left">Don't have an account? SignUp Now</h6>
+                  </a>
+                  <a class="text-muted col-6" routerLink="/forgot-password">
+                    <h6 class="text-right">Forgot Password?</h6>
+                  </a>
+                </div>
+              </div>
+              <button (click)="onLogin(loginForm)" style="cursor: pointer" [disabled]="!loginForm.valid" [ngClass]="
+                !loginForm.valid
+                ? 'btn btn-info disable-btn full_wid disable'
+                : 'btn btn-info full_wid'">
+                Sign In
+                <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
+              </button>
+              <!-- <button class="btn btn-info full_wid btn btn-primary" [routerLink]="['/signup']">Signup</button>&nbsp; -->
             </div>
-          </div>
-
-          <button (click)="onLogin(loginForm)" style="cursor: pointer" [disabled]="!loginForm.valid" [ngClass]="
-            !loginForm.valid
-             ? 'btn btn-info disable-btn full_wid disable'
-             : 'btn btn-info full_wid'">
-            Sign In
-            <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
-          </button>
-
-          <!-- <button class="btn btn-info full_wid btn btn-primary" [routerLink]="['/signup']">Signup</button>&nbsp; -->
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
