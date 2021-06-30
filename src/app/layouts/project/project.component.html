@@ -106,11 +106,11 @@
                     class="text-primary">
                     Status </th>
                   <td width="8%" mat-cell *matCellDef="let element">
-                    <!-- {{element?.status?.value}} -->
-                    <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value" bindValue="_id"
+                    {{element?.status?.value}}
+                    <!-- <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value" bindValue="_id"
                       (change)="changeStatus($event._id, element._id)" [(ngModel)]="element.status._id"
                       [clearable]="false">
-                    </ng-select>
+                    </ng-select> -->
                   </td>
                 </ng-container>
 

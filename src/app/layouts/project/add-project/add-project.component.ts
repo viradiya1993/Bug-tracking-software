@@ -205,6 +205,8 @@ export class AddProjectComponent implements OnInit {
 
     for (let i = 0; i < this.projectForm.value.employee.length; i++) {
       const element = this.projectForm.value.employee[i];
+      // console.log(element,this.employees);
+      
       let filterEmp = this.employees.filter(e => e.first_name == element);
       employeeArray.push(filterEmp[0]._id);
     }
