@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'app/shared/shared.service';
 import * as Chartist from 'chartist';
+import { LayoutService } from '../layout.service';
+import { ProjectService } from '../project/project.service';
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,8 +11,16 @@ import * as Chartist from 'chartist';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  statusOpen: any
+  statusProgress: any;
+  activeEmployee: any;
+  projectData: any;
+  employeeData: any
+  constructor(public sharedService: SharedService, 
+              public dashborad: DashboardService, 
+              public projectService: ProjectService, 
+              private layoutService: LayoutService) { this.sharedService.showLoader(); }
 
-  constructor() { }
   startAnimationForLineChart(chart){
       let seq: any, delays: any, durations: any;
       seq = 0;
@@ -145,6 +157,36 @@ export class DashboardComponent implements OnInit {
 
       //start animation for the Emails Subscription Chart
       this.startAnimationForBarChart(websiteViewsChart);
+      this.projectService.getProjectStatus().subscribe((res: any) => {
+       this.statusOpen =  res.status.filter(x => x.value === 'Open');
+       this.statusProgress = res.status.filter(x => x.value === 'In Progress')
+       this.getProjectCount();
+      });
+
+      this.layoutService.getEmpStatus().subscribe((res: any) => {
+        this.activeEmployee = res.status.filter(x => x.status === 'Active')
+        this.getActiveEmployee();
+      })
   }
 
+  getProjectCount() {
+    let data = {
+      statusOpen: this.statusOpen[0]._id,
+      statusInPro: this.statusProgress[0]._id
+    }
+    this.dashborad.getProjectCount(data).subscribe((res: any) => {
+      this.sharedService.hideLoader();
+      this.projectData = res.data;
+    });
+  }
+
+  getActiveEmployee() {
+    let data = {
+      status: this.activeEmployee[0]._id
+    }
+    this.dashborad.getActiveEmpCount(data).subscribe((res: any) => {
+      this.sharedService.hideLoader();
+      this.employeeData = res.data
+    });
+  }
 }

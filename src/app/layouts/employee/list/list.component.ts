@@ -24,7 +24,7 @@ import { LayoutService } from 'app/layouts/layout.service';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  displayedColumns: string[] = ['first_name', 'last_name', 'email', 'mobile_number', 'department', 'role', 'action'];
+  displayedColumns: string[] = ['first_name', 'last_name', 'email', 'status', 'mobile_number', 'department', 'role', 'action'];
   dataSource: MatTableDataSource<EmployeeData>;
   total = 0;
   PerPage = AppConst.pageSize;
@@ -38,7 +38,7 @@ export class ListComponent implements OnInit {
   gendersArray: [] = [];
   roleArray: [] = [];
   departmentArray: [] = [];
-
+  employeeStatus: any = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
@@ -73,7 +73,8 @@ export class ListComponent implements OnInit {
       mobile_number: new FormControl(''),
       gender: new FormControl(''),
       departmentId: new FormControl(''),
-      roleId: new FormControl('')
+      roleId: new FormControl(''),
+      status: new FormControl('')
     });
     this.isLoading = true;
     this.spinner.show();
@@ -81,6 +82,7 @@ export class ListComponent implements OnInit {
     this.getRoles();
     this.getGender();
     this.getEmployeeData();
+    this.getEmpStatus();
   }
 
   ngAfterViewInit() {
@@ -91,15 +93,12 @@ export class ListComponent implements OnInit {
   }
 
   applyFilter() {
-    console.log(this.formEmployeeSearch.value);
     this.getEmployeeData();
   }
 
   getEmployeeData() {
     this.page["params"] = this.formEmployeeSearch.value;
-    // console.log(this.page);
     this.service.getEmployeeList(this.page).subscribe((res: any) => {
-      // console.log(res);
       this.isLoading = false;
       this.spinner.hide();
       if (res.employeeLists) {
@@ -108,7 +107,6 @@ export class ListComponent implements OnInit {
       }
     },
       (err) => {
-        // console.log(err);
         if (err.error.message) {
           this.spinner.hide();
           if (err.status == 401) {
@@ -125,44 +123,39 @@ export class ListComponent implements OnInit {
       if (res.userDepartment) {
         this.departmentArray = res.userDepartment;
       }
-      // this.getRoles();
-      // console.log(this.departmentArray);
     });
   }
 
   getRoles() {
     this.layoutService.getRolesData().subscribe(res => {
-      // console.log(res);
       if (res.userRoles) {
         this.roleArray = res.userRoles;
       }
-      // this.setEmployeeData();
+    });
+  }
+  getEmpStatus() {
+    this.layoutService.getEmpStatus().subscribe((res: any) => {
+      this.employeeStatus = res.status
     });
   }
 
   getGender() {
     this.layoutService.getGenderData().subscribe((res: any) => {
-      // console.log(res);
       if (res.data) {
         this.gendersArray = res.data;
       }
-      // this.setEmployeeData();
     });
   }
-  onChangedPage(pageData: PageEvent) {
-    // this.isLoading = true;
-    this.spinner.show();
-    // console.log(pageData);
 
+  onChangedPage(pageData: PageEvent) {
+    this.spinner.show();
     this.page.size = pageData.pageSize;
     this.page.pageNumber = pageData.pageIndex + 1;
-
     this.getEmployeeData();
 
   }
 
   sortTable(event) {
-    // console.log(event);
     this.spinner.show();
     this.page.sortby = event.active + ':' + event.direction;
     this.getEmployeeData();
@@ -177,8 +170,6 @@ export class ListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.service.deleteEmployee(id).subscribe((res: any) => {
-          // console.log(res);
-
           this.getEmployeeData();
           this.sharedService.loggerSuccess(res.message);
         })
@@ -189,7 +180,6 @@ export class ListComponent implements OnInit {
   }
 
   create(action, obj) {
-    // console.log(action, obj);
     obj.action = action;
     this.router.navigate(['/employee/add']);
   }

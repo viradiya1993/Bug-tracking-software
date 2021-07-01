@@ -42,6 +42,7 @@ export class EmployeeService {
       .set('gender', data.params.gender ? data.params.gender : '')
       .set('roleId', data.params.roleId ? data.params.roleId : '')
       .set('departmentId', data.params.departmentId ? data.params.departmentId : '')
+      .set('status', data.params.status ? data.params.status : '')
 
     // const queryParams = `?pageSize=${data.size}&page=${data.pageNumber}&sortBy=${data.sortby}`
     return this.http.get<{ message: string, employeeLists: any, count: number }>

@@ -44,12 +44,21 @@ const employeeRoles = mongoose.Schema({
         required: true,
         unique: true
     },
+
+    status: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'employee_Status',
+        default: null
+    },
+
     created_at: {
         type: Number,
     },
+
     updated_at: {
         type: Number,
     },
+
     actual_updated_at: {
         type: Number,
         default: null

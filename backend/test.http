@@ -69,7 +69,8 @@ Content-Type: application/json
     "departmentId":"1001",
     "gender":"asdasd@gmail.com",
     "mobile_number":"12345678",
-    "email":"asdasd"
+    "email":"asdasd",
+    "status": "Active"
 }
 ###
 POST http://localhost:3000/api/user/forgot-password HTTP/1.1
@@ -215,4 +216,27 @@ Content-Type: application/json
 
 ###
 GET  http://localhost:3000/api/bugs/getbugdetails/60d5a6a574b2792ef43c5789 HTTP/1.1
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/api/employee/add-status HTTP/1.1
+Content-Type: application/json
+
+{
+    "status": "Inactive"
+}
+
+###
+GET  http://localhost:3000/api/employee/get-status HTTP/1.1
+Content-Type: application/json
+
+
+###
+GET  http://localhost:3000/api/dashboard/get-project-count HTTP/1.1
+Content-Type: application/json
+
+###
+GET  http://localhost:3000/api/dashboard/get-active-emp HTTP/1.1
 Content-Type: application/json
