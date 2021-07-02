@@ -130,7 +130,8 @@ exports.loginUser = (req, res, next) => {
                             email: fetchedUser.email,
                             userId: fetchedUser._id,
                             role: newRole.role,
-                            isAdmin: isAdmin
+                            isAdmin: isAdmin,
+                            roleId: fetchedUser.roleId
                         },
                         process.env.JWT_KEY,
                         { expiresIn: "1h" }
@@ -141,7 +142,8 @@ exports.loginUser = (req, res, next) => {
                         userId: fetchedUser._id,
                         message: "Login Successfully",
                         role: newRole.role,
-                        isAdmin: isAdmin
+                        isAdmin: isAdmin,
+                        roleId: fetchedUser.roleId
                     })
                 });
         })
