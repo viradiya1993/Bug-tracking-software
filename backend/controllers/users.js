@@ -6,6 +6,7 @@ const userCreationTemplate = require('../services/emailTemplate/userCreationTemp
 const dateFormat = require('../helper/dateFormate.helper');
 const forgotPasswordTemplate = require('../services/emailTemplate/forgotPasswordTemplate');
 const constant = require('../config/constant');
+const mongoose = require('mongoose');
 
 const User = require('../models/users.js');
 const UserRoles = require('../models/user_roles.js');
@@ -316,6 +317,30 @@ exports.createDefaultUser = async (req, res, next) => {
         }
     }
     this.createUserFromEmployee(user);
+}
+
+exports.updateDefaultUser = async (req, res, next) => {
+    User.findOne({ email: req.email })
+        .then(result => {
+            console.log(result);
+            if (result) {
+                let query = { _id: mongoose.Types.ObjectId(result._id) },
+                    update = {
+                        '$set': {
+                            roleId: mongoose.Types.ObjectId(req.roleId)
+                        }
+                    }
+                User.findOneAndUpdate(query, update)
+                    .then(userData => {
+                        console.log(userData);
+                    }).catch(error => {
+                        res.status(500).json({
+                            err: error,
+                            message: "Some Error Occured"
+                        });
+                    });
+            }
+        });
 }
 
 exports.createUserFromEmployee = (req, res, next) => {
