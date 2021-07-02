@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppConst } from 'app/app.constant';
+import { SharedService } from 'app/shared/shared.service';
 import { environment } from 'environments/environment';
 
 
@@ -11,7 +13,12 @@ const BACKEND_URL = environment.apiUrl + '/user/';
 })
 export class AuthService {
   public tokenTimer: NodeJS.Timer;
-  constructor(private http: HttpClient, public router: Router) { }
+  public message = AppConst.logoutMessage;
+  constructor(
+    private http: HttpClient,
+    public router: Router,
+    private sharedService: SharedService,
+  ) { }
 
   // get Token
   getToken() {
@@ -43,6 +50,7 @@ export class AuthService {
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(['/login']);
+    this.sharedService.loggerSuccess(this.message);
   }
 
   // Remove login data
