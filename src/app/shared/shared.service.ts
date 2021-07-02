@@ -38,7 +38,7 @@ export class SharedService {
     // { path: '/icons', title: 'Icons', icon: 'bubble_chart', class: '', onlyAdmin: false },
     // { path: '/maps', title: 'Maps', icon: 'location_on', class: '', onlyAdmin: false },
     // { path: '/notifications', title: 'Notifications', icon: 'notifications', class: '', onlyAdmin: false },
-    { path: '/employee', title: 'Employee', icon: 'content_paste', class: '', onlyAdmin: true },
+    { path: '/employee', title: 'Employee', icon: 'supervised_user_circle', class: '', onlyAdmin: true },
     { path: '/technology', title: 'Technology', icon: 'content_paste', class: '', onlyAdmin: true },
     { path: '/department', title: 'Department', icon: 'dashboard', class: '', onlyAdmin: true },
     { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: true },
