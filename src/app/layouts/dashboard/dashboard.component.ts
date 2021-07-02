@@ -16,6 +16,8 @@ export class DashboardComponent implements OnInit {
   activeEmployee: any;
   projectData: any;
   employeeData: any
+  projectsAssing: any;
+  projectsActive: any;
   constructor(public sharedService: SharedService, 
               public dashborad: DashboardService, 
               public projectService: ProjectService, 
@@ -161,12 +163,15 @@ export class DashboardComponent implements OnInit {
        this.statusOpen =  res.status.filter(x => x.value === 'Open');
        this.statusProgress = res.status.filter(x => x.value === 'In Progress')
        this.getProjectCount();
+       this.getActiveProject();
       });
 
       this.layoutService.getEmpStatus().subscribe((res: any) => {
         this.activeEmployee = res.status.filter(x => x.status === 'Active')
         this.getActiveEmployee();
       })
+      this.getAssignProject();
+     
   }
 
   getProjectCount() {
@@ -189,4 +194,23 @@ export class DashboardComponent implements OnInit {
       this.employeeData = res.data
     });
   }
+
+  getAssignProject() {
+    this.dashborad.getAssignProject().subscribe((res: any) => {
+      this.sharedService.hideLoader();
+      this.projectsAssing = res.data;
+    });
+  }
+
+  getActiveProject() {
+    let data = {
+      statusOpen: this.statusOpen[0]._id,
+      statusInPro: this.statusProgress[0]._id
+    }
+    this.dashborad.getActiveProject(data).subscribe((res: any) => {
+      this.sharedService.hideLoader();
+      this.projectsActive = res.data;
+    });
+  }
 }
+

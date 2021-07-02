@@ -23,4 +23,15 @@ export class DashboardService {
     .set('status', data.status)
     return this.http.get(BACKEND_URL + '/dashboard/get-active-emp', { params })
   }
+
+  getAssignProject() {
+    return this.http.get(BACKEND_URL + '/dashboard/get-assign-project')
+  }
+
+  getActiveProject(data: any) {
+    let params = new HttpParams()
+    .set('statusOpen', data.statusOpen)
+    .set('statusInPro', data.statusInPro)
+    return this.http.get(BACKEND_URL + '/dashboard/get-active-project', { params })
+  }  
 }
