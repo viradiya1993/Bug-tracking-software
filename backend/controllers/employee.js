@@ -210,7 +210,7 @@ exports.getEmployeeById = async (req, res, next) => {
 			message: "Fetching Employee Failed"
 		});
 	});
-	
+
 }
 
 exports.editEmployee = (req, res, next) => {
@@ -277,11 +277,18 @@ exports.editEmployee = (req, res, next) => {
 													updated_at: dateFormat.set_current_timestamp(),
 													actual_updated_at: dateFormat.set_current_timestamp(),
 												};
+												let body = {
+													first_name: req.body.first_name,
+													email: req.body.email,
+													roleId: ObjectID(req.body.roleId)
+												}
+												users.updateDefaultUser(body);
 												EmployeeTable.updateOne(
 													{ _id: ObjectID(req.body.id) },
 													employeeNew,
 													{ new: true })
 													.then(
+
 														result => {
 															if (result.n > 0) {
 																res.status(200).json({
@@ -337,7 +344,7 @@ exports.deleteEmployee = (req, res, next) => {
 }
 
 exports.AddEmpStatus = async (req, res, next) => {
-  const { status } = req.body;
+	const { status } = req.body;
 	try {
 		const empStatus = new empStatusModel();
 		empStatus.status = status;
@@ -345,11 +352,11 @@ exports.AddEmpStatus = async (req, res, next) => {
 		empStatus.updated_at = await dateFormat.set_current_timestamp();
 		empStatus.actual_updated_at = await dateFormat.set_current_timestamp();
 		empStatus.save()
-		.then(empStatus => {
+			.then(empStatus => {
 				return res.status(200).json({
-						message: "Status Added."
+					message: "Status Added."
 				});
-		})
+			})
 	} catch (error) {
 		res.status(400).json({
 			message: "Something went wrong. Please try again later"
@@ -362,22 +369,22 @@ exports.getEmpStatus = async (req, res, next) => {
 		const postQuery = empStatusModel.find();
 		let fetchedPosts;
 		postQuery
-		.then(documents => {
-			fetchedPosts = documents;
-			return empStatusModel.countDocuments();
-		})
-		.then(count => {
-			res.status(200).json({
-				message: "Status fetched successfully",
-				status: fetchedPosts,
-				status_Count: count
+			.then(documents => {
+				fetchedPosts = documents;
+				return empStatusModel.countDocuments();
+			})
+			.then(count => {
+				res.status(200).json({
+					message: "Status fetched successfully",
+					status: fetchedPosts,
+					status_Count: count
+				});
+			}).catch(error => {
+				res.status(500).json({
+					err: error,
+					message: "Fetching Status Failed"
+				});
 			});
-		}).catch(error => {
-			res.status(500).json({
-				err: error,
-				message: "Fetching Status Failed"
-			});
-		});
 	} catch (error) {
 		return res.status(400).json({
 			message: "Something went wrong. Please try again later.",
