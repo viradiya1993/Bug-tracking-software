@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 
 
@@ -10,7 +9,7 @@ const BACKEND_URL = environment.apiUrl + '';
 })
 export class ProjectService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
   //Fetch Project
   getProjectList(limit: any, page: any, shortName: any, shortType: any, search: any, departmentId: any, technology_id: any, employee_id: any, project_manager: any, status: any) {

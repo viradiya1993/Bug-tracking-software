@@ -75,7 +75,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<div>
 										<ng-select placeholder="Department" [items]="departmentArray"
 											bindLabel="department" bindValue="_id" formControlName="department">
@@ -85,13 +85,23 @@
 										</mat-error>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<div>
 										<ng-select placeholder="Role" [items]="roleArray" bindLabel="role"
 											bindValue="_id" formControlName="role">
 										</ng-select>
 										<mat-error *ngIf="formEmployee.get('role').invalid"> Please Select a
 											Department
+										</mat-error>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div>
+										<ng-select placeholder="Status" [items]="employeeStatus" bindLabel="status"
+											bindValue="_id" formControlName="status">
+										</ng-select>
+										<mat-error *ngIf="formEmployee.get('status').invalid"> Please Select a
+											Status
 										</mat-error>
 									</div>
 								</div>

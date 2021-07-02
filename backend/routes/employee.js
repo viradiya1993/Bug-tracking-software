@@ -10,9 +10,11 @@ const router = express.Router();
 
 // Get List
 router.get("", checkAuth, EmployeeController.getEmployee);
+router.get('/get-status', EmployeeController.getEmpStatus);
+router.post('/add-status', EmployeeController.AddEmpStatus);
 
 // Create
-router.post("/create", checkAuth,
+router.post("/create",
     // email validation
     body('email').isEmail(),
     // mobile number must be at least 10 chars long

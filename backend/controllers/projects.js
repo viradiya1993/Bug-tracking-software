@@ -9,6 +9,7 @@ const project = require('../models/projects');
 const Project_Status = require('../models/projectStatus');
 const empyolee = require('../models/employee');
 const Technology = require('../models/technology');
+const { query } = require('express-validator');
 
 //Create Project
 exports.createProject = async (req, res, next) => {
@@ -491,3 +492,4 @@ exports.updateStatusById = async (req, res, next) => {
 		})
 	}
 }
+

@@ -50,6 +50,11 @@ export class LayoutService {
     (BACKEND_URL + '/bugs/getproject');
   }
 
+  getEmpStatus() {
+    return this.http.get<{ message: string, status: any, count: number }>
+    (BACKEND_URL + '/employee/get-status');
+  }
+
 }
 
 /*

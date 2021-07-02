@@ -23,6 +23,7 @@ export class AddComponent implements OnInit {
   gendersArray: [] = [];
   roleArray: [] = [];
   departmentArray: [] = [];
+  employeeStatus: any = [];
   emailPattern = AppConst.emailValidationPattern;
   mobilePattern = AppConst.mobileValidationPatter;
   emailError = false;
@@ -38,6 +39,7 @@ export class AddComponent implements OnInit {
     this.getDepartment();
     this.getRoles();
     this.getGender();
+    this.getEmpStatus();
   }
 
   ngOnInit(): void {
@@ -67,6 +69,9 @@ export class AddComponent implements OnInit {
       }),
       role: new FormControl(null, {
         validators: [Validators.required]
+      }),
+      status: new FormControl(null, {
+        validators: [Validators.required]
       })
     });
     this.setEmployeeData();
@@ -80,6 +85,8 @@ export class AddComponent implements OnInit {
         this.employeeId = paramMap.get('employeeId');
         this.isLoading = true;
         this.service.getEmployeeById(this.employeeId).subscribe((employeeData: any) => {
+          console.log(employeeData);
+          
           this.isLoading = false;
           this.spinner.hide();
           let fetchedData = {
@@ -89,6 +96,7 @@ export class AddComponent implements OnInit {
             last_name: employeeData.last_name,
             gender: (employeeData.gender),
             email: (employeeData.email),
+            status: employeeData.status,
             mobile_number: Number(employeeData.mobile_number),
             department: (employeeData.departmentId),
             role: (employeeData.roleId)
@@ -124,6 +132,12 @@ export class AddComponent implements OnInit {
     });
   }
 
+  getEmpStatus() {
+    this.layoutService.getEmpStatus().subscribe((res: any) => {
+      this.employeeStatus = res.status
+    });
+  }
+
   getGender() {
     this.layoutService.getGenderData().subscribe((res: any) => {
       // console.log(res);
@@ -133,6 +147,7 @@ export class AddComponent implements OnInit {
       // this.setEmployeeData();
     });
   }
+
   onSave() {
     // console.log(this.formEmployee.value);
     if (this.formEmployee.invalid) {
@@ -144,6 +159,7 @@ export class AddComponent implements OnInit {
       department: formValue.department,
       departmentId: formValue.department,
       email: formValue.email,
+      status: formValue.status,
       first_name: formValue.first_name,
       gender: formValue.gender,
       last_name: formValue.last_name,
@@ -153,7 +169,7 @@ export class AddComponent implements OnInit {
       roleId: formValue.role,
     }
 
-
+  
     if (this.mode === 'create') {
       this.service.addEmployee(data).subscribe((res: any) => {
         if (res.status = 200) {

@@ -13,9 +13,9 @@ router.post('/create', checkAuth, projectsController.createProject);
 router.post('/updateproject/:id', checkAuth, projectsController.updateProject);
 router.delete('/delete-projects/:id', checkAuth, projectsController.deleteProject);
 
+
 router.post('/status/add', checkAuth, projectsController.addStatus);
 router.get('/status', checkAuth, projectsController.getStatus);
-
 router.post('/updateStatusById', checkAuth, projectsController.updateStatusById);
 
 module.exports = router;
