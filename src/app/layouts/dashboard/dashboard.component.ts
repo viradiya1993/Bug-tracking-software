@@ -234,7 +234,6 @@ export class DashboardComponent implements OnInit {
         this.showDev = true
         this.getActiveProject();
       }
-    
      
     })
   }

@@ -9,7 +9,6 @@ const empModel = require('../models/employee');
 exports.getProjectCount = async (req, res, next) => {
 	try {
         var query = {}
-				var activeDev = {}
         if (req.query.statusOpen) {
             query.$or = [
                 { 'status': mongoose.Types.ObjectId(req.query.statusOpen) }
@@ -49,10 +48,12 @@ exports.AssignActiveProject = async (req, res, next) => {
 			var	queryAssign  = {'employee_id': mongoose.Types.ObjectId(Emp_id) }
 		  var query = {}
 			if (req.query.statusOpen && req.query.statusInPro && Emp_id) {
-					query.$or = [
-							{ 'status': mongoose.Types.ObjectId(req.query.statusOpen) },
-							{ 'status': mongoose.Types.ObjectId(req.query.statusInPro) },
+					query.$and = [
 							{ 'employee_id': mongoose.Types.ObjectId(Emp_id) }
+					],
+					query.$or = [
+						{ 'status': mongoose.Types.ObjectId(req.query.statusOpen) },
+						{ 'status': mongoose.Types.ObjectId(req.query.statusInPro) },
 					]
 			}
 			totalAssignProjects = await project.countDocuments(queryAssign)

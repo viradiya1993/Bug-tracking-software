@@ -357,7 +357,6 @@ exports.createUserFromEmployee = (req, res, next) => {
             user.save()
                 .then(result => {
                     if (result) {
-
                         const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
                         const mailUrl = process.env.ANGULAR_BASE_URL;
                         sendMail(email, 'User Created Succesfully',

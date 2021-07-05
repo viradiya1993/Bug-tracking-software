@@ -310,6 +310,7 @@ exports.updateProject = async (req, res, next) => {
 		const manager = await empyolee.findOne({
 			_id: req.body.project_manager
 		});
+
 		if (devloper) {
 			let devName = [];
 			for (let i = 0; i < devloper.length; i++) {
