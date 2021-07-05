@@ -1,13 +1,13 @@
 <div class="main-content">
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row" *ngIf="showAdmin">
 			<div class="col-lg-4 col-md-6 col-sm-6">
 				<div class="card card-stats">
 					<div class="card-header card-header-warning card-header-icon">
 						<div class="card-icon">
 							<i class="material-icons">supervised_user_circle</i>
 						</div>
-						<h3 class="card-title">{{employeeData?.activeEmployee}}</h3>
+						<h3 class="card-title">{{projectData?.activeEmployee ? projectData?.activeEmployee : 0}}</h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -22,7 +22,7 @@
 						<div class="card-icon">
 							<i class="material-icons">description</i>
 						</div>
-						<h3 class="card-title">{{projectData?.projects}}</h3>
+						<h3 class="card-title">{{projectData?.projects ? projectData?.projects : 0}}</h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -37,7 +37,7 @@
 						<div class="card-icon">
 							<i class="material-icons">description</i>
 						</div>
-						<h3 class="card-title">{{projectData?.totalProjects}}</h3>
+						<h3 class="card-title">{{projectData?.totalProjects ? projectData?.totalProjects : 0}}</h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -47,14 +47,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-6 col-md-6 col-sm-6">
+		<div class="row" *ngIf="showDev">
+			<div class="col-lg-6s col-md-6 col-sm-6">
 				<div class="card card-stats">
 					<div class="card-header card-header-warning card-header-icon">
 						<div class="card-icon">
 							<i class="material-icons">description</i>
 						</div>
-						<h3 class="card-title">{{projectsAssing?.totalAssignProjects}}</h3>
+						<h3 class="card-title">{{projectsActive?.totalAssignProjects ? projectsActive?.totalActiveProjects : 0}}</h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -69,7 +69,40 @@
 						<div class="card-icon">
 							<i class="material-icons">supervised_user_circle</i>
 						</div>
-						<h3 class="card-title">{{projectsActive?.totalActiveProjects}}</h3>
+						<h3 class="card-title">{{projectsActive?.totalActiveProjects ? projectsActive?.totalActiveProjects : 0}}</h3>
+					</div>
+					<div class="card-footer">
+						<div class="stats">
+							<h5 class="w-100 text-center">Total Assigned Active Projects</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="row" *ngIf="showPm">
+			<div class="col-lg-6s col-md-6 col-sm-6">
+				<div class="card card-stats">
+					<div class="card-header card-header-warning card-header-icon">
+						<div class="card-icon">
+							<i class="material-icons">description</i>
+						</div>
+						<h3 class="card-title">{{projectAssignPM?.assignbyManager ? projectAssignPM?.assignbyManager : 0}}</h3>
+					</div>
+					<div class="card-footer">
+						<div class="stats">
+							<h5 class="w-100 text-center">Total Assigned Projects</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="card card-stats">
+					<div class="card-header card-header-success card-header-icon">
+						<div class="card-icon">
+							<i class="material-icons">supervised_user_circle</i>
+						</div>
+						<h3 class="card-title">{{projectAssignPM?.activeAssignProject ? projectAssignPM?.activeAssignProject : 0}}</h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">

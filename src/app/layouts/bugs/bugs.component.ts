@@ -37,7 +37,7 @@ export class BugsComponent implements OnInit {
   bugsType: any = [];
   bugsPriority: any = [];
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns: string[] = ['no', 'title', 'project_name', 'devloper', 'bug_status', 'bug_type', 'bug_priority', 'bug_description', 'action'];
+  displayedColumns: string[] = ['no', 'title', 'project_name', 'devloper', 'bug_status', 'bug_type', 'bug_priority', 'action'];
   constructor( 
     private route: ActivatedRoute, 
     public bugservice: BugsService,
@@ -48,7 +48,6 @@ export class BugsComponent implements OnInit {
      {
       this.sharedService.showLoader()
       this.project_id = this.route.snapshot.paramMap.get('id');
-      console.log(this.project_id,'project id');
      }
 
   ngOnInit(): void {

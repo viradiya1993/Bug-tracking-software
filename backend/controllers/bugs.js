@@ -66,7 +66,6 @@ exports.createBugs = async (req, res, next) => {
 
 exports.getBugsList = async (req, res, next) => {
 	try {
-		//project_id: '60d463a36ff27053d8cdc8cf'
 		var query = {};
 		var sort = {};
 		const search = req.query.q ? req.query.q : ''; // for searching

@@ -28,6 +28,8 @@ export class SearchTextboxComponent implements OnInit {
       this.labelText = this.labelConst.Technology;
     } else if (this.message == 'Project') {
       this.labelText = this.labelConst.Project;
+    } else if (this.message == 'Bug') {
+      this.labelText = this.labelConst.Bug;
     } else {
       this.labelText = this.labelConst.Default;
     }

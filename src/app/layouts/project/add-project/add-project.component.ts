@@ -205,8 +205,7 @@ export class AddProjectComponent implements OnInit {
 
     for (let i = 0; i < this.projectForm.value.employee.length; i++) {
       const element = this.projectForm.value.employee[i];
-      // console.log(element,this.employees);
-      
+      // console.log(this.employees,'employee');
       let filterEmp = this.employees.filter(e => e.first_name == element);
       employeeArray.push(filterEmp[0]._id);
     }
@@ -214,7 +213,7 @@ export class AddProjectComponent implements OnInit {
     if (this.projectForm.invalid) {
       return
     }
-   
+    
     let data = {
       project_no: this.f.project_no.value,
       project_name: this.f.project_name.value,
@@ -227,6 +226,7 @@ export class AddProjectComponent implements OnInit {
       status: this.f.status.value,
       project_description: this.f.project_description.value
     }
+  //  return
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {

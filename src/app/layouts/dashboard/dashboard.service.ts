@@ -15,17 +15,8 @@ export class DashboardService {
     let params = new HttpParams()
     .set('statusOpen', data.statusOpen)
     .set('statusInPro', data.statusInPro)
-    return this.http.get(BACKEND_URL + '/dashboard/get-project-count', { params })
-  }
-
-  getActiveEmpCount(data: any) {
-    let params = new HttpParams()
     .set('status', data.status)
-    return this.http.get(BACKEND_URL + '/dashboard/get-active-emp', { params })
-  }
-
-  getAssignProject() {
-    return this.http.get(BACKEND_URL + '/dashboard/get-assign-project')
+    return this.http.get(BACKEND_URL + '/dashboard/get-project-count', { params })
   }
 
   getActiveProject(data: any) {
@@ -34,4 +25,11 @@ export class DashboardService {
     .set('statusInPro', data.statusInPro)
     return this.http.get(BACKEND_URL + '/dashboard/get-active-project', { params })
   }  
+  
+  getAssignActiveProject(data: any) {
+    let params = new HttpParams()
+    .set('statusOpen', data.statusOpen)
+    .set('statusInPro', data.statusInPro)
+    return this.http.get(BACKEND_URL + '/dashboard/get-activeassignpmproject', {params})
+  }
 }
