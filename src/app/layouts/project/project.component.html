@@ -59,12 +59,12 @@
               <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
                 class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
 
-                <ng-container matColumnDef="project_no">
+                <!-- <ng-container matColumnDef="project_no">
                   <th width="8%" (click)="sortItem('project_no')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
                     Project No </th>
                   <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_no}} </td>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="project_name">
                   <th width="8%" (click)="sortItem('project_name')" mat-header-cell *matHeaderCellDef mat-sort-header
@@ -87,19 +87,19 @@
                   <td width="8%" mat-cell *matCellDef="let element"> {{element?.departmentId?.department}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="project_manager">
+                <!-- <ng-container matColumnDef="project_manager">
                   <th width="8%" (click)="sortItem('project_manager')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
                     Project Manager </th>
                   <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_manager.first_name}} </td>
-                </ng-container>
+                </ng-container> -->
 
-                <ng-container matColumnDef="employee">
+                <!-- <ng-container matColumnDef="employee">
                   <th width="8%" (click)="sortItem('employee')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
                     Employee Name </th>
                   <td width="8%" mat-cell *matCellDef="let element"> {{element?.employee_id}} </td>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="status">
                   <th width="8%" (click)="sortItem('status')" mat-header-cell *matHeaderCellDef mat-sort-header
@@ -114,12 +114,12 @@
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="project_description">
+                <!-- <ng-container matColumnDef="project_description">
                   <th width="15%" (click)="sortItem('project_description')" mat-header-cell *matHeaderCellDef
                     mat-sort-header class="text-primary">
                     Project Description </th>
                   <td width="15%" mat-cell *matCellDef="let element"> {{element?.project_description}} </td>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="action">
                   <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>

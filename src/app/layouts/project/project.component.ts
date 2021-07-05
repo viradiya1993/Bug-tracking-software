@@ -43,7 +43,9 @@ export class ProjectComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   send: string = "Project";
-  displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'status', 'project_description', 'action'];
+  // displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'status', 'project_description', 'action'];
+  displayedColumns: string[] = ['project_name', 'technology', 'department', 'status', 'action'];
+
   constructor(
     public projectService: ProjectService,
     public sharedService: SharedService,
