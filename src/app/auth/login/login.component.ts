@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sharedService.hideLoader();
   }
   onLogin(form: NgForm) {
     if (form.invalid) {
