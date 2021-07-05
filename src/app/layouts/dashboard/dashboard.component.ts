@@ -181,7 +181,7 @@ export class DashboardComponent implements OnInit {
       });
      
   }
-
+  
   getProjectCount() {
     let data = {
       statusOpen: this.statusOpen[0]._id,
@@ -194,20 +194,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getActiveProject() {
-    let data = {
-      statusOpen: this.statusOpen[0]._id,
-      statusInPro: this.statusProgress[0]._id
-    }
-    this.dashborad.getActiveProject(data).subscribe((res: any) => {
-      console.log(res);
-      
-      this.sharedService.hideLoader();
-      this.projectsActive = res.data;
-    });
-  }
-
-  
   getAssignActiveProject() {
     let data = {
       statusOpen: this.statusOpen[0]._id,
@@ -218,21 +204,37 @@ export class DashboardComponent implements OnInit {
       this.projectAssignPM = res.data;
     });
   }
+
+  getActiveProject() {
+    let data = {
+      statusOpen: this.statusOpen[0]._id,
+      statusInPro: this.statusProgress[0]._id
+    }
+    this.dashborad.getActiveProject(data).subscribe((res: any) => {
+      this.sharedService.hideLoader();
+      this.projectsActive = res.data;
+    });
+  }
+
+  
   
   getRoleData() {
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.userRole = res.userRoles.filter(x => x._id === this.userRole_id);
-      this.userRole[0].role == "SuperAdmin" ?  this.showAdmin = true :  
-      this.userRole[0].role == "Project Manager" ? this.showPm = true :
-      this.showDev = true
-  
       if (this.userRole[0].role == "SuperAdmin") {
+         this.showAdmin = true
          this.getProjectCount();
       } else if (this.userRole[0].role == "Project Manager") {
+         this.showPm = true
          this.getAssignActiveProject();
       } else if (this.userRole[0].role == "Developer") {
+        this.showDev = true
+        this.getActiveProject();
+      } else {
+        this.showDev = true
         this.getActiveProject();
       }
+    
      
     })
   }
