@@ -35,6 +35,7 @@ export class AppConst {
         "Default": "Search Value",
         "Department": "Please Enter Department Name",
         "Technology": "Please Enter Technology Name",
-        "Project": "Please Enter Project Name or Project Description"
+        "Project": "Please Enter Project Name or Project Description",
+        "Bug": "Please Enter Bug Title or Bug Description"
     }
 }

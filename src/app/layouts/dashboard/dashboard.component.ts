@@ -15,13 +15,22 @@ export class DashboardComponent implements OnInit {
   statusProgress: any;
   activeEmployee: any;
   projectData: any;
-  employeeData: any
-  projectsAssing: any;
   projectsActive: any;
+  projectAssignPM: any;
+  userRole_id: any;
+  userRole: any;
+  showAdmin = false;
+  showPm = false;
+  showDev = false;
+
   constructor(public sharedService: SharedService, 
               public dashborad: DashboardService, 
               public projectService: ProjectService, 
-              private layoutService: LayoutService) { this.sharedService.showLoader(); }
+              private layoutService: LayoutService,
+              public layoutsService: LayoutService) { 
+                this.sharedService.showLoader();
+                this.userRole_id = localStorage.getItem('roleId')
+              }
 
   startAnimationForLineChart(chart){
       let seq: any, delays: any, durations: any;
@@ -159,46 +168,29 @@ export class DashboardComponent implements OnInit {
 
       //start animation for the Emails Subscription Chart
       this.startAnimationForBarChart(websiteViewsChart);
-      this.projectService.getProjectStatus().subscribe((res: any) => {
-       this.statusOpen =  res.status.filter(x => x.value === 'Open');
-       this.statusProgress = res.status.filter(x => x.value === 'In Progress')
-       this.getProjectCount();
-       this.getActiveProject();
-      });
 
-      this.layoutService.getEmpStatus().subscribe((res: any) => {
-        this.activeEmployee = res.status.filter(x => x.status === 'Active')
-        this.getActiveEmployee();
-      })
-      this.getAssignProject();
+      this.projectService.getProjectStatus().subscribe((res: any) => {
+        this.statusOpen =  res.status.filter(x => x.value === 'Open');
+        this.statusProgress = res.status.filter(x => x.value === 'In Progress')
+       
+        this.layoutService.getEmpStatus().subscribe((res: any) => {
+          this.activeEmployee = res.status.filter(x => x.status === 'Active')
+          this.getRoleData();
+        })
+
+      });
      
   }
 
   getProjectCount() {
     let data = {
       statusOpen: this.statusOpen[0]._id,
-      statusInPro: this.statusProgress[0]._id
+      statusInPro: this.statusProgress[0]._id,
+      status: this.activeEmployee[0]._id
     }
     this.dashborad.getProjectCount(data).subscribe((res: any) => {
       this.sharedService.hideLoader();
       this.projectData = res.data;
-    });
-  }
-
-  getActiveEmployee() {
-    let data = {
-      status: this.activeEmployee[0]._id
-    }
-    this.dashborad.getActiveEmpCount(data).subscribe((res: any) => {
-      this.sharedService.hideLoader();
-      this.employeeData = res.data
-    });
-  }
-
-  getAssignProject() {
-    this.dashborad.getAssignProject().subscribe((res: any) => {
-      this.sharedService.hideLoader();
-      this.projectsAssing = res.data;
     });
   }
 
@@ -208,9 +200,41 @@ export class DashboardComponent implements OnInit {
       statusInPro: this.statusProgress[0]._id
     }
     this.dashborad.getActiveProject(data).subscribe((res: any) => {
+      console.log(res);
+      
       this.sharedService.hideLoader();
       this.projectsActive = res.data;
     });
+  }
+
+  
+  getAssignActiveProject() {
+    let data = {
+      statusOpen: this.statusOpen[0]._id,
+      statusInPro: this.statusProgress[0]._id
+    }
+    this.dashborad.getAssignActiveProject(data).subscribe((res: any) => {
+      this.sharedService.hideLoader();
+      this.projectAssignPM = res.data;
+    });
+  }
+  
+  getRoleData() {
+    this.layoutsService.getRolesData().subscribe((res: any) => {
+      this.userRole = res.userRoles.filter(x => x._id === this.userRole_id);
+      this.userRole[0].role == "SuperAdmin" ?  this.showAdmin = true :  
+      this.userRole[0].role == "Project Manager" ? this.showPm = true :
+      this.showDev = true
+  
+      if (this.userRole[0].role == "SuperAdmin") {
+         this.getProjectCount();
+      } else if (this.userRole[0].role == "Project Manager") {
+         this.getAssignActiveProject();
+      } else if (this.userRole[0].role == "Developer") {
+        this.getActiveProject();
+      }
+     
+    })
   }
 }
 
