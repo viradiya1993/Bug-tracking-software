@@ -5,9 +5,9 @@
         "JWT_KEY": "secret_key",
         "API_KEY": "f02a001207ab6ca4396be15301ea45bf",
         "SECRET_KEY": "e4292b2130ccc0bab97427671c75c52a",
-        "ANGULAR_BASE_URL" : "http://localhost:4200/#/reset-password",
+        "ANGULAR_BASE_URL_RESET": "http://ded3138.inmotionhosting.com/~projectdemoserve/bug_tracking_software/front/#/reset-password",
+        "ANGULAR_BASE_URL": "http://ded3138.inmotionhosting.com/~projectdemoserve/bug_tracking_software/front",
         "EMAIL_FROM": "amit.manektach@gmail.com",
         "SENDGRID_API_KEY": "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"
-        
     }
 }

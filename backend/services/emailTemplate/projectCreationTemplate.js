@@ -1,5 +1,5 @@
 module.exports = projectCreate => {
-	return `
+    return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,21 +81,21 @@ module.exports = projectCreate => {
 
 
 
-                                                                <td valign="top" align="left" class="pd0"
+                                                                    <td valign="top" align="left" class="pd0"
 
-                                                                    style="padding-left:20px; padding-right:20px; width: 100%; text-align: center;">
+                                                                    style="padding-left:20px; padding-right:20px; width: 50%; text-align: center;">
 
-                                                                    <a href="#" target="_blank" title="ManekTech"
+                                                                        <a href="#" target="_blank" title="ManekTech"
 
-                                                                        class="resp_logo"
+                                                                            class="resp_logo"
 
-                                                                        style="width:230px; display: inline-block;">
+                                                                            style="width:50px; display: inline-block;">
 
-                                                                        <img src="${projectCreate.logo}" alt="Bug Tracking Software"
+                                                                            <img src="${forgotpassword.logo}" alt="Bug Tracking Software"
 
-                                                                            style="border:none; max-width:100%;" />
+                                                                                style="border:none; max-width:100%;" />
 
-                                                                    </a>
+                                                                        </a>
 
                                                                 </td>
 
@@ -333,41 +333,41 @@ module.exports = projectCreate => {
 
                                                                     <div>
 
-                                                                        <a href="https://www.facebook.com/ManekTech-191482567545069"
+                                                                    <a href="https://www.facebook.com/ManekTech-191482567545069"
 
-                                                                            target="_blank" title="facebook"
+                                                                    target="_blank" title="facebook"
 
-                                                                            style="text-decoration: none;margin: 0 3px;">
+                                                                    style="text-decoration: none;margin: 0 3px;">
 
-                                                                            <img src="facebook.png" alt="facebook"
+                                                                    <img src="${projectCreate.Facebook}" alt="facebook"
 
-                                                                                style="width: 30px;">
+                                                                        style="width: 30px;">
 
-                                                                        </a>
+                                                                </a>
 
-                                                                        <a href="https://twitter.com/manektech"
+                                                                <a href="https://twitter.com/manektech"
 
-                                                                            target="_blank" title="twitter"
+                                                                    target="_blank" title="twitter"
 
-                                                                            style="text-decoration: none;margin: 0 3px;">
+                                                                    style="text-decoration: none;margin: 0 3px;">
 
-                                                                            <img src="twitter.png" alt="twitter"
+                                                                    <img src="${projectCreate.Twitter}" alt="twitter"
 
-                                                                                style="width: 30px;">
+                                                                        style="width: 30px;">
 
-                                                                        </a>
+                                                                </a>
 
-                                                                        <a href="https://www.linkedin.com/company/manektech"
+                                                                <a href="https://www.linkedin.com/company/manektech"
 
-                                                                            target="_blank" title="linkedin"
+                                                                    target="_blank" title="linkedin"
 
-                                                                            style="text-decoration: none;margin: 0 3px;">
+                                                                    style="text-decoration: none;margin: 0 3px;">
 
-                                                                            <img src="linkedin.png" alt="linkedin"
+                                                                    <img src="${projectCreate.LinkedIn}" alt="linkedin"
 
-                                                                                style="width: 30px;">
+                                                                        style="width: 30px;">
 
-                                                                        </a>
+                                                                </a>
 
                                                                     </div>
 

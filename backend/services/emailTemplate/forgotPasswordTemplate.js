@@ -1,5 +1,5 @@
 module.exports = forgotpassword => {
-  return `
+    return `
 <!DOCTYPE html>
 
 <html>
@@ -49,22 +49,23 @@ module.exports = forgotpassword => {
 																			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 																					<tbody>
 																							<tr>
-																								  <td valign="top" align="left" class="pd0"
-																											style="padding-left:20px; padding-right:20px; width: 100%; text-align: center;">
+                                                                                            <td valign="top" align="left" class="pd0"
 
-																											<a href="#" target="_blank" title="ManekTech"
-
-																													class="resp_logo"
-
-																													style="width:230px; display: inline-block;">
-
-																													<img src="${forgotpassword.logo}" alt="ManekTech"
-
-																															style="border:none; max-width:100%;" />
-
-																											</a>
-
-																									</td>
+                                                                                            style="padding-left:20px; padding-right:20px; width: 50%; text-align: center;">
+                        
+                                                                                            <a href="#" target="_blank" title="ManekTech"
+                        
+                                                                                                class="resp_logo"
+                        
+                                                                                                style="width:50px; display: inline-block;">
+                        
+                                                                                                <img src="${forgotpassword.logo}" alt="Bug Tracking Software"
+                        
+                                                                                                    style="border:none; max-width:100%;" />
+                        
+                                                                                            </a>
+                        
+                                                                                        </td>
 																							</tr>
 
 																					</tbody>
@@ -283,39 +284,39 @@ module.exports = forgotpassword => {
                                                                     <div>
                                                                     <a href="https://www.facebook.com/ManekTech-191482567545069"
 
-                                                                        target="_blank" title="facebook"
+                                                                            target="_blank" title="facebook"
 
-                                                                        style="text-decoration: none;margin: 0 3px;">
-                                                                      
-                                                                        <img src="backend/public/logo/facebook.png" alt="facebook"
+                                                                            style="text-decoration: none;margin: 0 3px;">
 
-                                                                            style="width: 30px;">
+                                                                            <img src="${forgotpassword.Facebook}" alt="facebook"
 
-                                                                    </a>
+                                                                                style="width: 30px;">
 
-                                                                    <a href="https://twitter.com/manektech"
+                                                                        </a>
 
-                                                                        target="_blank" title="twitter"
+                                                                        <a href="https://twitter.com/manektech"
 
-                                                                        style="text-decoration: none;margin: 0 3px;">
+                                                                            target="_blank" title="twitter"
 
-                                                                        <img src="twitter.png" alt="twitter"
+                                                                            style="text-decoration: none;margin: 0 3px;">
 
-                                                                            style="width: 30px;">
+                                                                            <img src="${forgotpassword.Twitter}" alt="twitter"
 
-                                                                    </a>
+                                                                                style="width: 30px;">
 
-                                                                    <a href="https://www.linkedin.com/company/manektech"
+                                                                        </a>
 
-                                                                        target="_blank" title="linkedin"
+                                                                        <a href="https://www.linkedin.com/company/manektech"
 
-                                                                        style="text-decoration: none;margin: 0 3px;">
+                                                                            target="_blank" title="linkedin"
 
-                                                                        <img src="linkedin.png" alt="linkedin"
+                                                                            style="text-decoration: none;margin: 0 3px;">
 
-                                                                            style="width: 30px;">
+                                                                            <img src="${forgotpassword.LinkedIn}" alt="linkedin"
 
-                                                                    </a>
+                                                                                style="width: 30px;">
+
+                                                                        </a>
 
                                                                     </div>
 
@@ -366,5 +367,4 @@ module.exports = forgotpassword => {
     </body>
     </html>
 		`;
-  }
-        
+}

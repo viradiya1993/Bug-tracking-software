@@ -27,7 +27,13 @@ exports.createProject = async (req, res, next) => {
 	} = req.body;
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
-		const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+		// const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+		const logoUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+
+		const faceUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Facebook_Img;
+		const linkUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LinkedIn_Img;
+		const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
+
 		const devloper = await empyolee.find({
 			_id: req.body.employee_id
 		});
@@ -43,6 +49,9 @@ exports.createProject = async (req, res, next) => {
 				sendMail(devloper[i].email, 'Project Created.',
 					projectCreationTemplete({
 						logo: logoUrl,
+						Facebook: faceUrl,
+						LinkedIn: linkUrl,
+						Twitter: twitterUrl,
 						projectName: req.body.project_name,
 						projectManger: manager.first_name
 					}));
@@ -469,10 +478,10 @@ exports.updateStatusById = async (req, res, next) => {
 	let projectId = req.body.projectId;
 	let statusId = req.body.statusId;
 	try {
-		let query = { _id:  mongoose.Types.ObjectId(projectId) },
+		let query = { _id: mongoose.Types.ObjectId(projectId) },
 			update = {
 				'$set': {
-					status:  mongoose.Types.ObjectId(statusId)
+					status: mongoose.Types.ObjectId(statusId)
 				}
 			}
 

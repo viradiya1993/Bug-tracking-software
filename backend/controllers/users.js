@@ -212,13 +212,24 @@ exports.forgotPassword = async (req, res, next) => {
                         message: "User not found!"
                     });
                 }
-                const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+                const logoUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+                const faceUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Facebook_Img;
+                const linkUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LinkedIn_Img;
+                const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
+
                 user_id = user._id
                 const token = jwt.sign({ user_id }, process.env.JWT_KEY)
                 user.reset_password_token = token;
                 user.reset_password_expires = dateFormat.addExpireTime();
-                const mailUrl = process.env.ANGULAR_BASE_URL;
-                sendMail(email, 'Password Reset', forgotPasswordTemplate({ url: mailUrl + '/' + token, logo: logoUrl }));
+                const mailUrl = process.env.ANGULAR_BASE_URL_RESET;
+                sendMail(email, 'Password Reset',
+                    forgotPasswordTemplate({
+                        url: mailUrl + '/' + token,
+                        logo: logoUrl,
+                        Facebook: faceUrl,
+                        LinkedIn: linkUrl,
+                        Twitter: twitterUrl,
+                    }));
                 user.save()
                     .then(result => {
                         return res.status(200).json({
@@ -357,12 +368,19 @@ exports.createUserFromEmployee = (req, res, next) => {
             user.save()
                 .then(result => {
                     if (result) {
-                        const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+                        const logoUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+                        const faceUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Facebook_Img;
+                        const linkUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LinkedIn_Img;
+                        const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
+
                         const mailUrl = process.env.ANGULAR_BASE_URL;
                         sendMail(email, 'User Created Succesfully',
                             userCreationTemplate({
                                 url: mailUrl,
                                 logo: logoUrl,
+                                Facebook: faceUrl,
+                                LinkedIn: linkUrl,
+                                Twitter: twitterUrl,
                                 email: req.body.email,
                                 password: req.body.password
                             })

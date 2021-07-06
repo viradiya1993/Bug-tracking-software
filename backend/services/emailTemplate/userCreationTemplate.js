@@ -74,7 +74,7 @@ module.exports = userCreation => {
 
                                     <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"
 
-                                        style="background-color: #09378A; padding: 35px 20px;">
+                                        style="background-color: #1f60d4; padding: 10px 10px;">
 
                                         <tbody>
 
@@ -92,13 +92,13 @@ module.exports = userCreation => {
 
                                                                 <td valign="top" align="left" class="pd0"
 
-                                                                    style="padding-left:20px; padding-right:20px; width: 100%; text-align: center;">
+                                                                    style="padding-left:20px; padding-right:20px; width: 50%; text-align: center;">
 
                                                                     <a href="#" target="_blank" title="ManekTech"
 
                                                                         class="resp_logo"
 
-                                                                        style="width:230px; display: inline-block;">
+                                                                        style="width:50px; display: inline-block;">
 
                                                                         <img src="${userCreation.logo}" alt="Bug Tracking Software"
 
@@ -191,7 +191,18 @@ module.exports = userCreation => {
                                                                         <strong>Password:</strong> ${userCreation.password}
 
                                                                     </p>
+                                                                    
+                                                                    <p
 
+                                                                        style="font-weight: 400; margin:0;line-height:24px;">
+
+                                                                        For access your account :
+                                                                        <a href="${userCreation.url}" target="_blank" title="Main URL" style="text-decoration: none;margin: 0 3px;">
+                                                                         Click Here
+                                                                        </a>
+        
+
+                                                                    </p>
                                                                 </td>
 
                                                             </tr>
@@ -347,7 +358,7 @@ module.exports = userCreation => {
 
                                                                             style="text-decoration: none;margin: 0 3px;">
 
-                                                                            <img src="facebook.png" alt="facebook"
+                                                                            <img src="${userCreation.Facebook}" alt="facebook"
 
                                                                                 style="width: 30px;">
 
@@ -359,7 +370,7 @@ module.exports = userCreation => {
 
                                                                             style="text-decoration: none;margin: 0 3px;">
 
-                                                                            <img src="twitter.png" alt="twitter"
+                                                                            <img src="${userCreation.Twitter}" alt="twitter"
 
                                                                                 style="width: 30px;">
 
@@ -371,7 +382,7 @@ module.exports = userCreation => {
 
                                                                             style="text-decoration: none;margin: 0 3px;">
 
-                                                                            <img src="linkedin.png" alt="linkedin"
+                                                                            <img src="${userCreation.LinkedIn}" alt="linkedin"
 
                                                                                 style="width: 30px;">
 
