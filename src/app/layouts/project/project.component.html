@@ -5,14 +5,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-            <div class="row align-items-center justify-space-between">
-              
-              <div class="col">
-                <button mat-raised-button [routerLink]="['/project/add-project']" class="float-right mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add Project</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
+            
             <div class="row">
               <div class="col-md-4">
                 <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
@@ -28,28 +21,36 @@
                 </ng-select>
               </div>
             </div>
-          </div>
-          <div class="col-12">
+          
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name" bindValue="_id"
                   (change)="selectEmp($event)" [(ngModel)]="employee_id" [clearable]="false">
                 </ng-select>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name" bindValue="_id"
                   (change)="selectManager($event)" [(ngModel)]="manager_id" [clearable]="false">
                 </ng-select>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value" bindValue="_id"
                   (change)="selectStatus($event)" [(ngModel)]="status_id" [clearable]="false">
                 </ng-select>
               </div>
-              <div class="col-md-3">
-                <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+            </div>
+            
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex flex-wrap align-items-center justify-space-between">
+
+                    <button mat-raised-button [routerLink]="['/project/add-project']" class="float-right mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3">Add Project</button>
+                    <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
