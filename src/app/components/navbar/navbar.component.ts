@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
   mobile_menu_visible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
+  navbarTitle: any
 
   constructor(
     location: Location,
@@ -128,16 +129,16 @@ export class NavbarComponent implements OnInit {
   };
 
   getTitle() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === '#') {
-      titlee = titlee.slice(1);
-    }
+    // var titlee = this.location.prepareExternalUrl(this.location.path());
+    // if (titlee.charAt(0) === '#') {
+    //   titlee = titlee.slice(1);
+    // }
 
-    for (var item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
-        return this.listTitles[item].title;
-      }
-    }
-    return 'Dashboard';
+    // for (var item = 0; item < this.listTitles.length; item++) {
+    //   if (this.listTitles[item].path === titlee) {
+    //     return this.listTitles[item].title;
+    //   }
+    // }
+    // return 'Dashboard';
   }
 }

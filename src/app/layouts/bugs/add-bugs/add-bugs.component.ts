@@ -87,6 +87,9 @@ export class AddBugsComponent implements OnInit {
           this.sharedService.hideLoader();
         });
       }
+      if (paramMap.has('project_id')) {
+          this.bugsForm.controls.project.setValue(paramMap.get('project_id'))
+      }
     })
   }
   

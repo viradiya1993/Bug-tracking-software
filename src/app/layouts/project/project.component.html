@@ -5,18 +5,37 @@
 
 
       <div class="col-md-12">
+<<<<<<< Updated upstream
         <div class="card">
           <div class="card-body">
 
             <div class="row mb-4 align-items-center justify-space-between">
               <div class="col">
                 <h3 _ngcontent-fbo-c208="" class="card-label mt-0 mb-0">Project</h3>
+=======
+        <div class="card-body row">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-4">
+                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
+              </div>
+              <div class="col-md-4">
+                <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name" bindValue="_id"
+                  (change)="selectTech($event)" [(ngModel)]="technologyId" [clearable]="false" [searchable]="true">
+                </ng-select>
+              </div>
+              <div class="col-md-4">
+                <ng-select placeholder="Department" [items]="departments" bindLabel="department" bindValue="_id"
+                  (change)="selectDepartment($event)" [(ngModel)]="departmentId" [clearable]="false" [searchable]="true">
+                </ng-select>
+>>>>>>> Stashed changes
               </div>
               <button mat-raised-button [routerLink]="['/project/add-project']"
                 class="mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add
                 Project</button>
             </div>
           </div>
+<<<<<<< Updated upstream
 
           <div class="row">
             <div class="col-md-4">
@@ -52,6 +71,28 @@
             </div>
             <div class="col-md-3">
               <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+=======
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-3">
+                <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name" bindValue="_id"
+                  (change)="selectEmp($event)" [(ngModel)]="employee_id" [clearable]="false" [searchable]="true">
+                </ng-select>
+              </div>
+              <div class="col-md-3">
+                <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name" bindValue="_id"
+                  (change)="selectManager($event)" [(ngModel)]="manager_id" [clearable]="false" [searchable]="true">
+                </ng-select>
+              </div>
+              <div class="col-md-3">
+                <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value" bindValue="_id"
+                  (change)="selectStatus($event)" [(ngModel)]="status_id" [clearable]="false" [searchable]="true">
+                </ng-select>
+              </div>
+              <div class="col-md-3">
+                <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+              </div>
+>>>>>>> Stashed changes
             </div>
           </div>
         </div>

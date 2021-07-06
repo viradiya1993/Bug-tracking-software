@@ -43,7 +43,7 @@ export class AddTechnologyComponent implements OnInit {
          }
       }, err => {
           this.loader = false;
-          this.sharedService.loggerError(err.message);
+          this.sharedService.loggerError(err.error.message);
       });
     }
     

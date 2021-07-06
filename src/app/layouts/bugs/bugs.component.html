@@ -1,9 +1,18 @@
 <div class="main-content">
+<<<<<<< Updated upstream
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
           <button mat-raised-button [routerLink]="['/bugs/add-bug']" class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add Bugs</button>
           <!-- <div class="col-md-2 mr-2 pull-right" >
+=======
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <button mat-raised-button [routerLink]="['/bugs/add-bug']"  *ngIf="!project_id">Add Bugs</button>
+        <button mat-raised-button [routerLink]="'/bugs/add-bug/' + project_id" *ngIf="project_id">Add Bugs</button>
+        <!-- <div class="col-md-2 mr-2 pull-right" >
+>>>>>>> Stashed changes
             <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
           </div>
           <div class="col-md-4 mb-2 pull-right">
@@ -15,6 +24,7 @@
               bindValue="_id" [clearable]="false"  [(ngModel)]="project_id" [clearable]="false">
             </ng-select>
           </div> -->
+<<<<<<< Updated upstream
           
           <div class="card">
             <div class="card-body row mt-4 mb-4">
@@ -26,11 +36,24 @@
                   <div class="col-md-4">
                     <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
                     (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false">
+=======
+        <div class="col-md-12">
+          <div class="card-body row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-4">
+                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                    [message]="send"></app-search-textbox>
+                </div>
+                <div class="col-md-4">
+                  <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
+                    (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false" [searchable]="true">
+>>>>>>> Stashed changes
                   </ng-select>
                 </div>
                 <div class="col-md-4">
                   <ng-select placeholder="Developer" [items]="employees" bindLabel="first_name" bindValue="_id"
-                    (change)="selectDeveloper($event)" [(ngModel)]="employee_id" [clearable]="false">
+                    (change)="selectDeveloper($event)" [(ngModel)]="employee_id" [clearable]="false" [searchable]="true">
                   </ng-select>
                 </div>
               </div>
@@ -44,17 +67,17 @@
               <div class="row">
                 <div class="col-md-3">
                   <ng-select placeholder="Status" [items]="bugStatus" bindLabel="status" bindValue="_id"
-                    (change)="selectBugStatus($event)" [(ngModel)]="bug_status" [clearable]="false">
+                    (change)="selectBugStatus($event)" [(ngModel)]="bug_status" [clearable]="false" [searchable]="true">
                   </ng-select>
                 </div>
                 <div class="col-md-3">
                   <ng-select placeholder="Bug Type" [items]="bugsType" bindLabel="bug_types" bindValue="_id"
-                    (change)="selectBugType($event)" [(ngModel)]="bug_type" [clearable]="false">
+                    (change)="selectBugType($event)" [(ngModel)]="bug_type" [clearable]="false" [searchable]="true">
                   </ng-select>
                 </div>
                 <div class="col-md-3">
                   <ng-select placeholder="Bug Priority" [items]="bugsPriority" bindLabel="priority" bindValue="_id"
-                    (change)="selectBugPriority($event)" [(ngModel)]="bug_priority" [clearable]="false">
+                    (change)="selectBugPriority($event)" [(ngModel)]="bug_priority" [clearable]="false" [searchable]="true">
                   </ng-select>
                 </div>
                 <div class="col-md-3">
