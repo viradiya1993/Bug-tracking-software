@@ -196,7 +196,7 @@ input.mat-input-element:-internal-autofill-selected{
   border: none;
   -webkit-box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
   box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -544,8 +544,15 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   border: 1px solid #eef2f7;
   border-radius: .25rem;
 }
-
-
+.main-panel .main-content {
+  margin-top: 35px;
+}
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  bottom: 0;
+}
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
 
 
 /* inner section design end here */
