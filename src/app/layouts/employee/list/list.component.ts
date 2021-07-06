@@ -60,7 +60,7 @@ export class ListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.page.pageNumber = 0;
+    this.page.pageNumber = 1;
     this.page.size = this.PerPage;
     this.page.sortby = '';
     this.page.sortOrder = '';

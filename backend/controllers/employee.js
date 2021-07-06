@@ -106,8 +106,8 @@ exports.getEmployee = (req, res, next) => {
 	let fetchedPosts;
 	// currentPage ? currentPage : currentPage = 1;
 	postQuery
-		.skip(pageOptions.page * pageOptions.limit)
-		.limit(pageOptions.limit)
+		.skip(pageSize * (currentPage - 1))
+		.limit(pageSize)
 		.sort(sort);
 
 	postQuery
