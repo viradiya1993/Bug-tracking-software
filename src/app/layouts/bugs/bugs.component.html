@@ -1,9 +1,9 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <button mat-raised-button [routerLink]="['/bugs/add-bug']">Add Bugs</button>
-        <!-- <div class="col-md-2 mr-2 pull-right" >
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <button mat-raised-button [routerLink]="['/bugs/add-bug']" class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add Bugs</button>
+          <!-- <div class="col-md-2 mr-2 pull-right" >
             <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
           </div>
           <div class="col-md-4 mb-2 pull-right">
@@ -15,16 +15,16 @@
               bindValue="_id" [clearable]="false"  [(ngModel)]="project_id" [clearable]="false">
             </ng-select>
           </div> -->
-        <div class="col-md-12">
-          <div class="card-body row">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-md-4">
-                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-                    [message]="send"></app-search-textbox>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
+          
+          <div class="card">
+            <div class="card-body row mt-4 mb-4">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-md-4">
+                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
+                  </div>
+                  <div class="col-md-4">
+                    <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
                     (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false">
                   </ng-select>
                 </div>
@@ -35,7 +35,12 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+          </div>
+          
+        </div>  
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
               <div class="row">
                 <div class="col-md-3">
                   <ng-select placeholder="Status" [items]="bugStatus" bindLabel="status" bindValue="_id"
@@ -68,10 +73,9 @@
                 <h3 class="card-title ">Bugs List</h3>
               </div>
             </div>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
+            <div class="card-body">
+              <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
                 class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
 
                 <ng-container matColumnDef="no">
@@ -137,12 +141,12 @@
                   <td width="15%" mat-cell *matCellDef="let element" class="text-center">
                     <div class="d-flex align-items-center justify-content-content">
                       <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
-                        matTooltipClass="mat_pop" class="btn btn-light-primary btn-sm btn-just-icon"
-                        (click)="viewDetail(element)">
+                        matTooltipClass="mat_pop" class="btn btn-light-primary btn-sm btn-just-icon" (click)="viewDetail(element)">
                         <i class="material-icons">visibility</i>
                       </a>
-                      <a [routerLink]="'/bugs/edit-bug/' + element._id" matTooltip="Edit" [matTooltipPosition]="'above'"
-                        matTooltipClass="mat_pop" class="btn btn-light-warning btn-sm btn-just-icon">
+                      <a [routerLink]="'/bugs/edit-bug/' + element._id" matTooltip="Edit"
+                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                        class="btn btn-light-warning btn-sm btn-just-icon">
                         <i class="material-icons">edit</i>
                       </a>
                       <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"

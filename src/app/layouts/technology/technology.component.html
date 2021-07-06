@@ -2,15 +2,24 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <button mat-raised-button [routerLink]="['/technology/add-technology']">Add Technology</button>
-        <div class="col-md-2 mr-2 pull-right">
-          <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-md-6 mb-2">
+                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                  [message]="send">
+                </app-search-textbox>
+              </div>
+              <div class="col-md-2 mb-2">
+                <button mat-raised-button [routerLink]="['/technology/add-technology']" class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary">Add Technology</button>
+              </div>
+              <div class="col-md-2 mb-2">
+                <button style="float:left" mat-raised-button (click)="resetFilter()" class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary">Reset Filter</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 mb-2 pull-right">
-          <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-            [message]="send">
-          </app-search-textbox>
-        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="row">

@@ -535,5 +535,17 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   color: #6c757d;
   font-weight: 400;
 }
+.bg-white {
+  box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
+  margin-bottom: 0;
+  position: relative;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border: 1px solid #eef2f7;
+  border-radius: .25rem;
+}
+
+
+
 
 /* inner section design end here */
