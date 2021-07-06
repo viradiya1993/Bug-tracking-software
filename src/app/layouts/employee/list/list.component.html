@@ -4,99 +4,107 @@
 			<ngx-spinner></ngx-spinner>
 			<!-- <app-add [listObject]='sendObject'></app-add> -->
 			<div class="col-md-12">
-				<div class="card-body row">
-					<div class="col-10">
-						<mat-label>
-							Filters</mat-label>
-					</div>
-					<div class="col-2">
-						<button mat-button (click)="create('Add',{})" mat-flat-button color="primary" class="text-right">Add
-							Employee</button>
-					</div>
-					<div class="col-12">
-						<form (submit)="applyFilter()" [formGroup]='formEmployeeSearch' *ngIf="!isLoading">
-							<div class="row">
-								<div class="col-md-4">
-									<mat-form-field class="example-full-width">
-										<input matInput placeholder="First Name" name="first_name" formControlName="first_name">
-									</mat-form-field>
-								</div>
-								<div class="col-md-4">
-									<mat-form-field class="example-full-width">
-										<input matInput placeholder="Middle Name" name="middle_name" formControlName="middle_name">
-									</mat-form-field>
-								</div>
-								<div class="col-md-4">
-									<mat-form-field class="example-full-width">
-										<input matInput placeholder="Last Name" name="last_name" formControlName="last_name">
-									</mat-form-field>
-								</div>
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-10">
+								<mat-label>
+									<h3 class="card-label mt-0 mb-0">Filters</h3>
+								</mat-label>
 							</div>
-							<div class="row">
-								<div class="col-md-4">
-									<mat-form-field class="example-full-width">
-										<input matInput placeholder="Email" name="email" formControlName="email">
-									</mat-form-field>
-								</div>
-								<div class="col-md-4">
-									<mat-form-field class="example-full-width">
-										<input matInput placeholder="Mobile Number" type="text" name="mobile_number"
-											formControlName="mobile_number">
-									</mat-form-field>
-								</div>
-								<div class="col-md-4">
-									<ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value" bindValue="_id"
-										formControlName="gender">
-									</ng-select>
-								</div>
+							<div class="col-2 text-right">
+								<button mat-button (click)="create('Add',{})" mat-flat-button color="primary" class="text-right ">Add
+									Employee</button>
 							</div>
-							<div class="row">
-								<div class="col-md-4">
-									<ng-select placeholder="Department" [items]="departmentArray" bindLabel="department" bindValue="_id"
-										formControlName="departmentId">
-									</ng-select>
-								</div>
-								<div class="col-md-4">
-									<ng-select placeholder="Role" [items]="roleArray" bindLabel="role" bindValue="_id"
-										formControlName="roleId">
-									</ng-select>
-								</div>
-								<div class="col-md-4">
-									<ng-select placeholder="Status" [items]="employeeStatus" bindLabel="status"
-											bindValue="_id" formControlName="status">
-										</ng-select>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-3">
-									&nbsp;
-								</div>
-								<div class="col-6 row">
-									<div class="col" style="align-items: center;">
-										<button mat-button type="submit" mat-flat-button color="primary"> Search
-											<span class="material-icons">
-												search
-											</span>
-										</button>
-									</div>
-									<div class="col">
-										<button mat-button mat-flat-button type="reset" (click)="resetSearchFilter()" color="warn"
-											style="margin-left: 25px;">
-											Reset
-											<span class="material-icons">
-												clear
-											</span>
-										</button>
-									</div>
-								</div>
+						</div>
 
-								<div class="col-3">
-									&nbsp;
-								</div>
+						<div class="row">
+							<div class="col-12">
+								<form (submit)="applyFilter()" [formGroup]='formEmployeeSearch' *ngIf="!isLoading">
+									<div class="row">
+										<div class="col-md-4">
+											<mat-form-field class="example-full-width">
+												<input matInput placeholder="First Name" name="first_name" formControlName="first_name">
+											</mat-form-field>
+										</div>
+										<div class="col-md-4">
+											<mat-form-field class="example-full-width">
+												<input matInput placeholder="Middle Name" name="middle_name" formControlName="middle_name">
+											</mat-form-field>
+										</div>
+										<div class="col-md-4">
+											<mat-form-field class="example-full-width">
+												<input matInput placeholder="Last Name" name="last_name" formControlName="last_name">
+											</mat-form-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<mat-form-field class="example-full-width">
+												<input matInput placeholder="Email" name="email" formControlName="email">
+											</mat-form-field>
+										</div>
+										<div class="col-md-4">
+											<mat-form-field class="example-full-width">
+												<input matInput placeholder="Mobile Number" type="text" name="mobile_number"
+													formControlName="mobile_number">
+											</mat-form-field>
+										</div>
+										<div class="col-md-4">
+											<ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value" bindValue="_id"
+												formControlName="gender">
+											</ng-select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<ng-select placeholder="Department" [items]="departmentArray" bindLabel="department" bindValue="_id"
+												formControlName="departmentId">
+											</ng-select>
+										</div>
+										<div class="col-md-4">
+											<ng-select placeholder="Role" [items]="roleArray" bindLabel="role" bindValue="_id"
+												formControlName="roleId">
+											</ng-select>
+										</div>
+										<div class="col-md-4">
+											<ng-select placeholder="Status" [items]="employeeStatus" bindLabel="status"
+													bindValue="_id" formControlName="status">
+												</ng-select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											&nbsp;
+										</div>
+										<div class="col-6 row">
+											<div class="col" style="align-items: center;">
+												<button mat-button type="submit" mat-flat-button color="primary"> Search
+													<span class="material-icons">
+														search
+													</span>
+												</button>
+											</div>
+											<div class="col">
+												<button mat-button mat-flat-button type="reset" (click)="resetSearchFilter()" color="warn"
+													style="margin-left: 25px;">
+													Reset
+													<span class="material-icons">
+														clear
+													</span>
+												</button>
+											</div>
+										</div>
+
+										<div class="col-3">
+											&nbsp;
+										</div>
+									</div>
+								</form>
 							</div>
-						</form>
+						</div>
+						<!-- <input matInput (onKeyEnter)="applyFilter($event)" placeholder="Ex. Mia" #input> -->
 					</div>
-					<!-- <input matInput (onKeyEnter)="applyFilter($event)" placeholder="Ex. Mia" #input> -->
 				</div>
 			</div>
 

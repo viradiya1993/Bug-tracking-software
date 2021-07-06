@@ -2,11 +2,19 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <button mat-raised-button [routerLink]="['/department/add']">Add Department</button>
-                <div class="col-md-4 mb-2 pull-right">
-                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-                        [message]="send">
-                    </app-search-textbox>
+                <div class="card">
+                    <div class="col-12">
+                        <div class="row align-items-center justify-space-between">
+                            <div class="pull-left col">
+                                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                                    [message]="send">
+                                </app-search-textbox>
+                            </div>
+                            <div class="pull-right col">
+                                <button mat-raised-button [routerLink]="['/department/add']" class="mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add Department</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="card-header">
