@@ -2,58 +2,61 @@
   <div class="container-fluid">
     <div class="row">
 
-      
+
 
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
 
-              <div class="row mb-4 align-items-center justify-space-between">
-                  <div class="col">
-                    <h3 _ngcontent-fbo-c208="" class="card-label mt-0 mb-0">Project</h3>
-                  </div>
-                  <button mat-raised-button [routerLink]="['/project/add-project']" class="mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add Project</button>
-                  </div>
+            <div class="row mb-4 align-items-center justify-space-between">
+              <div class="col">
+                <h3 _ngcontent-fbo-c208="" class="card-label mt-0 mb-0">Project</h3>
               </div>
+              <button mat-raised-button [routerLink]="['/project/add-project']"
+                class="mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add
+                Project</button>
+            </div>
+          </div>
 
-              <div class="row">
-                <div class="col-md-4">
-                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name" bindValue="_id"
-                    (change)="selectTech($event)" [(ngModel)]="technologyId" [clearable]="false">
-                  </ng-select>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Department" [items]="departments" bindLabel="department" bindValue="_id"
-                    (change)="selectDepartment($event)" [(ngModel)]="departmentId" [clearable]="false">
-                  </ng-select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name" bindValue="_id"
-                    (change)="selectEmp($event)" [(ngModel)]="employee_id" [clearable]="false">
-                  </ng-select>
-                </div>
-                <div class="col-md-3">
-                  <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name" bindValue="_id"
-                    (change)="selectManager($event)" [(ngModel)]="manager_id" [clearable]="false">
-                  </ng-select>
-                </div>
-                <div class="col-md-3">
-                  <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value" bindValue="_id"
-                    (change)="selectStatus($event)" [(ngModel)]="status_id" [clearable]="false">
-                  </ng-select>
-                </div>
-                <div class="col-md-3">
-                  <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
-                </div>
-              </div>
+          <div class="row">
+            <div class="col-md-4">
+              <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                [message]="send"></app-search-textbox>
+            </div>
+            <div class="col-md-4">
+              <ng-select placeholder="Technology" [items]="technologys" bindLabel="tech_name" bindValue="_id"
+                (change)="selectTech($event)" [(ngModel)]="technologyId" [clearable]="false">
+              </ng-select>
+            </div>
+            <div class="col-md-4">
+              <ng-select placeholder="Department" [items]="departments" bindLabel="department" bindValue="_id"
+                (change)="selectDepartment($event)" [(ngModel)]="departmentId" [clearable]="false">
+              </ng-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <ng-select placeholder="Emplopyee" [items]="employees" bindLabel="first_name" bindValue="_id"
+                (change)="selectEmp($event)" [(ngModel)]="employee_id" [clearable]="false">
+              </ng-select>
+            </div>
+            <div class="col-md-3">
+              <ng-select placeholder="Project Manager" [items]="projectManager" bindLabel="first_name" bindValue="_id"
+                (change)="selectManager($event)" [(ngModel)]="manager_id" [clearable]="false">
+              </ng-select>
+            </div>
+            <div class="col-md-3">
+              <ng-select placeholder="Status" [items]="projectStatus" bindLabel="value" bindValue="_id"
+                (change)="selectStatus($event)" [(ngModel)]="status_id" [clearable]="false">
+              </ng-select>
+            </div>
+            <div class="col-md-3">
+              <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+            </div>
           </div>
         </div>
       </div>
+      <!-- </div> -->
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
@@ -134,25 +137,26 @@
                   <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
                   <td width="15%" mat-cell *matCellDef="let element" class="text-center four-button">
                     <div class="d-flex align-items-center justify-content-content">
-                    <a [routerLink]="'/bugs/bug-list/' + element._id" matTooltip="Add Bug"
-                      [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                      class="btn btn-light-primary btn-sm btn-just-icon">
-                      <i class="material-icons">add_circle</i>
-                    </a>
+                      <a [routerLink]="'/bugs/bug-list/' + element._id" matTooltip="Add Bug"
+                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                        class="btn btn-light-primary btn-sm btn-just-icon">
+                        <i class="material-icons">add_circle</i>
+                      </a>
 
-                    <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
-                      matTooltipClass="mat_pop" class="btn btn-light-success btn-sm btn-just-icon" (click)="viewDetail(element)">
-                      <i class="material-icons">visibility</i>
-                    </a>
-                    <a [routerLink]="'/project/edit-project/' + element._id" matTooltip="Edit"
-                      [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                      class="btn btn-light-warning btn-sm btn-just-icon">
-                      <i class="material-icons">edit</i>
-                    </a>
-                    <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-                      matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
-                      (click)="openDialog(element._id)"><i class="material-icons">delete</i>
-                    </a>
+                      <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
+                        matTooltipClass="mat_pop" class="btn btn-light-success btn-sm btn-just-icon"
+                        (click)="viewDetail(element)">
+                        <i class="material-icons">visibility</i>
+                      </a>
+                      <a [routerLink]="'/project/edit-project/' + element._id" matTooltip="Edit"
+                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                        class="btn btn-light-warning btn-sm btn-just-icon">
+                        <i class="material-icons">edit</i>
+                      </a>
+                      <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
+                        matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
+                        (click)="openDialog(element._id)"><i class="material-icons">delete</i>
+                      </a>
                     </div>
                   </td>
                 </ng-container>
@@ -167,7 +171,8 @@
             </div>
           </div>
           <div>
-            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)"></app-pagination>
+            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
+            </app-pagination>
           </div>
         </div>
       </div>
