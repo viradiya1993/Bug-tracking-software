@@ -128,25 +128,26 @@
                   <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
                   <td width="15%" mat-cell *matCellDef="let element" class="text-center four-button">
                     <div class="d-flex align-items-center justify-content-content">
-                    <a [routerLink]="'/bugs/bug-list/' + element._id" matTooltip="Add Bug"
-                      [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                      class="btn btn-light-primary btn-sm btn-just-icon">
-                      <i class="material-icons">add_circle</i>
-                    </a>
+                      <a [routerLink]="'/bugs/bug-list/' + element._id" matTooltip="Add Bug"
+                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                        class="btn btn-light-primary btn-sm btn-just-icon">
+                        <i class="material-icons">add_circle</i>
+                      </a>
 
-                    <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
-                      matTooltipClass="mat_pop" class="btn btn-light-success btn-sm btn-just-icon" (click)="viewDetail(element)">
-                      <i class="material-icons">visibility</i>
-                    </a>
-                    <a [routerLink]="'/project/edit-project/' + element._id" matTooltip="Edit"
-                      [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                      class="btn btn-light-warning btn-sm btn-just-icon">
-                      <i class="material-icons">edit</i>
-                    </a>
-                    <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-                      matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
-                      (click)="openDialog(element._id)"><i class="material-icons">delete</i>
-                    </a>
+                      <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
+                        matTooltipClass="mat_pop" class="btn btn-light-success btn-sm btn-just-icon"
+                        (click)="viewDetail(element)">
+                        <i class="material-icons">visibility</i>
+                      </a>
+                      <a [routerLink]="'/project/edit-project/' + element._id" matTooltip="Edit"
+                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                        class="btn btn-light-warning btn-sm btn-just-icon">
+                        <i class="material-icons">edit</i>
+                      </a>
+                      <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
+                        matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
+                        (click)="openDialog(element._id)"><i class="material-icons">delete</i>
+                      </a>
                     </div>
                   </td>
                 </ng-container>
@@ -161,7 +162,8 @@
             </div>
           </div>
           <div>
-            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)"></app-pagination>
+            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
+            </app-pagination>
           </div>
         </div>
       </div>

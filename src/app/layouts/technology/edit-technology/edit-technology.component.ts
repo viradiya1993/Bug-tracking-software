@@ -50,7 +50,7 @@ export class EditTechnologyComponent implements OnInit {
         this.myForm.reset();
         this.router.navigate(['/technology']);
       }, err => {
-        this.loader = true;
+        this.loader = false;
         this.sharedService.loggerError(err.error.message);
       });
     }

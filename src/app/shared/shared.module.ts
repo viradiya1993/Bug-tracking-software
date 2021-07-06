@@ -20,7 +20,9 @@ import { SearchTextboxComponent } from './search-textbox/search-textbox.componen
 import { PaginationComponent } from './pagination/pagination.component';
 import { DateFormatPipe } from './date-format-pipe.pipe';
 import { DeleteBoxComponent } from './delete-box/delete-box.component';
-
+import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { ChartModule } from 'angular-highcharts';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { DeleteBoxComponent } from './delete-box/delete-box.component';
     MatSortModule,
     MatCardModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    ChartModule,
+    ChartsModule,
   ],
 
   exports: [
@@ -68,9 +72,10 @@ import { DeleteBoxComponent } from './delete-box/delete-box.component';
     SearchTextboxComponent,
     PaginationComponent,
     DateFormatPipe,
-    DeleteBoxComponent
+    DeleteBoxComponent,
+    PieChartComponent
   ],
   entryComponents: [],
-  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DeleteBoxComponent]
+  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DeleteBoxComponent, PieChartComponent]
 })
 export class SharedModule { }

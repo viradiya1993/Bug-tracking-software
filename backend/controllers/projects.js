@@ -120,7 +120,7 @@ exports.createProject = async (req, res, next) => {
 
 //Fetch Technology
 exports.getTechnology = async (req, res, next) => {
-	const postQuery = Technology.find();
+	const postQuery = Technology.find().sort({tech_name: 1});
 	let fetchedPosts;
 	postQuery
 		.then(documents => {
