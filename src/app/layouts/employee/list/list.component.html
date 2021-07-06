@@ -7,15 +7,8 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="row">
-							<div class="col-10">
-								<mat-label>
-									<h3 class="card-label mt-0 mb-0">Filters</h3>
-								</mat-label>
-							</div>
-							<div class="col-2 text-right">
-								<button mat-button (click)="create('Add',{})" mat-flat-button color="primary" class="text-right ">Add
-									Employee</button>
-							</div>
+							
+							
 						</div>
 
 						<div class="row">
@@ -74,31 +67,26 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-3">
-											&nbsp;
-										</div>
-										<div class="col-6 row">
-											<div class="col" style="align-items: center;">
-												<button mat-button type="submit" mat-flat-button color="primary"> Search
-													<span class="material-icons">
-														search
-													</span>
-												</button>
-											</div>
-											<div class="col">
-												<button mat-button mat-flat-button type="reset" (click)="resetSearchFilter()" color="warn"
-													style="margin-left: 25px;">
-													Reset
-													<span class="material-icons">
-														clear
-													</span>
-												</button>
-											</div>
+										
+										<div class="col-12 mt-3">
+											
+											<button mat-button (click)="create('Add',{})" mat-flat-button color="primary" class="mr-3">Add Employee</button>
+											
+											<button mat-button type="submit" mat-flat-button color="primary" class="mr-3"> Search
+												<span class="material-icons">
+													search
+												</span>
+											</button>
+										
+											<button mat-button mat-flat-button type="reset" (click)="resetSearchFilter()" color="warn" class="mr-3">
+												Reset
+												<span class="material-icons">
+													clear
+												</span>
+											</button>
+											
 										</div>
 
-										<div class="col-3">
-											&nbsp;
-										</div>
 									</div>
 								</form>
 							</div>
@@ -110,13 +98,6 @@
 
 			<div class="col-md-12">
 				<div class="card">
-					<div class="card-header">
-						<div class="row">
-							<div class="col-md-4">
-								<h3 class="card-title">Emplopyee List</h3>
-							</div>
-						</div>
-					</div>
 					<div class="card-body">
 						<div class="table-responsive">
 							<table mat-table [dataSource]="dataSource" matSortDisableClear matSort

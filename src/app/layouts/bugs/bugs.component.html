@@ -16,17 +16,22 @@
               bindValue="_id" [clearable]="false"  [(ngModel)]="project_id" [clearable]="false">
             </ng-select>
           </div> -->
-        <div class="col-md-12">
-          <div class="card-body row">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-md-4">
-                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-                    [message]="send"></app-search-textbox>
+          
+          <div class="card">
+            <div class="card-body row">
+              <div class="d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col">
+                  
                 </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
-                    (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false" [searchable]="true">
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-md-4">
+                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
+                  </div>
+                  <div class="col-md-4">
+                    <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
+                    (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false">
                   </ng-select>
                 </div>
                 <div class="col-md-4">
@@ -36,48 +41,45 @@
                 </div>
               </div>
             </div>
-          </div>
-          
-        </div>  
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
+
+            <div class="col-12">
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <ng-select placeholder="Status" [items]="bugStatus" bindLabel="status" bindValue="_id"
                     (change)="selectBugStatus($event)" [(ngModel)]="bug_status" [clearable]="false" [searchable]="true">
                   </ng-select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <ng-select placeholder="Bug Type" [items]="bugsType" bindLabel="bug_types" bindValue="_id"
                     (change)="selectBugType($event)" [(ngModel)]="bug_type" [clearable]="false" [searchable]="true">
                   </ng-select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <ng-select placeholder="Bug Priority" [items]="bugsPriority" bindLabel="priority" bindValue="_id"
                     (change)="selectBugPriority($event)" [(ngModel)]="bug_priority" [clearable]="false" [searchable]="true">
                   </ng-select>
                 </div>
-                <div class="col-md-3">
-                  <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+                <div class="col-md-12">
+                  <button mat-raised-button [routerLink]="['/bugs/add-bug']" class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3" style="float:left;">Add Bugs</button>
+                  <button mat-raised-button (click)="resetFilter()" style="float:left;">Reset Filter</button>
                 </div>
               </div>
             </div>
+            
           </div>
-        </div>
+          
+        </div>  
+        
       </div>
       <div class="col-md-12">
+
         <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col-md-4">
-                <h3 class="card-title ">Bugs List</h3>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-                class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
+          
+          <div class="card-body">
+            <div class="table-responsive">
+              
+              <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
+              class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
 
                 <ng-container matColumnDef="no">
                   <th width="8%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header
@@ -160,7 +162,9 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
               </table>
+
               <div *ngIf="length == 0" class="text-center font16 mt15 mb15 pt-4">
                 No Record Found
                 <hr>
@@ -171,8 +175,8 @@
             <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
             </app-pagination>
           </div>
+          
         </div>
       </div>
     </div>
   </div>
-</div>
