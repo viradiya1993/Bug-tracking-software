@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'app/shared/shared.service';
-import * as Chartist from 'chartist';
 import { LayoutService } from '../layout.service';
 import { ProjectService } from '../project/project.service';
 import { DashboardService } from './dashboard.service';
 
+
+import * as Highcharts from 'highcharts';
+import { Label, SingleDataSet } from 'ng2-charts';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -22,6 +25,7 @@ export class DashboardComponent implements OnInit {
   showAdmin = false;
   showPm = false;
   showDev = false;
+<<<<<<< Updated upstream
 
   constructor(
     public sharedService: SharedService,
@@ -181,6 +185,36 @@ export class DashboardComponent implements OnInit {
 
     });
 
+=======
+  public pieChartLabels: Label[] = ['Successful Request', 'Failed Request'];
+  pieChartData: Subject<any> = new Subject();
+  pieChartData1 = [0, 1]
+  public tmpPieChartData: any[] = [];
+  constructor(public sharedService: SharedService, 
+              public dashborad: DashboardService, 
+              public projectService: ProjectService, 
+              private layoutService: LayoutService,
+              public layoutsService: LayoutService) { 
+                this.sharedService.showLoader();
+                this.userRole_id = localStorage.getItem('roleId')
+              }
+
+  
+  ngOnInit() {
+      this.projectService.getProjectStatus().subscribe((res: any) => {
+        this.statusOpen =  res.status.filter(x => x.value === 'Open');
+        this.statusProgress = res.status.filter(x => x.value === 'In Progress')
+       
+        this.layoutService.getEmpStatus().subscribe((res: any) => {
+          this.activeEmployee = res.status.filter(x => x.status === 'Active')
+          this.getRoleData();
+        })
+
+      });
+      this.tmpPieChartData = this.pieChartData1
+      this.pieChartData.next(this.tmpPieChartData);
+      
+>>>>>>> Stashed changes
   }
 
   getProjectCount() {
@@ -227,11 +261,11 @@ export class DashboardComponent implements OnInit {
         this.showPm = true
         this.getAssignActiveProject();
       } else if (this.userRole[0].role == "Developer") {
-        this.showDev = true
-        this.getActiveProject();
+          this.showDev = true
+          this.getActiveProject();
       } else {
-        this.showDev = true
-        this.getActiveProject();
+          this.showDev = true
+          this.getActiveProject();
       }
 
     })

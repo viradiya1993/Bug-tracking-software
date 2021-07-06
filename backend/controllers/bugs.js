@@ -57,7 +57,6 @@ exports.createBugs = async (req, res, next) => {
 				})
 			})
 	} catch (error) {
-		console.log(error);
 		res.status(400).json({
 			message: "Something went wrong. Please try again later"
 		});
@@ -178,7 +177,6 @@ exports.getBugsList = async (req, res, next) => {
 		});
 
 	} catch (error) {
-		console.log(error);
 		return res.status(400).json({
 			message: "Something went wrong. Please try again later.",
 			data: {}
@@ -305,10 +303,11 @@ exports.deleteBugDetails = async (req, res, next) => {
 
 // Fetch Project 
 exports.getProjects = async (req, res, next) => {
-	const query = projectModel.find();
+	const query = projectModel.find().sort( { project_name : 1 } );
 	let data;
 	query
 		.then(status => {
+			
 			data = status
 			return projectModel.countDocuments();
 		})
@@ -328,7 +327,7 @@ exports.getProjects = async (req, res, next) => {
 
 // Fetch Bug Status
 exports.getBugstatus = async (req, res, next) => {
-	const query = bugStatus.find();
+	const query = bugStatus.find().sort( { status : 1 } );
 	let data;
 	query
 		.then(status => {
@@ -351,7 +350,7 @@ exports.getBugstatus = async (req, res, next) => {
 
 // Fetch Bug Type
 exports.getBugsType = async (req, res, next) => {
-	const query = bugType.find();
+	const query = bugType.find().sort( {bug_types: 1});
 	let data;
 	query
 		.then(status => {
@@ -374,7 +373,7 @@ exports.getBugsType = async (req, res, next) => {
 
 // Fetch Bug Priority
 exports.getBugsPriority = async (req, res, next) => {
-	const query = bugPriority.find();
+	const query = bugPriority.find().sort({priority: 1});
 	let data;
 	query
 		.then(status => {

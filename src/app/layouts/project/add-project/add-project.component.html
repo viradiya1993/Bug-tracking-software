@@ -43,7 +43,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <ng-select [items]="departments" bindLabel="department" placeholder="Select an Department"
-                    formControlName="department" bindValue="_id">
+                    formControlName="department" bindValue="_id" [searchable]="true">
                   </ng-select>
                   <mat-error *ngIf="projectForm.get('department').invalid"> Please Select a
                     Department
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-md-6">
                   <ng-select [items]="projectManager" bindLabel="first_name" placeholder="Select an Project Manager"
-                    formControlName="project_manager" bindValue="_id">
+                    formControlName="project_manager" bindValue="_id" [searchable]="true">
                   </ng-select>
                   <mat-error *ngIf="projectForm.get('project_manager').invalid"> Please Select a
                     Manager
@@ -61,7 +61,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <ng-select placeholder="Select an employee" [items]="employees" formControlName="employee"
-                    bindLabel="first_name" bindValue="first_name" [multiple]="true">
+                    bindLabel="first_name" bindValue="first_name" [multiple]="true" [searchable]="true">
                   </ng-select>
                   <mat-error *ngIf="projectForm.get('employee').invalid"> Please Select a
                     employee
@@ -91,7 +91,7 @@
                 </div>
                 <div class="col-md-4">
                   <ng-select [items]="projectStatus" bindLabel="value" placeholder="Select an status" bindValue="_id"
-                    formControlName="status">
+                    formControlName="status" [searchable]="true">
                   </ng-select>
 
                   <mat-error *ngIf="projectForm.get('status').invalid">

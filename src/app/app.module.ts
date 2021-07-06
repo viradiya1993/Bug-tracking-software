@@ -33,7 +33,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { HttpErrorInterceptor } from './shared/error-handler';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LayoutService } from "./layouts/layout.service";
-import { ListComponent } from './layouts/employee/list/list.component';
+import { ChartModule } from 'angular-highcharts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
@@ -62,7 +62,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     }),
     NgSelectModule,
     NgMultiSelectDropDownModule.forRoot(),
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    ChartModule
   ],
   declarations: [
     AppComponent,

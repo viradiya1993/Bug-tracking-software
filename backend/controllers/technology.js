@@ -7,6 +7,16 @@ const Technology = require("../models/technology");
 exports.createTechnology = async (req, res, next) => {
    const { tech_name } = req.body;
     try {
+        const isExists = await Technology.findOne({
+            tech_name
+        });
+        if (isExists) {
+            return res.status(400).send({
+                message: 'Technology already exist choose another one',
+                error: true,
+                data: {}
+            });
+        }
         const technology = new Technology();
         technology.tech_name = tech_name;
         technology.created_at = await dateFormat.set_current_timestamp();
@@ -20,6 +30,7 @@ exports.createTechnology = async (req, res, next) => {
             });
         })
     } catch (error) {
+        console.log(error)
         res.status(400).json({
             message: "Something went wrong. Please try again later"
         });
