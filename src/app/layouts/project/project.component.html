@@ -1,13 +1,18 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12 mt-3">
+      <div class="col-12 mt-3 d-flex flex-wrap align-items-center justify-space-between">
 
         <button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
           <span class="material-icons">
             filter_alt
           </span>
         </button>
+        <div class="right-button">
+          <button mat-raised-button [routerLink]="['/project/add-project']"
+                    class="float-right mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button button-primary">Add
+                    Project</button>
+        </div>
 
       </div>
       <div class="col-md-12" *ngIf="showFilter">
@@ -52,11 +57,20 @@
             <div class="row">
               <div class="col-12">
                 <div class="d-flex flex-wrap align-items-center justify-space-between">
+                  <button mat-button type="submit" mat-flat-button color="primary"
+                                    class="mr-3" mat-raised-button (click)="resetFilter()"> Search
+                                    <span class="material-icons">
+                                      search
+                                    </span>
+                                  </button>
+                                  
+                  <button mat-raised-button (click)="resetFilter()"
+                                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary mr-3">Reset
+                                    Filter <span class="material-icons">clear</span>
+                                  </button>
 
-                  <button mat-raised-button [routerLink]="['/project/add-project']"
-                    class="float-right mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3">Add
-                    Project</button>
-                  <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
+                  
+                  
 
                 </div>
               </div>
@@ -136,8 +150,8 @@
                 </ng-container> -->
 
                 <ng-container matColumnDef="action">
-                  <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
-                  <td width="15%" mat-cell *matCellDef="let element" class="text-center four-button">
+                  <th width="15%" mat-header-cell *matHeaderCellDef class="text-left text-primary"> Action </th>
+                  <td width="15%" mat-cell *matCellDef="let element" class="text-left four-button">
                     <div class="d-flex align-items-center justify-content-content">
                       <a [routerLink]="'/bugs/bug-list/' + element._id" matTooltip="Add Bug"
                         [matTooltipPosition]="'above'" matTooltipClass="mat_pop"

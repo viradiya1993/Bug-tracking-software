@@ -545,7 +545,7 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   border-radius: .25rem;
 }
 .main-panel .main-content {
-  margin-top: 35px;
+  margin-top: 40px;
 }
 .mat-form-field-appearance-legacy .mat-form-field-underline {
   bottom: 0;
@@ -553,6 +553,18 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
 .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding-bottom: 0;
 }
-
-
+.card {
+  margin-top: 17px;
+}
+.footer .copyright {
+  padding: 0;
+  font-size: 14px;
+}
+.right-button {
+  margin-left: auto;
+}
+.button-primary{
+  background-color: #3699FF !important;
+  color: #fff !important;
+}
 /* inner section design end here */

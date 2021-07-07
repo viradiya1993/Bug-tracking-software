@@ -1,13 +1,23 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12 mt-3">
+      <div class="col-12 mt-3 d-flex flex-wrap align-items-center justify-space-between">
 
         <button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
           <span class="material-icons">
             filter_alt
           </span>
         </button>
+
+        <div class="right-button">
+          <button mat-raised-button [routerLink]="['/bugs/add-bug']"
+                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base button-primary mat-primary mat-raised-button"
+                    style="float:left;" *ngIf="!project_id">Add Bugs</button>
+
+          <button mat-raised-button [routerLink]="'/bugs/add-bug/' + project_id"
+                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base button-primary mat-primary mat-raised-button"
+                    style="float:left;" *ngIf="project_id">Add Bugs</button>
+        </div>
 
       </div>
       <div class="col-md-12" *ngIf="showFilter">
@@ -57,16 +67,23 @@
                     [searchable]="true">
                   </ng-select>
                 </div>
-                <div class="col-md-12">
-                  <button mat-raised-button [routerLink]="['/bugs/add-bug']"
-                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3"
-                    style="float:left;" *ngIf="!project_id">Add Bugs</button>
-                  <button mat-raised-button [routerLink]="'/bugs/add-bug/' + project_id"
-                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3"
-                    style="float:left;" *ngIf="project_id">Add Bugs</button>
 
-                  <button mat-raised-button (click)="resetFilter()" style="float:left;">Reset Filter</button>
+                <div class="col-12">
+                  <div class="d-flex flex-wrap align-items-center justify-space-between">
+                    <button mat-button type="submit" mat-flat-button color="primary"
+                                      class="mr-3" mat-raised-button (click)="resetFilter()"> Search
+                                      <span class="material-icons">
+                                        search
+                                      </span>
+                                    </button>
+                    <button mat-raised-button (click)="resetFilter()"
+                                      class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary mr-3">Reset
+                                      Filter <span class="material-icons">clear</span>
+                                    </button>
+  
+                  </div>
                 </div>
+
               </div>
             </div>
 
@@ -144,8 +161,8 @@
                 </ng-container> -->
 
                 <ng-container matColumnDef="action">
-                  <th width="15%" mat-header-cell *matHeaderCellDef class="text-center text-primary"> Action </th>
-                  <td width="15%" mat-cell *matCellDef="let element" class="text-center">
+                  <th width="15%" mat-header-cell *matHeaderCellDef class="text-left text-primary"> Action </th>
+                  <td width="15%" mat-cell *matCellDef="let element" class="text-left">
                     <div class="d-flex align-items-center justify-content-content">
                       <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
                         matTooltipClass="mat_pop" class="btn btn-light-primary btn-sm btn-just-icon"
