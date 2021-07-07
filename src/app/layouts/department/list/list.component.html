@@ -1,19 +1,30 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12 mt-3">
+
+                <button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
+                    <span class="material-icons">
+                        filter_alt
+                    </span>
+                </button>
+
+            </div>
             <div class="col-md-12">
-                <div class="card">
+                <div class="card" *ngIf="showFilter">
                     <div class="card-body">
                         <div class="col-12">
                             <div class="row align-items-center justify-space-between">
                                 <div class="col-lg-8">
-                                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-                                        [message]="send">
+                                    <app-search-textbox (resetIndex)="resetIndex($event)"
+                                        (searchEvent)="receiveSearchValue($event)" [message]="send">
                                     </app-search-textbox>
                                 </div>
-                                
-                                <button mat-raised-button [routerLink]="['/department/add']" class="mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add Department</button>
-                                
+
+                                <button mat-raised-button [routerLink]="['/department/add']"
+                                    class="mat-button mat-flat-button mat-button-base mat-primary mat-raised-button">Add
+                                    Department</button>
+
                             </div>
                         </div>
                     </div>
@@ -22,7 +33,8 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-                                class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
+                                class="mat-elevation-z8 table-hover" class="table-bordered" width="100%"
+                                *ngIf="length > 0">
                                 <!-- <ng-container matColumnDef="no">
                                     <th width="33%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef
                                         mat-sort-header class="text-primary"> No </th>
@@ -46,8 +58,9 @@
                                                 class="btn btn-light-warning btn-sm btn-just-icon">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-                                                matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
+                                            <a href="javascript:void(0)" matTooltip="Delete"
+                                                [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+                                                class="btn btn-light-danger btn-sm btn-just-icon"
                                                 (click)="openDialog(element._id)"><i class="material-icons">delete</i>
                                             </a>
                                         </div>
