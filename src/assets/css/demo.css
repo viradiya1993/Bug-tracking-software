@@ -567,4 +567,17 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   background-color: #3699FF !important;
   color: #fff !important;
 }
+.card.card-profile {
+  margin-top: 65px;
+}
+textarea.mat-input-element.cdk-textarea-autosize {
+  padding: 10px 0 5px 0px;
+  min-height: auto !important;
+  max-height: initial !important;
+  line-height: 25px !important;
+}
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 10px 0 0 0;
+}
+
 /* inner section design end here */

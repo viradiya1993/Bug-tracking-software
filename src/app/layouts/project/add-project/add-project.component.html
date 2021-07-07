@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title" *ngIf="!editable">Add Project</h4>
-            <h4 class="card-title" *ngIf="editable">Edit Project</h4>
+          <div class="card-header">
+            <h4 class="card-title m-0" *ngIf="!editable">Add Project</h4>
+            <h4 class="card-title m-0" *ngIf="editable">Edit Project</h4>
           </div>
           <div class="card-body">
             <form [formGroup]='projectForm'>
