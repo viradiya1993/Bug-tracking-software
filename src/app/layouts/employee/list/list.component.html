@@ -3,13 +3,18 @@
 		<div class="row">
 			<ngx-spinner></ngx-spinner>
 			<!-- <app-add [listObject]='sendObject'></app-add> -->
-			<div class="col-md-12">
+			<div class="col-12 mt-3">
+
+				<button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
+					<span class="material-icons">
+						filter_alt
+					</span>
+				</button>
+
+			</div>
+			<div class="col-md-12" *ngIf="showFilter">
 				<div class="card">
 					<div class="card-body">
-						<div class="row">
-							
-							
-						</div>
 
 						<div class="row">
 							<div class="col-12">
@@ -17,74 +22,81 @@
 									<div class="row">
 										<div class="col-md-4">
 											<mat-form-field class="example-full-width">
-												<input matInput placeholder="First Name" name="first_name" formControlName="first_name">
+												<input matInput placeholder="First Name" name="first_name"
+													formControlName="first_name">
 											</mat-form-field>
 										</div>
 										<div class="col-md-4">
 											<mat-form-field class="example-full-width">
-												<input matInput placeholder="Middle Name" name="middle_name" formControlName="middle_name">
+												<input matInput placeholder="Middle Name" name="middle_name"
+													formControlName="middle_name">
 											</mat-form-field>
 										</div>
 										<div class="col-md-4">
 											<mat-form-field class="example-full-width">
-												<input matInput placeholder="Last Name" name="last_name" formControlName="last_name">
+												<input matInput placeholder="Last Name" name="last_name"
+													formControlName="last_name">
 											</mat-form-field>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-4">
 											<mat-form-field class="example-full-width">
-												<input matInput placeholder="Email" name="email" formControlName="email">
+												<input matInput placeholder="Email" name="email"
+													formControlName="email">
 											</mat-form-field>
 										</div>
 										<div class="col-md-4">
 											<mat-form-field class="example-full-width">
-												<input matInput placeholder="Mobile Number" type="text" name="mobile_number"
-													formControlName="mobile_number">
+												<input matInput placeholder="Mobile Number" type="text"
+													name="mobile_number" formControlName="mobile_number">
 											</mat-form-field>
 										</div>
 										<div class="col-md-4">
-											<ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value" bindValue="_id"
-												formControlName="gender">
+											<ng-select placeholder="Gender" [items]="gendersArray" bindLabel="value"
+												bindValue="_id" formControlName="gender">
 											</ng-select>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<ng-select placeholder="Department" [items]="departmentArray" bindLabel="department" bindValue="_id"
-												formControlName="departmentId">
+											<ng-select placeholder="Department" [items]="departmentArray"
+												bindLabel="department" bindValue="_id" formControlName="departmentId">
 											</ng-select>
 										</div>
 										<div class="col-md-4">
-											<ng-select placeholder="Role" [items]="roleArray" bindLabel="role" bindValue="_id"
-												formControlName="roleId">
+											<ng-select placeholder="Role" [items]="roleArray" bindLabel="role"
+												bindValue="_id" formControlName="roleId">
 											</ng-select>
 										</div>
 										<div class="col-md-4">
 											<ng-select placeholder="Status" [items]="employeeStatus" bindLabel="status"
-													bindValue="_id" formControlName="status">
-												</ng-select>
+												bindValue="_id" formControlName="status">
+											</ng-select>
 										</div>
 									</div>
 									<div class="row">
-										
+
 										<div class="col-12 mt-3">
-											
-											<button mat-button (click)="create('Add',{})" mat-flat-button color="primary" class="mr-3">Add Employee</button>
-											
-											<button mat-button type="submit" mat-flat-button color="primary" class="mr-3"> Search
+
+											<button mat-button (click)="create('Add',{})" mat-flat-button
+												color="primary" class="mr-3">Add Employee</button>
+
+											<button mat-button type="submit" mat-flat-button color="primary"
+												class="mr-3"> Search
 												<span class="material-icons">
 													search
 												</span>
 											</button>
-										
-											<button mat-button mat-flat-button type="reset" (click)="resetSearchFilter()" color="warn" class="mr-3">
+
+											<button mat-button mat-flat-button type="reset"
+												(click)="resetSearchFilter()" color="warn" class="mr-3">
 												Reset
 												<span class="material-icons">
 													clear
 												</span>
 											</button>
-											
+
 										</div>
 
 									</div>
@@ -101,7 +113,8 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							<table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-								class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="total > 0" (matSortChange)="sortTable($event)">
+								class="mat-elevation-z8 table-hover" class="table-bordered" width="100%"
+								*ngIf="total > 0" (matSortChange)="sortTable($event)">
 
 								<!-- First Name Column -->
 								<ng-container matColumnDef="first_name">
@@ -153,8 +166,9 @@
 												class="btn btn-light-warning btn-sm btn-just-icon">
 												<i class="material-icons">edit</i>
 											</a>
-											<a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-												matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
+											<a href="javascript:void(0)" matTooltip="Delete"
+												[matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+												class="btn btn-light-danger btn-sm btn-just-icon"
 												(click)="openDialog(element._id)"><i class="material-icons">delete</i>
 											</a>
 										</div>

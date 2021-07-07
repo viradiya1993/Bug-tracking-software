@@ -24,10 +24,10 @@ export class TechnologyComponent implements OnInit {
   sortName: String = 'no';
   sortType: String = 'desc';
   index: number;
-  displayedColumns: string[] = ['no', 'technology', 'action'];
+  displayedColumns: string[] = ['technology', 'action'];
   send: string = "Technology";
   @ViewChild(MatSort) sort: MatSort;
-
+  showFilter = false;
   constructor(
     private service: TechnologyService,
     private sharedService: SharedService,
@@ -39,6 +39,9 @@ export class TechnologyComponent implements OnInit {
     this.getTechnology();
   }
 
+  showFilterBox() {
+    this.showFilter = !this.showFilter;
+  }
   getTechnology() {
     this.service.getTechnology(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
       .subscribe((res: any) => {
