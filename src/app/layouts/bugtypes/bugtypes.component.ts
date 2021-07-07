@@ -52,7 +52,6 @@ export class BugtypesComponent implements OnInit {
   resetFilter() {
     this.page = 0;
     this.index = 0;
-    this.searchKey = null
     this.getBugType();
   }
 

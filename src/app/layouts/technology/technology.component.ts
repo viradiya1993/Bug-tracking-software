@@ -59,7 +59,6 @@ export class TechnologyComponent implements OnInit {
   resetFilter() {
     this.page = 0;
     this.index = 0;
-    this.searchKey = null
     this.getTechnology();
   }
 
@@ -69,6 +68,8 @@ export class TechnologyComponent implements OnInit {
  * @param event
  */
   resetIndex(e) {
+    console.log(e);
+    
     this.index = e;
   }
 
