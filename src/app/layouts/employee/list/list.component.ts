@@ -42,6 +42,7 @@ export class ListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  showFilter = false;
   // @Output() sendObjectData = new EventEmitter();
 
   page = new Page();
@@ -60,7 +61,7 @@ export class ListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.page.pageNumber = 1;
+    this.page.pageNumber = 0;
     this.page.size = this.PerPage;
     this.page.sortby = '';
     this.page.sortOrder = '';
@@ -92,6 +93,10 @@ export class ListComponent implements OnInit {
     }
   }
 
+  showFilterBox() {
+    this.showFilter = !this.showFilter;
+  }
+  
   applyFilter() {
     this.getEmployeeData();
   }

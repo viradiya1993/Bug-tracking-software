@@ -1,42 +1,39 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        <button mat-raised-button [routerLink]="['/bugs/add-bug']"  *ngIf="!project_id">Add Bugs</button>
-        <button mat-raised-button [routerLink]="'/bugs/add-bug/' + project_id" *ngIf="project_id">Add Bugs</button>
-        <!-- <div class="col-md-2 mr-2 pull-right" >
-            <button style="float:right" mat-raised-button (click)="resetFilter()">Reset Filter</button>
-          </div>
-          <div class="col-md-4 mb-2 pull-right">
-            <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-            [message]="send"></app-search-textbox>
-          </div> -->
-        <!-- <div class="col-md-6">
-            <ng-select [items]="projects" bindLabel="project_name" placeholder="Select an project"
-              bindValue="_id" [clearable]="false"  [(ngModel)]="project_id" [clearable]="false">
-            </ng-select>
-          </div> -->
-          
-          <div class="card">
-            <div class="card-body row">
-              <div class="d-flex flex-wrap align-items-center justify-content-end">
-                <div class="col">
-                  
-                </div>
+      <div class="col-12 mt-3">
+
+        <button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
+          <span class="material-icons">
+            filter_alt
+          </span>
+        </button>
+
+      </div>
+      <div class="col-md-12" *ngIf="showFilter">
+
+        <div class="card">
+          <div class="card-body row">
+            <div class="d-flex flex-wrap align-items-center justify-content-end">
+              <div class="col">
+
               </div>
-              <div class="col-12">
-                <div class="row">
-                  <div class="col-md-4">
-                    <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)" [message]="send"></app-search-textbox>
-                  </div>
-                  <div class="col-md-4">
-                    <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-4">
+                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                    [message]="send"></app-search-textbox>
+                </div>
+                <div class="col-md-4">
+                  <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
                     (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false">
                   </ng-select>
                 </div>
                 <div class="col-md-4">
                   <ng-select placeholder="Developer" [items]="employees" bindLabel="first_name" bindValue="_id"
-                    (change)="selectDeveloper($event)" [(ngModel)]="employee_id" [clearable]="false" [searchable]="true">
+                    (change)="selectDeveloper($event)" [(ngModel)]="employee_id" [clearable]="false"
+                    [searchable]="true">
                   </ng-select>
                 </div>
               </div>
@@ -56,30 +53,37 @@
                 </div>
                 <div class="col-md-4">
                   <ng-select placeholder="Bug Priority" [items]="bugsPriority" bindLabel="priority" bindValue="_id"
-                    (change)="selectBugPriority($event)" [(ngModel)]="bug_priority" [clearable]="false" [searchable]="true">
+                    (change)="selectBugPriority($event)" [(ngModel)]="bug_priority" [clearable]="false"
+                    [searchable]="true">
                   </ng-select>
                 </div>
                 <div class="col-md-12">
-                  <button mat-raised-button [routerLink]="['/bugs/add-bug']" class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3" style="float:left;">Add Bugs</button>
+                  <button mat-raised-button [routerLink]="['/bugs/add-bug']"
+                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3"
+                    style="float:left;" *ngIf="!project_id">Add Bugs</button>
+                  <button mat-raised-button [routerLink]="'/bugs/add-bug/' + project_id"
+                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary mat-raised-button mr-3"
+                    style="float:left;" *ngIf="project_id">Add Bugs</button>
+
                   <button mat-raised-button (click)="resetFilter()" style="float:left;">Reset Filter</button>
                 </div>
               </div>
             </div>
-            
+
           </div>
-          
-        </div>  
-        
+
+        </div>
+
       </div>
       <div class="col-md-12">
 
         <div class="card">
-          
+
           <div class="card-body">
             <div class="table-responsive">
-              
+
               <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-              class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
+                class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
 
                 <ng-container matColumnDef="no">
                   <th width="8%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header
@@ -144,12 +148,12 @@
                   <td width="15%" mat-cell *matCellDef="let element" class="text-center">
                     <div class="d-flex align-items-center justify-content-content">
                       <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
-                        matTooltipClass="mat_pop" class="btn btn-light-primary btn-sm btn-just-icon" (click)="viewDetail(element)">
+                        matTooltipClass="mat_pop" class="btn btn-light-primary btn-sm btn-just-icon"
+                        (click)="viewDetail(element)">
                         <i class="material-icons">visibility</i>
                       </a>
-                      <a [routerLink]="'/bugs/edit-bug/' + element._id" matTooltip="Edit"
-                        [matTooltipPosition]="'above'" matTooltipClass="mat_pop"
-                        class="btn btn-light-warning btn-sm btn-just-icon">
+                      <a [routerLink]="'/bugs/edit-bug/' + element._id" matTooltip="Edit" [matTooltipPosition]="'above'"
+                        matTooltipClass="mat_pop" class="btn btn-light-warning btn-sm btn-just-icon">
                         <i class="material-icons">edit</i>
                       </a>
                       <a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
@@ -175,7 +179,7 @@
             <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
             </app-pagination>
           </div>
-          
+
         </div>
       </div>
     </div>

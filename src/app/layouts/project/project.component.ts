@@ -40,7 +40,7 @@ export class ProjectComponent implements OnInit {
   manager_id: any;
   status_id: any;
   viewContent: any;
-
+  showFilter = false;
   @ViewChild(MatSort) sort: MatSort;
   send: string = "Project";
   // displayedColumns: string[] = ['project_no', 'project_name', 'technology', 'department', 'project_manager', 'employee', 'status', 'project_description', 'action'];
@@ -67,6 +67,10 @@ export class ProjectComponent implements OnInit {
       this.getEmployee();
       this.getProject();
     })
+  }
+
+  showFilterBox() {
+    this.showFilter = !this.showFilter;
   }
 
   getProjectList() {

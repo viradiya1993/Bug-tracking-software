@@ -36,19 +36,19 @@ export class BugsComponent implements OnInit {
   bugStatus: any = [];
   bugsType: any = [];
   bugsPriority: any = [];
+  showFilter = false;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ['no', 'title', 'project_name', 'devloper', 'bug_status', 'bug_type', 'bug_priority', 'action'];
-  constructor( 
-    private route: ActivatedRoute, 
+  constructor(
+    private route: ActivatedRoute,
     public bugservice: BugsService,
     public sharedService: SharedService,
     public layoutsService: LayoutService,
     private router: Router,
-    public dialog: MatDialog)
-     {
-      this.sharedService.showLoader()
-      this.project_id = this.route.snapshot.paramMap.get('id');
-     }
+    public dialog: MatDialog) {
+    this.sharedService.showLoader()
+    this.project_id = this.route.snapshot.paramMap.get('id');
+  }
 
   ngOnInit(): void {
     this.getProject();
@@ -60,6 +60,10 @@ export class BugsComponent implements OnInit {
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
       this.getEmployee();
     })
+  }
+
+  showFilterBox() {
+    this.showFilter = !this.showFilter;
   }
 
   getBugList() {
@@ -74,24 +78,24 @@ export class BugsComponent implements OnInit {
       this.bug_status,
       this.bug_type,
       this.bug_priority)
-    .subscribe((res: any) => {
-      this.sharedService.hideLoader();
-      for (let index = 0; index < res.data.bugsList.length; index++) {
-        let devloper = [];
-        const devElement = res.data.bugsList[index].employee_id;
+      .subscribe((res: any) => {
+        this.sharedService.hideLoader();
+        for (let index = 0; index < res.data.bugsList.length; index++) {
+          let devloper = [];
+          const devElement = res.data.bugsList[index].employee_id;
 
-        for (let i = 0; i < devElement.length; i++) {
-          const element = devElement[i];
-          devloper.push(element.first_name);
+          for (let i = 0; i < devElement.length; i++) {
+            const element = devElement[i];
+            devloper.push(element.first_name);
+          }
+          res.data.bugsList[index].employee_id = devloper.join(',');
         }
-        res.data.bugsList[index].employee_id = devloper.join(',');
-      }
-      this.dataSource = new MatTableDataSource(res.data.bugsList);
-      this.length = res.data.totalcount
-    }, err => {
-      this.sharedService.loggerError(err.error.message);
-      this.sharedService.hideLoader();
-    });
+        this.dataSource = new MatTableDataSource(res.data.bugsList);
+        this.length = res.data.totalcount
+      }, err => {
+        this.sharedService.loggerError(err.error.message);
+        this.sharedService.hideLoader();
+      });
   }
 
   //selectProject
@@ -113,16 +117,16 @@ export class BugsComponent implements OnInit {
     this.employee_id = data?._id;
     this.getBugList();
   }
-   //Get Employee
+  //Get Employee
   getEmployee() {
-  let data = {
-    roleId: this.employeeArray[0]._id
-  }
-  this.layoutsService.getEmployee(data).subscribe((res: any) => {
-    if (res.employeeLists) {
-      this.employees = res.employeeLists;
+    let data = {
+      roleId: this.employeeArray[0]._id
     }
-  });
+    this.layoutsService.getEmployee(data).subscribe((res: any) => {
+      if (res.employeeLists) {
+        this.employees = res.employeeLists;
+      }
+    });
 
   }
 
@@ -157,18 +161,18 @@ export class BugsComponent implements OnInit {
     this.getBugList();
   }
 
-   //Get Bug Priority
+  //Get Bug Priority
   getBugsPriority() {
     this.bugservice.getBugsPriority().subscribe((res: any) => {
       this.bugsPriority = res.data;
     });
   }
 
-   /**
-  * for pagination
-  * // TODO: receiveMessage
-  * @param event
-  */
+  /**
+ * for pagination
+ * // TODO: receiveMessage
+ * @param event
+ */
   receiveMessage(event: any) {
     this.limit = event.pageSize;
     this.page = event.pageIndex;
@@ -213,13 +217,13 @@ export class BugsComponent implements OnInit {
   resetIndex(e) {
     this.index = e;
   }
-  
+
   resetFilter() {
     this.page = 0;
     this.index = 0;
     this.project_id = '';
     this.employee_id = '';
-    this.bug_status= '';
+    this.bug_status = '';
     this.bug_type = '';
     this.bug_priority = '';
     this.getBugList();

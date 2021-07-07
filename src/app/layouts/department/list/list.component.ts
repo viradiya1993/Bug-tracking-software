@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
   displayedColumns: string[] = ['department', 'action'];
   @ViewChild(MatSort) sort: MatSort;
   send: string = "Department";
-
+  showFilter = false;
   constructor(
     private service: DepartmentService,
     private sharedService: SharedService,
@@ -45,6 +45,9 @@ export class ListComponent implements OnInit {
     this.getDepartmentList();
   }
 
+  showFilterBox() {
+    this.showFilter = !this.showFilter;
+  }
   getDepartmentList() {
     this.service.getDepartmentList(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
       .subscribe((res: any) => {
