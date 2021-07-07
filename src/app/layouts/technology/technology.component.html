@@ -1,14 +1,18 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12 mt-3">
+      <div class="col-12 mt-3 d-flex flex-wrap align-items-center justify-space-between">
 
         <button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
           <span class="material-icons">
             filter_alt
           </span>
         </button>
-
+        <div class="right-button">
+        <button mat-raised-button [routerLink]="['/technology/add-technology']"
+                  class="mat-focus-indicator button-primary text-left mat-button mat-flat-button mat-button-base mat-primary">Add
+                  Technology</button>
+          </div>
       </div>
       <div class="col-md-12">
         <div class="card" *ngIf="showFilter">
@@ -19,28 +23,41 @@
                   [message]="send">
                 </app-search-textbox>
               </div>
-              <div class="col-md-2 mb-2">
-                <button mat-raised-button [routerLink]="['/technology/add-technology']"
-                  class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-primary">Add
-                  Technology</button>
-              </div>
-              <div class="col-md-2 mb-2">
-                <button style="float:left" mat-raised-button (click)="resetFilter()"
+              
+
+              <div class="col-12 mt-3">
+
+											
+                <button mat-button type="submit" mat-flat-button color="primary"
+                  class="mr-3"> Search
+                  <span class="material-icons">
+                    search
+                  </span>
+                </button>
+
+                <button mat-raised-button (click)="resetFilter()"
                   class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary">Reset
-                  Filter</button>
+                  Filter <span class="material-icons">clear</span>
+                </button>
+
+                <!-- <button mat-button mat-flat-button type="reset"
+                  (click)="resetSearchFilter()" color="warn" class="mr-3">
+                  Reset
+                  <span class="material-icons">
+                    clear
+                  </span>
+                </button> -->
+
+              </div>
+              
+              <div class="col-md-2 mb-2">
+                
               </div>
             </div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col-md-4">
-                <!-- <h3 class="card-title ">Technology List</h3> -->
-              </div>
-            </div>
-          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
