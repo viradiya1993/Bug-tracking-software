@@ -129,12 +129,30 @@ export class NavbarComponent implements OnInit {
   };
 
   getTitle() {
-    // var titlee = this.location.prepareExternalUrl(this.location.path());
-    // if (titlee.charAt(0) === '#') {
-    //   titlee = titlee.slice(1);
-    // }
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+
+
+    if (titlee.charAt(0) === '#') {
+      titlee = titlee.slice(2);
+      if (titlee.includes('/')) {
+        let index = titlee.indexOf('/');
+        let mainTitle = (titlee.slice(0, index)).toUpperCase();
+        titlee = (titlee.slice(index + 1)).toUpperCase();
+        if (titlee.includes('/')) {
+          let indexEdit = titlee.indexOf('/');
+          titlee = (titlee.slice(0, indexEdit)).toUpperCase();
+        }
+        // return ` ${titlee} ${mainTitle}`
+        return ` ${titlee}`
+
+      } else {
+        return (titlee).toUpperCase()
+      }
+    }
 
     // for (var item = 0; item < this.listTitles.length; item++) {
+    //   console.log(this.listTitles);
+
     //   if (this.listTitles[item].path === titlee) {
     //     return this.listTitles[item].title;
     //   }

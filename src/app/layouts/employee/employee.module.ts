@@ -12,8 +12,8 @@ import { MatSortModule } from '@angular/material/sort';
 
 const routes: Routes = [
   { path: '', component: ListComponent },
-  { path: 'add', component: AddComponent },
-  { path: 'edit/:employeeId', component: AddComponent },
+  { path: 'add-employee', component: AddComponent },
+  { path: 'edit-employee/:employeeId', component: AddComponent },
 ];
 
 @NgModule({

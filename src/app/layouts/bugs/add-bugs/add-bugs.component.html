@@ -3,16 +3,17 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card">
-					<div class="card-header">
+					<!-- <div class="card-header">
 						<h4 class="card-title m-0" *ngIf="!editable">Add Bug</h4>
 						<h4 class="card-title m-0" *ngIf="editable">Edit Bug</h4>
-					</div>
+					</div> -->
 					<div class="card-body">
 						<form [formGroup]='bugsForm'>
 							<div class="row">
 								<div class="col-md-12">
 									<mat-form-field class="example-full-width">
-										<input matInput placeholder="Bug Title" name="bug_title" formControlName="bug_title">
+										<input matInput placeholder="Bug Title" name="bug_title"
+											formControlName="bug_title">
 									</mat-form-field>
 									<mat-error *ngIf="bugsForm.get('bug_title').invalid">
 										Bug title is required
@@ -22,8 +23,9 @@
 							<!-- DropDown Start-->
 							<div class="row">
 								<div class="col-md-12">
-									<ng-select placeholder="Select an developer" [items]="employees" formControlName="developer"
-										bindLabel="first_name" bindValue="first_name" [multiple]="true" [clearable]="false">
+									<ng-select placeholder="Select an developer" [items]="employees"
+										formControlName="developer" bindLabel="first_name" bindValue="first_name"
+										[multiple]="true" [clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('developer').invalid"> Please Select a
 										developer
@@ -41,8 +43,9 @@
 									</mat-error>
 								</div>
 								<div class="col-md-6">
-									<ng-select [items]="projects" bindLabel="project_name" placeholder="Select an project"
-										formControlName="project" bindValue="_id" [clearable]="false">
+									<ng-select [items]="projects" bindLabel="project_name"
+										placeholder="Select an project" formControlName="project" bindValue="_id"
+										[clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('project').invalid"> Please Select a
 										Project
@@ -51,16 +54,17 @@
 							</div>
 							<div class="row">
 								<div class="col-md-4">
-									<ng-select [items]="bugsType" bindLabel="bug_types" placeholder="Select an Bug Type" bindValue="_id"
-										formControlName="bugtype" [clearable]="false">
+									<ng-select [items]="bugsType" bindLabel="bug_types" placeholder="Select an Bug Type"
+										bindValue="_id" formControlName="bugtype" [clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('bugtype').invalid">
 										Bug Type is required
 									</mat-error>
 								</div>
 								<div class="col-md-4">
-									<ng-select [items]="bugsPriority" bindLabel="priority" placeholder="Select an Priority"
-										bindValue="_id" formControlName="priority" [clearable]="false">
+									<ng-select [items]="bugsPriority" bindLabel="priority"
+										placeholder="Select an Priority" bindValue="_id" formControlName="priority"
+										[clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('priority').invalid">
 										Bug Priority is required
@@ -69,8 +73,8 @@
 								<div class="col-md-4">
 									<mat-form-field class="datepicker-color">
 										<input formControlName="start_date" (dateInput)="startDate('input', $event)"
-											(dateChange)="startDate('change', $event)" matInput [matDatepicker]="picker2"
-											placeholder="Start Date">
+											(dateChange)="startDate('change', $event)" matInput
+											[matDatepicker]="picker2" placeholder="Start Date">
 										<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
 										<mat-datepicker #picker2></mat-datepicker>
 									</mat-form-field>
@@ -81,9 +85,9 @@
 								<div class="col-md-12">
 									<mat-form-field>
 										<mat-label>Bug Description</mat-label>
-										<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-											cdkAutosizeMaxRows="5" id="bug_description" name="bug_description"
-											formControlName="bug_description">
+										<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+											cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" id="bug_description"
+											name="bug_description" formControlName="bug_description">
 											</textarea>
 									</mat-form-field>
 									<mat-error class="text-left" *ngIf="bugsForm.get('bug_description').invalid">
@@ -103,7 +107,8 @@
 											[ngClass]="bugsForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner"
 												*ngIf="loader"></i>Update</button>
-										<button type="button" class="btn btn-danger" [routerLink]="['/bugs']">Cancel</button>
+										<button type="button" class="btn btn-danger"
+											[routerLink]="['/bugs']">Cancel</button>
 									</span>
 								</div>
 							</div>

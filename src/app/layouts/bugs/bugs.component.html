@@ -11,12 +11,12 @@
 
         <div class="right-button">
           <button mat-raised-button [routerLink]="['/bugs/add-bug']"
-                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base button-primary mat-primary mat-raised-button"
-                    style="float:left;" *ngIf="!project_id">Add Bugs</button>
+            class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base button-primary mat-primary mat-raised-button"
+            style="float:left;" *ngIf="!project_id">Add Bugs</button>
 
           <button mat-raised-button [routerLink]="'/bugs/add-bug/' + project_id"
-                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base button-primary mat-primary mat-raised-button"
-                    style="float:left;" *ngIf="project_id">Add Bugs</button>
+            class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base button-primary mat-primary mat-raised-button"
+            style="float:left;" *ngIf="project_id">Add Bugs</button>
         </div>
 
       </div>
@@ -70,17 +70,17 @@
 
                 <div class="col-12">
                   <div class="d-flex flex-wrap align-items-center justify-space-between">
-                    <button mat-button type="submit" mat-flat-button color="primary"
-                                      class="mr-3" mat-raised-button (click)="resetFilter()"> Search
-                                      <span class="material-icons">
-                                        search
-                                      </span>
-                                    </button>
+                    <button mat-button type="submit" mat-flat-button color="primary" class="mr-3" mat-raised-button
+                      (click)="resetFilter()"> Search
+                      <span class="material-icons">
+                        search
+                      </span>
+                    </button>
                     <button mat-raised-button (click)="resetFilter()"
-                                      class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary mr-3">Reset
-                                      Filter <span class="material-icons">clear</span>
-                                    </button>
-  
+                      class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary mr-3">Reset
+                      Filter <span class="material-icons">clear</span>
+                    </button>
+
                   </div>
                 </div>
 
@@ -193,7 +193,8 @@
             </div>
           </div>
           <div>
-            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
+            <app-pagination *ngIf="length" [childMessage]="length" [index]="index"
+              (messageEvent)="receiveMessage($event)">
             </app-pagination>
           </div>
 

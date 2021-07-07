@@ -186,7 +186,7 @@ export class ListComponent implements OnInit {
 
   create(action, obj) {
     obj.action = action;
-    this.router.navigate(['/employee/add']);
+    this.router.navigate(['/employee/add-employee']);
   }
 
   resetSearchFilter(): void {

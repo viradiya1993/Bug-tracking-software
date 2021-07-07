@@ -12,8 +12,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: '', component: ListComponent },
-  { path: 'add', component: AddComponent },
-  { path: 'edit/:departmentId', component: AddComponent },
+  { path: 'add-department', component: AddComponent },
+  { path: 'edit-department/:departmentId', component: AddComponent },
 ];
 
 @NgModule({

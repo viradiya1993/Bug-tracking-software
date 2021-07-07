@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
           err.message = "Invalid Authentication Credential!";
           // this.loader = true;
           this.setLoader();
-          this.sharedService.loggerError(err.message);
+          // this.sharedService.loggerError(err.message);
         }
       });
 

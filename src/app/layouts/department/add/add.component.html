@@ -3,12 +3,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-danger">
+                    <!-- <div class="card-header card-header-danger">
                         <h4 class="card-title" *ngIf="!isEdit">Add Department</h4>
                         <h4 class="card-title" *ngIf="isEdit">Edit Department</h4>
-                    </div>
+                    </div> -->
                     <div class="card-body">
-                        <!-- <form #myForm="ngForm"> -->
                         <form (submit)="onSave()" [formGroup]='formDepartment'>
                             <div class="row">
                                 <div class="col-md-12">

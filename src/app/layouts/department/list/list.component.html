@@ -9,7 +9,7 @@
 					</span>
 				</button>
 				<div class="right-button">
-					<button mat-raised-button [routerLink]="['/department/add']"
+					<button mat-raised-button [routerLink]="['/department/add-department']"
 						class="mat-button mat-flat-button button-primary mat-button-base mat-primary mat-raised-button">Add
 						Department </button>
 				</div>
@@ -21,8 +21,8 @@
 
 						<div class="row align-items-center justify-space-between">
 							<div class="col-lg-8">
-								<app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-									[message]="send">
+								<app-search-textbox (resetIndex)="resetIndex($event)"
+									(searchEvent)="receiveSearchValue($event)" [message]="send">
 								</app-search-textbox>
 							</div>
 							<div class="col-12 mt-3">
@@ -48,7 +48,8 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							<table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-								class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
+								class="mat-elevation-z8 table-hover" class="table-bordered" width="100%"
+								*ngIf="length > 0">
 								<!-- <ng-container matColumnDef="no">
                                     <th width="33%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef
                                         mat-sort-header class="text-primary"> No </th>
@@ -56,8 +57,8 @@
                                 </ng-container> -->
 
 								<ng-container matColumnDef="department">
-									<th width="33%" (click)="sortItem('department')" mat-header-cell *matHeaderCellDef mat-sort-header
-										class="text-primary">
+									<th width="33%" (click)="sortItem('department')" mat-header-cell *matHeaderCellDef
+										mat-sort-header class="text-primary">
 										Department Name </th>
 									<td width="20%" mat-cell *matCellDef="let element"> {{element?.department}} </td>
 								</ng-container>
@@ -67,13 +68,15 @@
 										Action </th>
 									<td width="15%" mat-cell *matCellDef="let element" class="text-left">
 										<div class="d-flex align-items-center">
-											<a [routerLink]="'/department/edit/' + element._id" matTooltip="Edit"
-												[matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+											<a [routerLink]="'/department/edit-department/' + element._id"
+												matTooltip="Edit" [matTooltipPosition]="'above'"
+												matTooltipClass="mat_pop"
 												class="btn btn-light-warning btn-sm btn-just-icon">
 												<i class="material-icons">edit</i>
 											</a>
-											<a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-												matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
+											<a href="javascript:void(0)" matTooltip="Delete"
+												[matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+												class="btn btn-light-danger btn-sm btn-just-icon"
 												(click)="openDialog(element._id)"><i class="material-icons">delete</i>
 											</a>
 										</div>

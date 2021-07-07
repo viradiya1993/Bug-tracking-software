@@ -42,7 +42,7 @@ export class SharedService {
     { path: '/technology', title: 'Technology', icon: 'content_paste', class: '', onlyAdmin: true },
     { path: '/department', title: 'Department', icon: 'dashboard', class: '', onlyAdmin: true },
     { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: true },
-    { path: '/bugs', title: 'Bug', icon: 'bug_report', class: '', onlyAdmin: true },
+    { path: '/bugs', title: 'Bug', icon: 'bug_report', class: '', onlyAdmin: false },
     { path: '/bugsType', title: 'Bug Types', icon: 'bug_report', class: '', onlyAdmin: true },
   ];
 

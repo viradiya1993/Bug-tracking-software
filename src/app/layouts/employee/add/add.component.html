@@ -4,10 +4,10 @@
 			<ngx-spinner></ngx-spinner>
 			<div class="col-md-12">
 				<div class="card">
-					<div class="card-header card-header-danger">
+					<!-- <div class="card-header card-header-danger">
 						<h4 class="card-title" *ngIf="!isEdit">Create Profile</h4>
 						<h4 class="card-title" *ngIf="isEdit">Edit Profile</h4>
-					</div>
+					</div> -->
 					<div class="card-body">
 						<form (submit)="onSave()" [formGroup]='formEmployee' *ngIf="!isLoading">
 							<div class="row">
