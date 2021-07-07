@@ -10,39 +10,38 @@
                 </button>
                 <div class="right-button">
                     <button mat-raised-button [routerLink]="['/department/add']"
-                                    class="mat-button mat-flat-button button-primary mat-button-base mat-primary mat-raised-button">Add
-                                    Department </button>
+                        class="mat-button mat-flat-button button-primary mat-button-base mat-primary mat-raised-button">Add
+                        Department </button>
                 </div>
 
             </div>
             <div class="col-md-12">
                 <div class="card" *ngIf="showFilter">
                     <div class="card-body">
-                        
-                            <div class="row align-items-center justify-space-between">
-                                <div class="col-lg-8">
-                                    <app-search-textbox (resetIndex)="resetIndex($event)"
-                                        (searchEvent)="receiveSearchValue($event)" [message]="send">
-                                    </app-search-textbox>
-                                </div>
-                                <div class="col-12 mt-3">
 
-                                    <button mat-button type="submit" mat-flat-button color="primary"
-                                    class="mr-3"> Search
+                        <div class="row align-items-center justify-space-between">
+                            <div class="col-lg-8">
+                                <app-search-textbox (resetIndex)="resetIndex($event)"
+                                    (searchEvent)="receiveSearchValue($event)" [message]="send">
+                                </app-search-textbox>
+                            </div>
+                            <div class="col-12 mt-3">
+
+                                <button mat-button type="submit" mat-flat-button color="primary" class="mr-3"> Search
                                     <span class="material-icons">
-                                      search
+                                        search
                                     </span>
-                                  </button>
-                  
-                                  <button mat-raised-button (click)="resetFilter()"
+                                </button>
+
+                                <button mat-raised-button (click)="resetFilter()"
                                     class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary">Reset
                                     Filter <span class="material-icons">clear</span>
-                                  </button>
-
-                                </div>
+                                </button>
 
                             </div>
-                        
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="card">
