@@ -37,7 +37,7 @@ export class LayoutService {
     let params = new HttpParams()
       .set('roleId', data.roleId)
     return this.http.get<{ message: string, employee: any, count: number }>
-      (BACKEND_URL + '/employee/', { params });
+      (BACKEND_URL + '/employee/getEmployee', { params });
   }
 
   getTechnology() {

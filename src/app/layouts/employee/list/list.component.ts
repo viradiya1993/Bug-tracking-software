@@ -155,7 +155,7 @@ export class ListComponent implements OnInit {
   onChangedPage(pageData: PageEvent) {
     this.spinner.show();
     this.page.size = pageData.pageSize;
-    this.page.pageNumber = pageData.pageIndex + 1;
+    this.page.pageNumber = pageData.pageIndex;
     this.getEmployeeData();
 
   }

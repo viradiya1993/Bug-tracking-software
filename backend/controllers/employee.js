@@ -106,7 +106,7 @@ exports.getEmployee = (req, res, next) => {
 	let fetchedPosts;
 	// currentPage ? currentPage : currentPage = 1;
 	postQuery
-		.skip(pageOptions.page * pageOptions.limit)
+		.skip(pageOptions.limit * (pageOptions.page))
 		.limit(pageOptions.limit)
 		.sort(sort);
 
@@ -391,5 +391,112 @@ exports.getEmpStatus = async (req, res, next) => {
 			data: {}
 		})
 	}
+}
+
+exports.getEmployeeByRoleId = (req, res, next) => {
+
+	const first_name = req.query.first_name != null ? req.query.first_name : ''
+	const middle_name = req.query.middle_name != null ? req.query.middle_name : ''
+	const last_name = req.query.last_name != null ? req.query.last_name : ''
+	const email = req.query.email != null ? req.query.email : ''
+	const mobile_number = req.query.mobile_number != null ? req.query.mobile_number : ''
+	const gender = req.query.gender != null ? req.query.gender : ''
+	const roleId = req.query.roleId != null ? req.query.roleId : ''
+	const departmentId = req.query.departmentId != null ? req.query.departmentId : ''
+	const status = req.query.status != null ? req.query.status : ''
+
+	let query = {};
+	if (first_name) {
+		query.$and = [
+			{ 'first_name': new RegExp(first_name, 'i') },
+		]
+	}
+	if (middle_name) {
+		query.$and = [
+			{ 'middle_name': new RegExp(middle_name, 'i') },
+		]
+	}
+	if (last_name) {
+		query.$and = [
+			{ 'last_name': new RegExp(last_name, 'i') },
+		]
+	}
+	if (email) {
+		query.$and = [
+			{ 'email': new RegExp(email, 'i') },
+		]
+	}
+	if (mobile_number) {
+		query.$and = [
+			{ 'mobile_number': mobile_number },
+		]
+	}
+	if (gender) {
+		query.$and = [
+			{ 'gender': ObjectID(gender) },
+		]
+	}
+	if (roleId) {
+		query.$and = [
+			{ 'roleId': ObjectID(roleId) },
+		]
+	}
+	if (departmentId) {
+		query.$and = [
+			{ 'departmentId': ObjectID(departmentId) },
+		]
+	}
+	if (status) {
+		query.$and = [
+			{ 'status': ObjectID(status) },
+		]
+	}
+	const postQuery = EmployeeTable.find(query)
+		.populate({
+			path: 'departmentId',
+			select: 'department',
+			model: 'UserDepartment',
+		})
+		.populate({
+			path: 'roleId',
+			select: 'role',
+			model: 'UserRoles',
+		})
+		.populate({
+			path: 'gender',
+			select: 'value',
+			model: 'GenderTable',
+		})
+		.populate({
+			path: 'status',
+			select: 'status',
+			model: 'employee_Status',
+		})
+	// console.log(postQuery);
+	let fetchedPosts;
+	// currentPage ? currentPage : currentPage = 1;
+	// postQuery
+	// 	.skip(pageOptions.page * pageOptions.limit)
+	// 	.limit(pageOptions.limit)
+	// 	.sort(sort);
+
+	postQuery
+		.then(documents => {
+			// console.log(documents);
+			fetchedPosts = documents;
+			return postQuery.countDocuments();
+		})
+		.then(count => {
+			res.status(200).json({
+				message: "Employees List fetched successfully",
+				employeeLists: fetchedPosts,
+				count: count
+			});
+		}).catch(error => {
+			console.log(error);
+			res.status(500).json({
+				message: "Fetching Employees List Failed"
+			});
+		});
 }
 

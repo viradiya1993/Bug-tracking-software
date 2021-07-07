@@ -10,6 +10,7 @@ const router = express.Router();
 
 // Get List
 router.get("", checkAuth, EmployeeController.getEmployee);
+router.get("/getEmployee", checkAuth, EmployeeController.getEmployeeByRoleId);
 router.get('/get-status', EmployeeController.getEmpStatus);
 router.post('/add-status', EmployeeController.AddEmpStatus);
 
