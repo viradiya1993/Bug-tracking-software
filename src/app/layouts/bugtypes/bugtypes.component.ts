@@ -3,67 +3,60 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AppConst } from 'app/app.constant';
-import { AuthService } from 'app/auth/auth.service';
 import { DeleteBoxComponent } from 'app/shared/delete-box/delete-box.component';
 import { SharedService } from 'app/shared/shared.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { LayoutService } from '../layout.service';
-import { TechnologyService } from './technology.service';
+import { BugtypeService } from './bugtype.service';
 
 @Component({
-  selector: 'app-technology',
-  templateUrl: './technology.component.html',
-  styleUrls: ['./technology.component.css']
+  selector: 'app-bugtypes',
+  templateUrl: './bugtypes.component.html',
+  styleUrls: ['./bugtypes.component.css']
 })
-export class TechnologyComponent implements OnInit {
+export class BugtypesComponent implements OnInit {
   searchKey: any = null;
   page: any = 0;
   limit: number = AppConst.pageSize;
   length: any;
   dataSource: any;
-  sortName: String = 'technology';
+  sortName: String = 'bugType';
   sortType: String = 'desc';
   index: number;
-  displayedColumns: string[] = ['technology', 'action'];
-  send: string = "Technology";
+  displayedColumns: string[] = ['bugType', 'action'];
+  send: string = "BugType";
   @ViewChild(MatSort) sort: MatSort;
   showFilter = false;
   constructor(
-    private service: TechnologyService,
-    private sharedService: SharedService,
-    public dialog: MatDialog,
-  ) { this.sharedService.showLoader() }
+      private service: BugtypeService, 
+      private sharedService: SharedService,
+      public dialog: MatDialog) { this.sharedService.showLoader() }
 
   ngOnInit(): void {
-    this.getTechnology();
+    this.getBugType();
   }
-
-  showFilterBox() {
-    this.showFilter = !this.showFilter;
-  }
-
-  getTechnology() {
-    this.service.getTechnology(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
-      .subscribe((res: any) => {
-        if (res) {
-          this.sharedService.hideLoader();
-          this.dataSource = new MatTableDataSource(res.data.technology);
-          this.length = res.data.totalcount;
-        }
-      }, err => {
-        this.sharedService.loggerError(err.error.message);
-        this.sharedService.showLoader();
-      })
+  
+  //Get Bug Types
+  getBugType() {
+    this.service.getBugTypeList(this.limit, this.page, this.sortName, this.sortType, this.searchKey)
+    .subscribe((res: any) => {
+      if (res) {
+        this.sharedService.hideLoader();
+        this.dataSource = new MatTableDataSource(res.data.bugType);
+        this.length = res.data.totalcount;
+      }
+    }, err => {
+      this.sharedService.loggerError(err.error.message);
+      this.sharedService.showLoader();
+    })
   }
 
   resetFilter() {
     this.page = 0;
     this.index = 0;
     this.searchKey = null
-    this.getTechnology();
+    this.getBugType();
   }
 
-  /**
+   /**
   * for search after page goto 1
  * // TODO: resetIndex
  * @param event
@@ -72,7 +65,7 @@ export class TechnologyComponent implements OnInit {
     this.index = e;
   }
 
-  /**
+   /**
 * for serching table
 * // TODO: receiveSearchValue
 * @returns list of project related to search
@@ -82,7 +75,7 @@ export class TechnologyComponent implements OnInit {
       this.searchKey = searchKey;
       this.limit = AppConst.pageSize;
       this.page = 0;
-      this.getTechnology();
+      this.getBugType();
     }
   }
 
@@ -94,7 +87,7 @@ export class TechnologyComponent implements OnInit {
   receiveMessage(event: any) {
     this.limit = event.pageSize;
     this.page = event.pageIndex;
-    this.getTechnology();
+    this.getBugType();
   }
 
   /**
@@ -110,23 +103,27 @@ export class TechnologyComponent implements OnInit {
     } else if (this.sortType === 'asc') {
       this.sortType = 'desc';
     }
-    this.getTechnology();
+    this.getBugType();
   }
 
   openDialog(id): void {
     const dialogRef = this.dialog.open(DeleteBoxComponent, {
       width: '350px',
-      data: AppConst.technologydeleteMessage
+      data: AppConst.bugtypeDeleteMessage
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.deletetechnology(id).subscribe((res: any) => {
-          this.getTechnology();
+        this.service.deleteBugType(id).subscribe((res: any) => {
+          this.getBugType();
           this.sharedService.loggerSuccess(res.message);
         })
       }
     }, err => {
       this.sharedService.loggerError(err.message);
     });
+  }
+
+  showFilterBox() {
+    this.showFilter = !this.showFilter;
   }
 }

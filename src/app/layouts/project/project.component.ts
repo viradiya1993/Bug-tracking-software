@@ -211,6 +211,7 @@ export class ProjectComponent implements OnInit {
     this.employee_id = '';
     this.manager_id = '';
     this.status_id = '';
+    this.searchKey = null
     this.getProjectList();
   }
 

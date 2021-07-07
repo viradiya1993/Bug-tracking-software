@@ -14,6 +14,7 @@ export class AppConst {
     public static departmentDeleteMessage = 'Are you sure you want to delete department ?';
     public static emoployeeDeleteMessage = 'Are you sure you want to delete Employee ?';
     public static bugdetailsDeleteMessage = 'Are you sure you want to delete Bug Detail ?';
+    public static bugtypeDeleteMessage = 'Are you sure you want to delete Bug Type ?';
     public static logoutMessage = 'You have successfully Logged Out'
 
     public static genderArray = [
@@ -35,7 +36,8 @@ export class AppConst {
         "Default": "Search Value",
         "Department": "Please Enter Department Name",
         "Technology": "Please Enter Technology Name",
-        "Project": "Please Enter Project Name or Project Description",
-        "Bug": "Please Enter Bug Title or Bug Description"
+        "Project": "Please Enter Project Name",
+        "Bug": "Please Enter Bug Title",
+        "BugType": "Please Enter Bug Type"
     }
 }

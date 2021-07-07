@@ -10,7 +10,7 @@ const BACKEND_URL = environment.apiUrl + '';
 export class TechnologyService {
   constructor(private http: HttpClient, private router: Router) { }
 
-  //get technology list=
+  //get technology list
   getTechnology(limit: any, page: any, shortName: any, shortType: any, search: any) {
     let url = BACKEND_URL + '/technology/getTechnologyList';
     if (limit !== undefined) {
