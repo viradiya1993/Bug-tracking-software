@@ -49,8 +49,8 @@
                     Department
                   </mat-error>
                 </div>
-                <div class="col-md-6">
-                  <ng-select [items]="projectManager" bindLabel="first_name" placeholder="Select an Project Manager"
+                <div class="col-md-6" *ngIf="projectManager.length">
+                  <ng-select [items]="projectManager" bindLabel="value" placeholder="Select an Project Manager"
                     formControlName="project_manager" bindValue="_id" [searchable]="true">
                   </ng-select>
                   <mat-error *ngIf="projectForm.get('project_manager').invalid"> Please Select a
@@ -72,22 +72,22 @@
                 <div class="col-md-4">
                   <mat-form-field class="datepicker-color">
                     <input formControlName="start_date" (dateInput)="startDate('input', $event)"
-                            (dateChange)="startDate('change', $event)" matInput [matDatepicker]="picker2"
-                            placeholder="Start Date">
+                      (dateChange)="startDate('change', $event)" matInput [matDatepicker]="picker2"
+                      placeholder="Start Date">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                   </mat-form-field>
-                  
+
                 </div>
                 <div class="col-md-4">
                   <mat-form-field class="datepicker-color">
-                    <input formControlName="end_date" (dateInput)="endDate('input', $event)"
-                            (dateChange)="endDate('change', $event)" matInput [matDatepicker]="picker3"
-                            placeholder="End Date">
+                    <input formControlName="end_date" (dateInput)="endDate('input', $event)" (click)="picker3.open()"
+                      (dateChange)="endDate('change', $event)" matInput [matDatepicker]="picker3"
+                      placeholder="End Date">
                     <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>
                   </mat-form-field>
-                
+
                 </div>
                 <div class="col-md-4">
                   <ng-select [items]="projectStatus" bindLabel="value" placeholder="Select an status" bindValue="_id"

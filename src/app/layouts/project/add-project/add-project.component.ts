@@ -53,6 +53,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedService.showLoader();
     this.projectForm = this._formBuilder.group({
       project_no: ['', Validators.required],
       project_name: ['', Validators.required],
@@ -72,16 +73,17 @@ export class AddProjectComponent implements OnInit {
     this.getTechnology();
     this.setProjectDetails();
     this.getStatus();
-  
+
     this.projectForm.controls['start_date'].disable();
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.projectManagerArray = res.userRoles.filter(x => x.role === 'Project Manager');
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
       this.getEmployee();
       this.getProject();
+
     })
   }
- 
+
   //Set Project Details
   setProjectDetails() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -160,8 +162,17 @@ export class AddProjectComponent implements OnInit {
     }
     this.layoutsService.getEmployee(data).subscribe((res: any) => {
       if (res.employeeLists) {
-        this.projectManager = res.employeeLists;
+        res.employeeLists.forEach(element => {
+          this.projectManager.push({
+            value: element.first_name + ' ' + element.last_name + ' (' + element.email + ')',
+            _id: element._id
+          })
+        });
+        // this.projectManager = res.employeeLists;
       }
+      this.sharedService.hideLoader();
+      console.log(this.projectManager);
+
     });
   }
 
@@ -188,7 +199,7 @@ export class AddProjectComponent implements OnInit {
   startDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.projectForm.controls['sdate'].setValue(this.datepipe.transform(event.value, 'yyyy-MM-dd'))
   }
-  
+
   endDate(type: string, event: MatDatepickerInputEvent<Date>) {
     this.projectForm.controls['edate'].setValue(this.datepipe.transform(event.value, 'yyyy-MM-dd'));
   }
@@ -213,7 +224,7 @@ export class AddProjectComponent implements OnInit {
     if (this.projectForm.invalid) {
       return
     }
-    
+
     let data = {
       project_no: this.f.project_no.value,
       project_name: this.f.project_name.value,
@@ -226,7 +237,7 @@ export class AddProjectComponent implements OnInit {
       status: this.f.status.value,
       project_description: this.f.project_description.value
     }
-  //  return
+    //  return
     if (!this.loader) {
       this.loader = true;
       if (type === 'save') {
