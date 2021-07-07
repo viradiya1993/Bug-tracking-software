@@ -3,13 +3,17 @@
 		<div class="row">
 			<ngx-spinner></ngx-spinner>
 			<!-- <app-add [listObject]='sendObject'></app-add> -->
-			<div class="col-12 mt-3">
+			<div class="col-12 mt-3 d-flex flex-wrap align-items-center justify-space-between">
 
 				<button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
 					<span class="material-icons">
 						filter_alt
 					</span>
 				</button>
+				<div class="right-button">
+				<button mat-button (click)="create('Add',{})" mat-flat-button
+												color="primary button-primary" class="">Add Employee</button>
+											</div>
 
 			</div>
 			<div class="col-md-12" *ngIf="showFilter">
@@ -79,9 +83,7 @@
 
 										<div class="col-12 mt-3">
 
-											<button mat-button (click)="create('Add',{})" mat-flat-button
-												color="primary" class="mr-3">Add Employee</button>
-
+											
 											<button mat-button type="submit" mat-flat-button color="primary"
 												class="mr-3"> Search
 												<span class="material-icons">
