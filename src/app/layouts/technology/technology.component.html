@@ -1,48 +1,68 @@
 <div class="main-content">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12 mt-3 d-flex flex-wrap align-items-center justify-space-between">
-				<button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
-					<span class="material-icons">
-						filter_alt
-					</span>
-				</button>
-				<div class="right-button">
-					<button mat-raised-button [routerLink]="['/technology/add-technology']"
-						class="mat-focus-indicator button-primary text-left mat-button mat-flat-button mat-button-base mat-primary">Add
-						Technology</button>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="card" *ngIf="showFilter">
-					<div class="card-header">
-						<div class="row align-items-center">
-							<div class="col-md-6 mb-2">
-								<app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-									[message]="send">
-								</app-search-textbox>
-							</div>
-							<div class="col-12 mt-3">
-								<button mat-button type="submit" mat-flat-button color="primary" class="mr-3"> Search
-									<span class="material-icons">
-										search
-									</span>
-								</button>
-								<button mat-raised-button (click)="resetFilter()"
-									class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary">Reset
-									Filter <span class="material-icons">clear</span>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 mt-3 d-flex flex-wrap align-items-center justify-space-between">
 
-				<div class="card">
-					<div class="card-body">
-						<div class="table-responsive">
-							<table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-								class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
-								<!-- <ng-container matColumnDef="no">
+        <button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter
+          <span class="material-icons">
+            filter_alt
+          </span>
+        </button>
+        <div class="right-button">
+        <button mat-raised-button [routerLink]="['/technology/add-technology']"
+                  class="mat-focus-indicator button-primary text-left mat-button mat-flat-button mat-button-base mat-primary">Add
+                  Technology</button>
+          </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card" *ngIf="showFilter">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-md-6 mb-2">
+                <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
+                  [message]="send">
+                </app-search-textbox>
+              </div>
+              
+
+              <div class="col-12 mt-3">
+
+											
+                <button mat-button type="submit" mat-flat-button color="primary"
+                  class="mr-3"> Search
+                  <span class="material-icons">
+                    search
+                  </span>
+                </button>
+
+                <button mat-raised-button (click)="resetFilter()"
+                  class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary">Reset
+                  Filter <span class="material-icons">clear</span>
+                </button>
+
+                <!-- <button mat-button mat-flat-button type="reset"
+                  (click)="resetSearchFilter()" color="warn" class="mr-3">
+                  Reset
+                  <span class="material-icons">
+                    clear
+                  </span>
+                </button> -->
+
+              </div>
+              
+              <div class="col-md-2 mb-2">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
+                class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
+                <!-- <ng-container matColumnDef="no">
                   <th width="33%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary"> No </th>
                   <td width="8%" mat-cell *matCellDef="let element ; let i = index"> {{i + 1}} </td>
