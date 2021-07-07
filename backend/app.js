@@ -8,6 +8,7 @@ const technologyRoutes = require("./routes/technology");
 const projectRoutes = require("./routes/project");
 const department = require("./routes/department");
 const bugsRoutes = require("./routes/bugs");
+const bugsTypeRoute = require("./routes/bug_type");
 const dashboard = require("./routes/dashboard");
 
 const app = express();
@@ -55,6 +56,7 @@ app.use("/api/technology", technologyRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/department", department);
 app.use("/api/bugs", bugsRoutes);
+app.use("/api/bugtype", bugsTypeRoute);
 app.use("/api/dashboard", dashboard);
 
 

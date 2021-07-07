@@ -17,6 +17,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'department', loadChildren: () => import('./../department/department.module').then(m => m.DepartmentModule), canActivate: [AuthGuard] },
     { path: 'project', loadChildren: () => import('./../project/project.module').then(m => m.ProjectModule), canActivate: [AuthGuard]},
     { path: 'bugs', loadChildren: () => import('./../bugs/bugs.module').then(m => m.BugsModule), canActivate: [AuthGuard]},
+    { path: 'bugsType', loadChildren: () => import('./../bugtypes/bugtypes.module'). then(m => m.BugtypesModule), canActivate: [AuthGuard]},
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
