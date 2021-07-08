@@ -24,7 +24,8 @@ export class AddBugtypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.bugTypeForm = this._formBuilder.group({
-      bug_types: ['', Validators.required]
+      bug_types: ['', Validators.required],
+     
     })
     this.setBugTypeDetail();
   }

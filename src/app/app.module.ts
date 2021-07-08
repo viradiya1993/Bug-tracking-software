@@ -90,6 +90,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
       useClass: HttpErrorInterceptor,
       multi: true
     },
+  
     LayoutService
   ],
   bootstrap: [AppComponent]

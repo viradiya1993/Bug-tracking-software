@@ -1,0 +1,53 @@
+<div class="main-content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<!-- <div class="card-header card-header-danger">
+						<h4 class="card-title">Add Bug Status</h4>
+					</div> -->
+					<div class="card-body">
+						<form [formGroup]='bugStatusForm'>
+							<div class="row">
+								<div class="col-md-6">
+									<mat-form-field class="example-full-width">
+										<input matInput placeholder="Bug Status" name="status" formControlName="status">
+									</mat-form-field>
+									<mat-error *ngIf="bugStatusForm.get('status').invalid">
+										Bug Status is required
+									</mat-error>
+								</div>
+								<div class="col-md-6">
+									<mat-form-field>
+										<input matInput [ngxMatColorPicker]="picker" formControlName="color" (click)="picker.open()" [style.background-color]="bugStatusForm.get(color)?.value.rgba">
+										<ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+										<ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+									</mat-form-field>
+									<!-- <mat-error *ngIf="bugStatusForm.get('color').invalid">
+										Color is required
+									</mat-error> -->
+								</div>
+							</div>
+							<div class="row mt20">
+								<div class="col-md-12 text-right">
+									<span class="pull-right mb15">
+										<button type="submit" *ngIf="!editable" [disabled]="bugStatusForm.invalid"
+											[ngClass]="bugStatusForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
+											(click)="onSave('save')" class="mr-2">
+											<i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Add</button>
+										<button type="submit" *ngIf="editable" [disabled]="bugStatusForm.invalid"
+											[ngClass]="bugStatusForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
+											(click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner"
+												*ngIf="loader"></i>Update</button>
+										<button type="button" class="btn btn-danger"
+											[routerLink]="['/bugStatus']">Cancel</button>
+									</span>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

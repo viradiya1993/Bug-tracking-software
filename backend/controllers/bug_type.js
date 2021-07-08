@@ -27,7 +27,7 @@ exports.createBugType = async (req, res, next) => {
 			return res.status(200).json({
 					message: "Bug Type Added."
 			});
-	})
+		})
 	} catch (error) {
 		console.log(error)
 		res.status(400).json({
@@ -35,8 +35,6 @@ exports.createBugType = async (req, res, next) => {
 		});
 	}
 }
-
-
 
 //get Bugtype List
 exports.getBugtypeList = async (req, res, next) => {
@@ -80,11 +78,11 @@ exports.getBugtypeList = async (req, res, next) => {
 				}
 		});
  } catch (error) {
-     console.log(error);
-		 return res.status(400).json({
+    console.log(error);
+		return res.status(400).json({
 			message: "Something went wrong. Please try again later.",
 			data: {}
-	})
+		})
  }
 }
 

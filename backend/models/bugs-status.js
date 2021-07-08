@@ -7,6 +7,10 @@ const bugsStatus = mongoose.Schema({
         require: true,
         unique: true
     },
+    color : {
+        type: String,
+        default: null
+    },
     created_at: {
         type: Number,
     },

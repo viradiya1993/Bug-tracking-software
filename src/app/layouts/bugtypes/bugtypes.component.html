@@ -51,14 +51,8 @@
               <div class="table-responsive">
                 <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
                   class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
-                  <!-- <ng-container matColumnDef="no">
-                    <th width="33%" (click)="sortItem('no')" mat-header-cell *matHeaderCellDef mat-sort-header
-                      class="text-primary"> No </th>
-                    <td width="8%" mat-cell *matCellDef="let element ; let i = index"> {{i + 1}} </td>
-                  </ng-container> -->
-  
                   <ng-container matColumnDef="bugType">
-                    <th width="33%" (click)="sortItem('technology')" mat-header-cell *matHeaderCellDef mat-sort-header
+                    <th width="33%" (click)="sortItem('bugType')" mat-header-cell *matHeaderCellDef mat-sort-header
                       class="text-primary">
                       Bug Type Name </th>
                     <td width="20%" mat-cell *matCellDef="let element"> {{element?.bug_types}} </td>
