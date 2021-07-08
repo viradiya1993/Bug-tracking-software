@@ -46,7 +46,7 @@ export class AddBugsComponent implements OnInit {
       bugtype: ['', Validators.required],
       priority: ['', Validators.required],
       start_date: [new Date()],
-      bug_description: ['', Validators.required],
+      bug_description: [''],
       sdate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
     })
 
@@ -166,7 +166,8 @@ export class AddBugsComponent implements OnInit {
       start_date: this.f.sdate.value,
       bug_description: this.f.bug_description.value,
     }
-
+    console.log(data);
+ //   return
     if (!this.loader) {
       this.loader = true
       if (type === 'save') {

@@ -15,7 +15,7 @@ export class AddStatusComponent implements OnInit {
   editable: boolean = false;
   bugStatusForm: FormGroup;
 
-  constructor(
+  constructor( 
     private _formBuilder: FormBuilder,
     private router: Router,
     private service: BugstatusService,
@@ -26,8 +26,8 @@ export class AddStatusComponent implements OnInit {
     this.bugStatusForm = this._formBuilder.group({
       status: ['', Validators.required],
       color: [''],
-
     })
+
     this.setBugStatusDetails();
   }
 
@@ -43,8 +43,9 @@ export class AddStatusComponent implements OnInit {
           let fetchData = {
             id: bugStatusData._id,
             status: bugStatusData.bugStatus.status,
-            color: '#' + bugStatusData.bugStatus.color
+            color: '#'+bugStatusData.bugStatus.color
           }
+
           this.bugStatusForm.patchValue(fetchData);
         }, err => {
           this.sharedService.loggerError(err.error.error)
@@ -55,30 +56,22 @@ export class AddStatusComponent implements OnInit {
   }
 
   //Save
-  onSave(type) {
+  onSave(type: any) {
     if (this.bugStatusForm.invalid) {
       return
     }
 
     if (this.editable === true) {
-      // console.log(this.bugStatusForm);
-
       var editData = {
         status: this.f.status.value,
         color: this.f.color.value.hex ? this.f.color.value.hex : this.f.color.value.slice(1)
       }
     } else {
-      var Savedata = {
+       var Savedata = {
         status: this.f.status.value,
         color: this.f.color.value.hex
       }
     }
-
-    console.log(editData, 'edit');
-    console.log(Savedata, 'save');
-    //  console.log(this.f.color.value);
-
-    //return;
     if (!this.loader) {
       this.loader = true
       if (type === 'save') {
@@ -95,7 +88,6 @@ export class AddStatusComponent implements OnInit {
         })
       } else {
         this.loader = true;
-        console.log('else');
         this.service.updateBugStatus(editData, this.bugStatus_id).subscribe((res: any) => {
           this.loader = false;
           this.bugStatusForm.reset();
@@ -112,4 +104,5 @@ export class AddStatusComponent implements OnInit {
   get f() {
     return this.bugStatusForm.controls;
   }
+
 }

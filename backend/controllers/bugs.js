@@ -1,7 +1,8 @@
 const dateFormat = require('../helper/dateFormate.helper');
 const constant = require('../config/constant');
+const sendMail = require('../services/email.service');
+const bugCreationTemplate = require('../services/emailTemplate/bugCreationTemplate');
 const mongoose = require('mongoose');
-
 const projectModel = require('../models/projects');
 const bugStatus = require('../models/bugs-status');
 const bugType = require('../models/bugtype');
@@ -24,6 +25,38 @@ exports.createBugs = async (req, res, next) => {
 
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
+		const logoUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+		const faceUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Facebook_Img;
+		const linkUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LinkedIn_Img;
+		const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
+
+		const devloper = await empyolee.find({
+			_id: req.body.employee_id
+		});
+		const projects = await projectModel.findOne();
+		const statusofbug = await bugStatus.findOne()
+		const typesofbug = await bugType.findOne();
+		const priority = await bugPriority.findOne();
+		// console.log(projects.project_name);
+		// console.log(statusofbug.status);
+		// console.log(typesofbug.bug_types);
+		// console.log(priority.priority);
+		if (devloper) {
+			for (let i = 0; i < devloper.length; i++) {
+				sendMail(devloper[i].email, 'Bug Assigned to you.',
+					bugCreationTemplate({
+						logo: logoUrl,
+						Facebook: faceUrl,
+						LinkedIn: linkUrl,
+						Twitter: twitterUrl,
+						projectName: projects.project_name,
+				   status: statusofbug.status,
+						bugtype: typesofbug.bug_types,
+				   priority: priority.priority
+					})
+				);
+			}
+		}
 		const isbug_title = await bugModel.findOne({
 			bug_title
 		})
@@ -243,6 +276,7 @@ exports.updateBugDetails = async (req, res, next) => {
 				data: {}
 			});
 		}
+	
 
 		bugDetails.employee_id = employee_id;
 		bugDetails.bug_status = bug_status;

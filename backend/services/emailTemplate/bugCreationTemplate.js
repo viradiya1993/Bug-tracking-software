@@ -1,4 +1,4 @@
-module.exports = projectCreate => {
+module.exports = bugCreate => {
 	return `
 <!DOCTYPE html>
 <html>
@@ -91,7 +91,7 @@ module.exports = projectCreate => {
 
                                                                             style="width:50px; display: inline-block;">
 
-                                                                            <img src="${forgotpassword.logo}" alt="Bug Tracking Software"
+                                                                            <img src="${bugCreate.logo}" alt="Bug Tracking Software"
 
                                                                                 style="border:none; max-width:100%;" />
 
@@ -163,7 +163,7 @@ module.exports = projectCreate => {
 
                                                                         style="font-weight: 400; margin:0;line-height:24px;">
                                                                        
-																																			 We have assigned you a new project.
+																																			 We have assigned you a bug.
 																																			 Please contact your Project Manager.
 
                                                                     </p>
@@ -172,7 +172,7 @@ module.exports = projectCreate => {
 
                                                                         style="font-weight: 400; margin:5px 0 0px 0;line-height:24px;">
 
-                                                                        <strong>Project Name:</strong> ${projectCreate.projectName}
+                                                                        <strong>Project Name:</strong> ${bugCreate.projectName}
 
                                                                     </p>
 
@@ -180,9 +180,25 @@ module.exports = projectCreate => {
 
                                                                         style="font-weight: 400; margin:0;line-height:24px;">
 
-                                                                        <strong>Project Manager:</strong> ${projectCreate.projectManger}
+                                                                        <strong>Bug Status:</strong> ${bugCreate.status}
 
                                                                     </p>
+
+																																		<p
+
+                                                                        style="font-weight: 400; margin:0;line-height:24px;">
+
+                                                                        <strong>Bug Type:</strong> ${bugCreate.bugtype}
+
+                                                                    </p>
+
+																																		<p
+
+																																				style="font-weight: 400; margin:0;line-height:24px;">
+
+																																				<strong>Bug Priority:</strong> ${bugCreate.priority}
+
+																																		</p>
 
                                                                 </td>
 
@@ -339,7 +355,7 @@ module.exports = projectCreate => {
 
                                                                     style="text-decoration: none;margin: 0 3px;">
 
-                                                                    <img src="${projectCreate.Facebook}" alt="facebook"
+                                                                    <img src="${bugCreate.Facebook}" alt="facebook"
 
                                                                         style="width: 30px;">
 
@@ -351,7 +367,7 @@ module.exports = projectCreate => {
 
                                                                     style="text-decoration: none;margin: 0 3px;">
 
-                                                                    <img src="${projectCreate.Twitter}" alt="twitter"
+                                                                    <img src="${bugCreate.Twitter}" alt="twitter"
 
                                                                         style="width: 30px;">
 
@@ -363,7 +379,7 @@ module.exports = projectCreate => {
 
                                                                     style="text-decoration: none;margin: 0 3px;">
 
-                                                                    <img src="${projectCreate.LinkedIn}" alt="linkedin"
+                                                                    <img src="${bugCreate.LinkedIn}" alt="linkedin"
 
                                                                         style="width: 30px;">
 

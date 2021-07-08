@@ -179,7 +179,7 @@
             </div>
           </div>
           <div>
-            <app-pagination [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
+            <app-pagination *ngIf="length" [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
             </app-pagination>
           </div>
         </div>

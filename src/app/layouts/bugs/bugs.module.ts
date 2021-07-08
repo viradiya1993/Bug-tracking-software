@@ -9,7 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ViewBugsComponent } from './view-bugs/view-bugs.component';
 import { TasksComponent } from './tasks/tasks.component';
-
+import { CKEditorModule } from 'ckeditor4-angular';
 const routes: Routes = [
   { path: '', component: BugsComponent },
   { path: 'bug-list/:id', component: BugsComponent },
@@ -29,6 +29,7 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     NgSelectModule,
+    CKEditorModule
   ],
 
   providers: [

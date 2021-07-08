@@ -18,14 +18,28 @@
 									</mat-error>
 								</div>
 								<div class="col-md-6">
+									<!-- [formControl]="colorCtr" [style.background-color]="colorCtr?.value?.rgba" -->
+								
+
 									<mat-form-field>
 										<input matInput [ngxMatColorPicker]="picker" formControlName="color" (click)="picker.open()" [style.background-color]="bugStatusForm.get(color)?.value.rgba">
 										<ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
 										<ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
 									</mat-form-field>
+
 									<!-- <mat-error *ngIf="bugStatusForm.get('color').invalid">
 										Color is required
 									</mat-error> -->
+
+									<!-- <mat-form-field>
+										<input 
+													[value]="color"
+													[style.background]="color"
+													[cpOKButton]="true"
+													[cpSaveClickOutside]="false"
+													[cpOKButtonClass]= "'btn btn-primary btn-xs'"
+													[(colorPicker)]="color"/>
+									</mat-form-field> -->
 								</div>
 							</div>
 							<div class="row mt20">
@@ -39,8 +53,7 @@
 											[ngClass]="bugStatusForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner"
 												*ngIf="loader"></i>Update</button>
-										<button type="button" class="btn btn-danger"
-											[routerLink]="['/bugStatus']">Cancel</button>
+										<button type="button" class="btn btn-danger" [routerLink]="['/bugStatus']">Cancel</button>
 									</span>
 								</div>
 							</div>
