@@ -120,7 +120,7 @@ exports.createProject = async (req, res, next) => {
 
 //Fetch Technology
 exports.getTechnology = async (req, res, next) => {
-	const postQuery = Technology.find().sort({tech_name: 1});
+	const postQuery = Technology.find().sort({ tech_name: 1 });
 	let fetchedPosts;
 	postQuery
 		.then(documents => {
@@ -272,13 +272,13 @@ exports.getProjectDetail = async (req, res, next) => {
 				})
 		}
 
-		for (let i = 0; i < projects.employee_id.length; i++) {
-			const ele = projects.employee_id[i];
-			await empyolee.findOne({ _id: mongoose.Types.ObjectId(ele) })
-				.then(emp => {
-					projects.employee_id[i] = emp["first_name"];
-				})
-		}
+		// for (let i = 0; i < projects.employee_id.length; i++) {
+		// 	const ele = projects.employee_id[i];
+		// 	await empyolee.findOne({ _id: mongoose.Types.ObjectId(ele) })
+		// 		.then(emp => {
+		// 			projects.employee_id[i] = emp["first_name"];
+		// 		})
+		// }
 
 		return res.status(200).json({
 			message: "Projects detail fetch successfully.",
@@ -376,6 +376,7 @@ exports.updateProject = async (req, res, next) => {
 				});
 			});
 	} catch (error) {
+		// console.log(error);
 		return res.status(400).json({
 			message: "Something went wrong. Please try again later.",
 			data: {}
