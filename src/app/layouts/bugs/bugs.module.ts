@@ -8,6 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ViewBugsComponent } from './view-bugs/view-bugs.component';
+import { TasksComponent } from './tasks/tasks.component';
 
 const routes: Routes = [
   { path: '', component: BugsComponent },
@@ -15,11 +16,11 @@ const routes: Routes = [
   { path: 'add-bug', component: AddBugsComponent },
   { path: 'add-bug/:project_id', component: AddBugsComponent },
   { path: 'edit-bug/:id', component: AddBugsComponent },
- 
+  { path: 'tasks', component: TasksComponent }
 ];
 
 @NgModule({
-  declarations: [BugsComponent, AddBugsComponent, ViewBugsComponent],
+  declarations: [BugsComponent, AddBugsComponent, ViewBugsComponent, TasksComponent],
   imports: [
     CommonModule,
     CommonModule,
@@ -29,8 +30,8 @@ const routes: Routes = [
     MatNativeDateModule,
     NgSelectModule,
   ],
-  
-  providers: [  
+
+  providers: [
     MatDatepickerModule,
     DatePipe
   ],

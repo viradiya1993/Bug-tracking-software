@@ -10,8 +10,8 @@
         </button>
         <div class="right-button">
           <button mat-raised-button [routerLink]="['/project/add-project']"
-                    class="float-right mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button button-primary">Add
-                    Project</button>
+            class="float-right mat-focus-indicator mat-button mat-flat-button mat-button-base mat-primary mat-raised-button button-primary">Add
+            Project</button>
         </div>
 
       </div>
@@ -57,20 +57,20 @@
             <div class="row">
               <div class="col-12">
                 <div class="d-flex flex-wrap align-items-center justify-space-between">
-                  <button mat-button type="submit" mat-flat-button color="primary"
-                                    class="mr-3" mat-raised-button (click)="resetFilter()"> Search
-                                    <span class="material-icons">
-                                      search
-                                    </span>
-                                  </button>
-                                  
-                  <button mat-raised-button (click)="resetFilter()"
-                                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary mr-3">Reset
-                                    Filter <span class="material-icons">clear</span>
-                                  </button>
+                  <button mat-button type="submit" mat-flat-button color="primary" class="mr-3" mat-raised-button
+                    (click)="resetFilter()"> Search
+                    <span class="material-icons">
+                      search
+                    </span>
+                  </button>
 
-                  
-                  
+                  <button mat-raised-button (click)="resetFilter()"
+                    class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary mr-3">Reset
+                    Filter <span class="material-icons">clear</span>
+                  </button>
+
+
+
 
                 </div>
               </div>
@@ -86,14 +86,6 @@
             <div class="table-responsive">
               <table mat-table [dataSource]="dataSource" matSortDisableClear matSort
                 class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
-
-                <!-- <ng-container matColumnDef="project_no">
-                  <th width="8%" (click)="sortItem('project_no')" mat-header-cell *matHeaderCellDef mat-sort-header
-                    class="text-primary">
-                    Project No </th>
-                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_no}} </td>
-                </ng-container> -->
-
                 <ng-container matColumnDef="project_name">
                   <th width="8%" (click)="sortItem('project_name')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
