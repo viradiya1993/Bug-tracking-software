@@ -7,13 +7,14 @@ const BACKEND_URL = environment.apiUrl + '';
 @Injectable({
   providedIn: 'root'
 })
-export class BugtypeService {
+export class BugstatusService {
 
   constructor(private http: HttpClient) { }
 
+
   //Fetch Bug Type List
-  getBugTypeList(limit: any, page: any, shortName: any, shortType: any, search: any) {
-    let url = BACKEND_URL + '/bugtype/getbugTypeList';
+  getBugStatusList(limit: any, page: any, shortName: any, shortType: any, search: any) {
+    let url = BACKEND_URL + '/bugstatus/getbugstatusList';
     if (limit !== undefined) {
       url += '?limit=' + limit;
     } else {
@@ -33,22 +34,22 @@ export class BugtypeService {
     return this.http.get(url);
   }
 
-   //Add Bug Type
-  addBugType(data: any) {
-    return this.http.post(BACKEND_URL + '/bugtype/create', data);
+   //Add Bug Status
+  addBugStatus(data: any) {
+   return this.http.post(BACKEND_URL + '/bugstatus/create', data);
   }
 
   // get BugType detail
-  geBugTypeDetail(id: any) {
-    return this.http.get(BACKEND_URL + '/bugtype/getbugtype/' + id);
+  geBugStatusDetail(id: any) {
+    return this.http.get(BACKEND_URL + '/bugstatus/getbugstatus/' + id);
   }
 
-  updateBugType(data, id) {
-    return this.http.post(BACKEND_URL + '/bugtype/updateBugtype/' +  id, data);
+  updateBugStatus(data, id) {
+    return this.http.post(BACKEND_URL + '/bugstatus/updateBugstatus/' +  id, data);
   }
 
-  // for delete bugType
-  deleteBugType(id: any) {
-    return this.http.delete(BACKEND_URL + '/bugtype/delete-bugtype/' + id);
+  // for delete bugStatus
+  deleteBugStatus(id: any) {
+    return this.http.delete(BACKEND_URL + '/bugstatus/delete-bugstatus/' + id);
   }
 }

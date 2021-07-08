@@ -32,6 +32,8 @@ export class SearchTextboxComponent implements OnInit {
       this.labelText = this.labelConst.Bug;
     } else if (this.message == 'BugType') {
       this.labelText = this.labelConst.BugType;
+    } else if (this.message == 'BugStatus') {
+      this.labelText = this.labelConst.BugStatus;
     } else {
       this.labelText = this.labelConst.Default;
     }

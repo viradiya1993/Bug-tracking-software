@@ -44,6 +44,7 @@ export class SharedService {
     { path: '/project', title: 'Project', icon: 'content_paste', class: '', onlyAdmin: true },
     { path: '/bugs', title: 'Bug', icon: 'bug_report', class: '', onlyAdmin: false },
     { path: '/bugsType', title: 'Bug Types', icon: 'bug_report', class: '', onlyAdmin: true },
+    { path: '/bugStatus', title: 'Bug Status', icon: 'bug_report', class: '', onlyAdmin: true },
   ];
 
   // for success message of toster
