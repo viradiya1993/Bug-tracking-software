@@ -149,7 +149,13 @@ export class AddProjectComponent implements OnInit {
     }
     this.layoutsService.getEmployee(data).subscribe((res: any) => {
       if (res.employeeLists) {
-        this.employees = res.employeeLists;
+        res.employeeLists.forEach(element => {
+          this.employees.push({
+            value: element.first_name + ' ' + element.last_name + ' (' + element.email + ')',
+            _id: element._id
+          })
+        });
+        // this.employees = res.employeeLists;
       }
     });
 
@@ -206,6 +212,10 @@ export class AddProjectComponent implements OnInit {
 
   // Save 
   onSave(type) {
+    this.sharedService.showLoader();
+    if (this.projectForm.invalid) {
+      return
+    }
     let technologyArray = [];
     let employeeArray = [];
     for (let index = 0; index < this.projectForm.value.technology.length; index++) {
@@ -214,16 +224,13 @@ export class AddProjectComponent implements OnInit {
       technologyArray.push(filteredArray[0]._id);
     }
 
-    for (let i = 0; i < this.projectForm.value.employee.length; i++) {
-      const element = this.projectForm.value.employee[i];
-      // console.log(this.employees,'employee');
-      let filterEmp = this.employees.filter(e => e.first_name == element);
-      employeeArray.push(filterEmp[0]._id);
-    }
+    // for (let i = 0; i < this.projectForm.value.employee.length; i++) {
+    //   const element = this.projectForm.value.employee[i];
+    //   // console.log(this.employees,'employee');
+    //   let filterEmp = this.employees.filter(e => e.first_name == element);
+    //   employeeArray.push(filterEmp[0]._id);
+    // }
 
-    if (this.projectForm.invalid) {
-      return
-    }
 
     let data = {
       project_no: this.f.project_no.value,
@@ -231,7 +238,7 @@ export class AddProjectComponent implements OnInit {
       technology_id: technologyArray,
       departmentId: this.f.department.value,
       project_manager: this.f.project_manager.value,
-      employee_id: employeeArray,
+      employee_id: this.projectForm.value.employee,
       start_date: this.f.sdate.value,
       end_date: this.f.edate.value,
       status: this.f.status.value,
@@ -239,16 +246,19 @@ export class AddProjectComponent implements OnInit {
     }
     //  return
     if (!this.loader) {
+
       this.loader = true;
       if (type === 'save') {
         this.projectService.addProject(data).subscribe((res: any) => {
           if (res) {
+            this.sharedService.hideLoader();
             this.loader = false;
             this.projectForm.reset();
             this.sharedService.loggerSuccess(res.message);
             this.router.navigate(['/project']);
           }
         }, err => {
+          this.sharedService.hideLoader();
           this.loader = false
           this.sharedService.loggerError(err.error.message);
         });
@@ -256,10 +266,12 @@ export class AddProjectComponent implements OnInit {
         this.loader = true;
         this.projectService.updateProject(data, this.project_id).subscribe((res: any) => {
           this.loader = false;
+          this.sharedService.hideLoader();
           this.projectForm.reset();
           this.sharedService.loggerSuccess(res.message);
           this.router.navigate(['/project']);
         }, err => {
+          this.sharedService.hideLoader();
           this.loader = false
           this.sharedService.loggerError(err.error.message);
         });

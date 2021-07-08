@@ -59,9 +59,9 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" *ngIf="employees.length">
                   <ng-select placeholder="Select an employee" [items]="employees" formControlName="employee"
-                    bindLabel="first_name" bindValue="first_name" [multiple]="true" [searchable]="true">
+                    bindLabel="value" bindValue="_id" [multiple]="true" [searchable]="true">
                   </ng-select>
                   <mat-error *ngIf="projectForm.get('employee').invalid"> Please Select a
                     employee

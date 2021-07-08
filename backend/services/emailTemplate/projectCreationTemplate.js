@@ -91,7 +91,7 @@ module.exports = projectCreate => {
 
                                                                             style="width:50px; display: inline-block;">
 
-                                                                            <img src="${forgotpassword.logo}" alt="Bug Tracking Software"
+                                                                            <img src="${projectCreate.logo}" alt="Bug Tracking Software"
 
                                                                                 style="border:none; max-width:100%;" />
 
