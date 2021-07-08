@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common'
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { LayoutService } from 'app/layouts/layout.service';
 
@@ -25,15 +25,17 @@ export class AddComponent implements OnInit {
   departmentArray: [] = [];
   employeeStatus: any = [];
   emailPattern = AppConst.emailValidationPattern;
-  mobilePattern = AppConst.mobileValidationPatter;
+  mobilePattern = AppConst.mobilePattern;
   emailError = false;
   mobileError = false;
+  submitted = false;
   constructor(
     public route: ActivatedRoute,
     private service: EmployeeService,
     private layoutService: LayoutService,
     private spinner: NgxSpinnerService,
-    private location: Location
+    private location: Location,
+    private formBuilder: FormBuilder
   ) {
     this.spinner.show();
     this.getDepartment();
@@ -47,32 +49,16 @@ export class AddComponent implements OnInit {
     // this.authListerSub = this.authService.getAuthStatusLister().subscribe(authStatus => {
     //   this.isLoading = false;
     // })
-    this.formEmployee = new FormGroup({
-      first_name: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      middle_name: new FormControl(null),
-      last_name: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      gender: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      email: new FormControl(null, {
-        validators: [Validators.required, Validators.pattern(this.emailPattern)]
-      }),
-      mobile_number: new FormControl(null, {
-        validators: [Validators.required, Validators.maxLength(10), Validators.minLength(10)]
-      }),
-      department: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      role: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      status: new FormControl(null, {
-        validators: [Validators.required]
-      })
+    this.formEmployee = this.formBuilder.group({
+      first_name: ['', Validators.required],
+      middle_name: [],
+      last_name: ['', Validators.required],
+      gender: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+      mobile_number: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern(this.mobilePattern)]],
+      department: ['', Validators.required],
+      role: ['', Validators.required],
+      status: ['', Validators.required]
     });
     this.setEmployeeData();
   }
@@ -86,7 +72,7 @@ export class AddComponent implements OnInit {
         this.isLoading = true;
         this.service.getEmployeeById(this.employeeId).subscribe((employeeData: any) => {
           console.log(employeeData);
-          
+
           this.isLoading = false;
           this.spinner.hide();
           let fetchedData = {
@@ -111,6 +97,8 @@ export class AddComponent implements OnInit {
       }
     });
   }
+
+  get f() { return this.formEmployee.controls; }
 
   getDepartment() {
     this.layoutService.getDepartmentData().subscribe(res => {
@@ -149,10 +137,14 @@ export class AddComponent implements OnInit {
   }
 
   onSave() {
-    // console.log(this.formEmployee.value);
+    this.submitted = true;
+    // console.log(this.formEmployee);
+    // console.log(typeof (this.formEmployee.controls.mobile_number.value) == 'string');
+
     if (this.formEmployee.invalid) {
       return;
     }
+
     this.spinner.show();
     let formValue = this.formEmployee.value;
     let data = {
@@ -169,7 +161,7 @@ export class AddComponent implements OnInit {
       roleId: formValue.role,
     }
 
-  
+
     if (this.mode === 'create') {
       this.service.addEmployee(data).subscribe((res: any) => {
         if (res.status = 200) {

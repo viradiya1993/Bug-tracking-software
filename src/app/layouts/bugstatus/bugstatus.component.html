@@ -9,8 +9,8 @@
 				</button>
 				<div class="right-button">
 					<button mat-raised-button [routerLink]="['/bugStatus/add-bugstatus']"
-					class="mat-button mat-flat-button button-primary mat-button-base mat-primary mat-raised-button">Add
-									Bug Status
+						class="mat-button mat-flat-button button-primary mat-button-base mat-primary mat-raised-button">Add
+						Bug Status
 					</button>
 				</div>
 			</div>
@@ -19,11 +19,11 @@
 					<div class="card-header">
 						<div class="row align-items-center">
 							<div class="col-md-6 mb-2">
-								<app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-									[message]="send">
+								<app-search-textbox (resetIndex)="resetIndex($event)"
+									(searchEvent)="receiveSearchValue($event)" [message]="send">
 								</app-search-textbox>
 							</div>
-							
+
 							<!-- <div class="col-12 mt-3">
 								<button mat-button type="submit" mat-flat-button color="primary" class="mr-3"> Search
 									<span class="material-icons">
@@ -50,34 +50,39 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							<table mat-table [dataSource]="dataSource" matSortDisableClear matSort
-								class="mat-elevation-z8 table-hover" class="table-bordered" width="100%" *ngIf="length > 0">
-							
+								class="mat-elevation-z8 table-hover" class="table-bordered" width="100%"
+								*ngIf="length > 0">
+
 
 								<ng-container matColumnDef="bugstatus">
-									<th width="33%" (click)="sortItem('bugstatus')" mat-header-cell *matHeaderCellDef mat-sort-header
-										class="text-primary">
+									<th width="33%" (click)="sortItem('bugstatus')" mat-header-cell *matHeaderCellDef
+										mat-sort-header class="text-primary">
 										Bug Staus Name </th>
 									<td width="20%" mat-cell *matCellDef="let element"> {{element?.status}} </td>
 								</ng-container>
 
 								<ng-container matColumnDef="color">
-									<th width="33%" (click)="sortItem('color')" mat-header-cell *matHeaderCellDef mat-sort-header
-										class="text-primary">
+									<th width="33%" (click)="sortItem('color')" mat-header-cell *matHeaderCellDef
+										mat-sort-header class="text-primary">
 										Color Code </th>
-									<td width="20%" mat-cell *matCellDef="let element"> {{element?.color}} </td>
+									<td width="20%" mat-cell *matCellDef="let element">
+										{{element?.color}} </td>
 								</ng-container>
 
 								<ng-container matColumnDef="action">
-									<th width="33%" mat-header-cell *matHeaderCellDef class="text-left text-primary"> Action </th>
+									<th width="33%" mat-header-cell *matHeaderCellDef class="text-left text-primary">
+										Action </th>
 									<td width="15%" mat-cell *matCellDef="let element" class="text-left">
 										<div class="d-flex align-items-center">
-											<a [routerLink]="'/bugStatus/edit-bugstatus/' + element._id" matTooltip="Edit"
-												[matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+											<a [routerLink]="'/bugStatus/edit-bugstatus/' + element._id"
+												matTooltip="Edit" [matTooltipPosition]="'above'"
+												matTooltipClass="mat_pop"
 												class="btn btn-light-warning btn-sm btn-just-icon">
 												<i class="material-icons">edit</i>
 											</a>
-											<a href="javascript:void(0)" matTooltip="Delete" [matTooltipPosition]="'above'"
-												matTooltipClass="mat_pop" class="btn btn-light-danger btn-sm btn-just-icon"
+											<a href="javascript:void(0)" matTooltip="Delete"
+												[matTooltipPosition]="'above'" matTooltipClass="mat_pop"
+												class="btn btn-light-danger btn-sm btn-just-icon"
 												(click)="openDialog(element._id)"><i class="material-icons">delete</i>
 											</a>
 										</div>
@@ -94,7 +99,8 @@
 						</div>
 					</div>
 					<div>
-						<app-pagination *ngIf="length" [childMessage]="length" [index]="index" (messageEvent)="receiveMessage($event)">
+						<app-pagination *ngIf="length" [childMessage]="length" [index]="index"
+							(messageEvent)="receiveMessage($event)">
 						</app-pagination>
 					</div>
 				</div>

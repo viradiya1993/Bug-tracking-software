@@ -5,6 +5,7 @@ export class AppConst {
 
     public static emailValidationPattern = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*(\+[a-zA-Z0-9-]+)?@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;  // email validation pattern
     public static mobileValidationPatter = /^((\+){0,1}91(\s){0,1}(\-){0,1}(\s){0,1}){0,1}98(\s){0,1}(\-){0,1}(\s){0,1}[1-9]{1}[0-9]{7}$/;
+    public static mobilePattern = /^[0]?[6789]\d{9}$/;
     public static pngiconx = 19;
     public static pngicony = 35;
     public static stageWidth = 700;
