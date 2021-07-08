@@ -6,6 +6,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LayoutService } from 'app/layouts/layout.service';
 import { SharedService } from 'app/shared/shared.service';
+import { debug } from 'console';
 import { BugsService } from '../bugs.service';
 
 @Component({
@@ -34,7 +35,7 @@ export class AddBugsComponent implements OnInit {
     public sharedService: SharedService,
     public datepipe: DatePipe,
     private router: Router,
-    public route: ActivatedRoute,) {}
+    public route: ActivatedRoute,) { }
 
   ngOnInit(): void {
     this.bugsForm = this._formBuilder.group({
@@ -52,7 +53,7 @@ export class AddBugsComponent implements OnInit {
     this.getBugstatus();
     this.getBugsType();
     this.getBugsPriority();
-    this.getProject(); 
+    this.getProject();
     this.setBugsDetails();
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
@@ -76,23 +77,23 @@ export class AddBugsComponent implements OnInit {
             developer: bugData.bugDetails.employee_id,
             bugstatus: bugData.bugDetails.bug_status,
             project: bugData.bugDetails.project_id,
-            bugtype:  bugData.bugDetails.bug_type,
-            priority:  bugData.bugDetails.bug_priority,
-            start_date:  this.sDate,
+            bugtype: bugData.bugDetails.bug_type,
+            priority: bugData.bugDetails.bug_priority,
+            start_date: this.sDate,
             bug_description: bugData.bugDetails.bug_description
           }
           this.bugsForm.patchValue(getBugsDetail);
-        },  err => {
+        }, err => {
           this.sharedService.loggerError(err.error.error)
           this.sharedService.hideLoader();
         });
       }
       if (paramMap.has('project_id')) {
-          this.bugsForm.controls.project.setValue(paramMap.get('project_id'))
+        this.bugsForm.controls.project.setValue(paramMap.get('project_id'))
       }
     })
   }
-  
+
   //Get project
   getProject() {
     this.layoutsService.getProject().subscribe((res: any) => {
@@ -130,7 +131,14 @@ export class AddBugsComponent implements OnInit {
     }
     this.layoutsService.getEmployee(data).subscribe((res: any) => {
       if (res.employeeLists) {
-        this.employees = res.employeeLists;
+        res.employeeLists.forEach(element => {
+          this.employees.push({
+            value: element.first_name + ' ' + element.last_name + ' (' + element.email + ')',
+            first_name: element.first_name,
+            _id: element._id
+          });
+        });
+        // this.employees = res.employeeLists;
       }
     });
 
@@ -142,15 +150,15 @@ export class AddBugsComponent implements OnInit {
 
   onSave(type) {
     let employeeArray = [];
-    for (let i = 0; i < this.bugsForm.value.developer.length; i++) {
-      const element = this.bugsForm.value.developer[i];
-      let filterEmp = this.employees.filter(e => e.first_name == element);
-      employeeArray.push(filterEmp[0]._id);
-    }
-   
+    // for (let i = 0; i < this.bugsForm.value.developer.length; i++) {
+    //   const element = this.bugsForm.value.developer[i];
+    //   let filterEmp = this.employees.filter(e => e.first_name == element);
+    //   employeeArray.push(filterEmp[0]._id);
+    // }
+
     let data = {
       bug_title: this.f.bug_title.value,
-      employee_id: employeeArray,
+      employee_id: this.f.developer.value,
       bug_status: this.f.bugstatus.value,
       project_id: this.f.project.value,
       bug_type: this.f.bugtype.value,
@@ -158,7 +166,7 @@ export class AddBugsComponent implements OnInit {
       start_date: this.f.sdate.value,
       bug_description: this.f.bug_description.value,
     }
-  
+
     if (!this.loader) {
       this.loader = true
       if (type === 'save') {
@@ -170,8 +178,8 @@ export class AddBugsComponent implements OnInit {
             this.router.navigate(['/bugs']);
           }
         }, err => {
-            this.loader = false
-            this.sharedService.loggerError(err.error.message);
+          this.loader = false
+          this.sharedService.loggerError(err.error.message);
         });
       } else {
         this.loader = true;
@@ -187,7 +195,7 @@ export class AddBugsComponent implements OnInit {
       }
     }
   }
-  
+
   get f() {
     return this.bugsForm.controls;
   }

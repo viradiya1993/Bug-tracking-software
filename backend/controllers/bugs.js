@@ -34,17 +34,17 @@ exports.createBugs = async (req, res, next) => {
 			});
 		}
 		const bugDetails = new bugModel();
-			bugDetails.employee_id = employee_id;
-			bugDetails.bug_status = bug_status;
-			bugDetails.project_id = project_id;
-			bugDetails.bug_type = bug_type;
-			bugDetails.bug_priority = bug_priority;
-			bugDetails.bug_title = bug_title;
-			bugDetails.bug_description = bug_description;
-			bugDetails.created_at = currentTimeStamp;
-			bugDetails.updated_at = currentTimeStamp;
-			bugDetails.actual_updated_at = currentTimeStamp;
-			bugDetails.created_by = req.userData.userId
+		bugDetails.employee_id = employee_id;
+		bugDetails.bug_status = bug_status;
+		bugDetails.project_id = project_id;
+		bugDetails.bug_type = bug_type;
+		bugDetails.bug_priority = bug_priority;
+		bugDetails.bug_title = bug_title;
+		bugDetails.bug_description = bug_description;
+		bugDetails.created_at = currentTimeStamp;
+		bugDetails.updated_at = currentTimeStamp;
+		bugDetails.actual_updated_at = currentTimeStamp;
+		bugDetails.created_by = req.userData.userId
 
 		if (start_date) {
 			bugDetails.start_date = dateFormat.convertTimestamp(start_date);
@@ -119,11 +119,11 @@ exports.getBugsList = async (req, res, next) => {
 
 		if (req.query.project_id && req.query.employee_id && req.query.bug_status && req.query.bug_type && req.query.bug_priority) {
 			query.$and = [
-					{ 'project_id': mongoose.Types.ObjectId(req.query.project_id) },
-					{ 'employee_id': mongoose.Types.ObjectId(req.query.employee_id) },
-					{ 'bug_status': mongoose.Types.ObjectId(req.query.bug_status) },
-					{ 'bug_type': mongoose.Types.ObjectId(req.query.bug_type) },
-					{ 'bug_priority': mongoose.Types.ObjectId(req.query.bug_priority) },
+				{ 'project_id': mongoose.Types.ObjectId(req.query.project_id) },
+				{ 'employee_id': mongoose.Types.ObjectId(req.query.employee_id) },
+				{ 'bug_status': mongoose.Types.ObjectId(req.query.bug_status) },
+				{ 'bug_type': mongoose.Types.ObjectId(req.query.bug_type) },
+				{ 'bug_priority': mongoose.Types.ObjectId(req.query.bug_priority) },
 			]
 		}
 
@@ -198,13 +198,13 @@ exports.getBugsDetails = async (req, res, next) => {
 			});
 		}
 
-		for (let i = 0; i < bugDetails.employee_id.length; i++) {
-			const ele = bugDetails.employee_id[i];
-			await empyolee.findOne({ _id: mongoose.Types.ObjectId(ele) })
-				.then(emp => {
-					bugDetails.employee_id[i] = emp["first_name"];
-				})
-		}
+		// for (let i = 0; i < bugDetails.employee_id.length; i++) {
+		// 	const ele = bugDetails.employee_id[i];
+		// 	await empyolee.findOne({ _id: mongoose.Types.ObjectId(ele) })
+		// 		.then(emp => {
+		// 			bugDetails.employee_id[i] = emp["first_name"];
+		// 		})
+		// }
 
 		return res.status(200).json({
 			message: "Bug detail fetch successfully.",
@@ -243,7 +243,7 @@ exports.updateBugDetails = async (req, res, next) => {
 				data: {}
 			});
 		}
-	
+
 		bugDetails.employee_id = employee_id;
 		bugDetails.bug_status = bug_status;
 		bugDetails.project_id = project_id;
@@ -261,13 +261,13 @@ exports.updateBugDetails = async (req, res, next) => {
 		}
 
 		bugDetails.save()
-		.then(bugDetails => {
-			return res.status(200).json({
-				message: "Bugs Details updated successfully.",
-				data: bugDetails
+			.then(bugDetails => {
+				return res.status(200).json({
+					message: "Bugs Details updated successfully.",
+					data: bugDetails
+				})
 			})
-		})
-	
+
 	} catch (error) {
 		console.log(error);
 		res.status(400).json({
@@ -303,11 +303,11 @@ exports.deleteBugDetails = async (req, res, next) => {
 
 // Fetch Project 
 exports.getProjects = async (req, res, next) => {
-	const query = projectModel.find().sort( { project_name : 1 } );
+	const query = projectModel.find().sort({ project_name: 1 });
 	let data;
 	query
 		.then(status => {
-			
+
 			data = status
 			return projectModel.countDocuments();
 		})
@@ -327,7 +327,7 @@ exports.getProjects = async (req, res, next) => {
 
 // Fetch Bug Status
 exports.getBugstatus = async (req, res, next) => {
-	const query = bugStatus.find().sort( { status : 1 } );
+	const query = bugStatus.find().sort({ status: 1 });
 	let data;
 	query
 		.then(status => {
@@ -350,7 +350,7 @@ exports.getBugstatus = async (req, res, next) => {
 
 // Fetch Bug Type
 exports.getBugsType = async (req, res, next) => {
-	const query = bugType.find().sort( {bug_types: 1});
+	const query = bugType.find().sort({ bug_types: 1 });
 	let data;
 	query
 		.then(status => {
@@ -373,7 +373,7 @@ exports.getBugsType = async (req, res, next) => {
 
 // Fetch Bug Priority
 exports.getBugsPriority = async (req, res, next) => {
-	const query = bugPriority.find().sort({priority: 1});
+	const query = bugPriority.find().sort({ priority: 1 });
 	let data;
 	query
 		.then(status => {

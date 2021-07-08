@@ -22,10 +22,10 @@
 							</div>
 							<!-- DropDown Start-->
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12" *ngIf="employees.length">
 									<ng-select placeholder="Select an developer" [items]="employees"
-										formControlName="developer" bindLabel="first_name" bindValue="first_name"
-										[multiple]="true" [clearable]="false">
+										formControlName="developer" bindLabel="value" bindValue="_id" [multiple]="true"
+										[clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('developer').invalid"> Please Select a
 										developer
@@ -73,7 +73,7 @@
 								<div class="col-md-4">
 									<mat-form-field class="datepicker-color">
 										<input formControlName="start_date" (dateInput)="startDate('input', $event)"
-											(dateChange)="startDate('change', $event)" matInput
+											(click)="picker2.open()" (dateChange)="startDate('change', $event)" matInput
 											[matDatepicker]="picker2" placeholder="Start Date">
 										<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
 										<mat-datepicker #picker2></mat-datepicker>
