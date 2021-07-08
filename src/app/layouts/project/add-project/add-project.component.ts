@@ -21,6 +21,7 @@ import { ProjectService } from '../project.service';
 export class AddProjectComponent implements OnInit {
   private project_id: string;
   editable: boolean = false;
+  viewble: boolean = false;
   departments: any = [];
   employees: any = [];
   technologys: any = [];
@@ -64,7 +65,7 @@ export class AddProjectComponent implements OnInit {
       start_date: [new Date()],
       end_date: [new Date()],
       status: ['', Validators.required],
-      project_description: ['', Validators.required],
+      project_description: [''],
       sdate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
       edate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
     })
@@ -72,6 +73,7 @@ export class AddProjectComponent implements OnInit {
     this.getDepartment();
     this.getTechnology();
     this.setProjectDetails();
+    this.setProjectValue();
     this.getStatus();
 
     this.projectForm.controls['start_date'].disable();
@@ -87,8 +89,8 @@ export class AddProjectComponent implements OnInit {
   //Set Project Details
   setProjectDetails() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      this.project_id = paramMap.get('id');
       if (paramMap.has('id')) {
+        this.project_id = paramMap.get('id');
         this.sharedService.showLoader();
         this.editable = true;
         this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
@@ -114,9 +116,41 @@ export class AddProjectComponent implements OnInit {
           this.sharedService.hideLoader();
         });
       }
+    
     });
   }
 
+  setProjectValue() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('viewId')) {
+        this.project_id = paramMap.get('viewId');
+        this.viewble = true
+        this.projectForm.disable()
+        this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
+          this.sharedService.hideLoader();
+          this.sDate = this.datepipe.transform(projectData.projects.start_date, 'yyyy-MM-dd');
+          this.eDate = this.datepipe.transform(projectData.projects.end_date, 'yyyy-MM-dd');
+          let fetachProject = {
+            id: projectData._id,
+            project_no: projectData.projects.project_no,
+            project_name: projectData.projects.project_name,
+            technology: projectData.projects.technology_id,
+            department: projectData.projects.departmentId,
+            project_manager: projectData.projects.project_manager,
+            employee: projectData.projects.employee_id,
+            start_date: this.sDate,
+            end_date: this.eDate,
+            status: projectData.projects.status,
+            project_description: projectData.projects.project_description
+          }
+          this.projectForm.patchValue(fetachProject);
+        }, err => {
+          this.sharedService.loggerError(err.error.error)
+          this.sharedService.hideLoader();
+        });
+      }
+    })
+  }
   //Add New Technology
   onAdd(event) {
     if (!event._id) {

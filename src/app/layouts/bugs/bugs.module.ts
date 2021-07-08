@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'add-bug', component: AddBugsComponent },
   { path: 'add-bug/:project_id', component: AddBugsComponent },
   { path: 'edit-bug/:id', component: AddBugsComponent },
+  { path: 'view-bug/:viewId', component: AddBugsComponent },
   { path: 'tasks', component: TasksComponent }
 ];
 

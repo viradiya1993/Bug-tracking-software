@@ -18,6 +18,7 @@ export class AddBugsComponent implements OnInit {
   private bugs_id: string;
   bugsForm: FormGroup;
   editable = false
+  viewble: boolean = false;
   loader: boolean = false;
   start_date: any;
   sDate: any;
@@ -55,6 +56,7 @@ export class AddBugsComponent implements OnInit {
     this.getBugsPriority();
     this.getProject();
     this.setBugsDetails();
+    this.setBugDetailsValue();
     this.layoutsService.getRolesData().subscribe((res: any) => {
       this.employeeArray = res.userRoles.filter(x => x.role === 'Developer');
       this.getEmployee();
@@ -64,8 +66,8 @@ export class AddBugsComponent implements OnInit {
   //Set Bug Details
   setBugsDetails() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      this.bugs_id = paramMap.get('id');
       if (paramMap.has('id')) {
+        this.bugs_id = paramMap.get('id');
         this.sharedService.showLoader();
         this.editable = true;
         this.bugservice.getBugsDetail(this.bugs_id).subscribe((bugData: any) => {
@@ -90,6 +92,35 @@ export class AddBugsComponent implements OnInit {
       }
       if (paramMap.has('project_id')) {
         this.bugsForm.controls.project.setValue(paramMap.get('project_id'))
+      }
+    })
+  }
+
+  setBugDetailsValue() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('viewId')) {
+        this.bugs_id = paramMap.get('viewId');
+        this.viewble = true
+        this.bugsForm.disable()
+        this.bugservice.getBugsDetail(this.bugs_id).subscribe((bugData: any) => {
+          this.sharedService.hideLoader();
+          this.sDate = this.datepipe.transform(bugData.bugDetails.start_date, 'yyyy-MM-dd');
+          let getBugsDetail = {
+            id: bugData.bugDetails._id,
+            bug_title: bugData.bugDetails.bug_title,
+            developer: bugData.bugDetails.employee_id,
+            bugstatus: bugData.bugDetails.bug_status,
+            project: bugData.bugDetails.project_id,
+            bugtype: bugData.bugDetails.bug_type,
+            priority: bugData.bugDetails.bug_priority,
+            start_date: this.sDate,
+            bug_description: bugData.bugDetails.bug_description
+          }
+          this.bugsForm.patchValue(getBugsDetail);
+        }, err => {
+          this.sharedService.loggerError(err.error.error)
+          this.sharedService.hideLoader();
+        });
       }
     })
   }

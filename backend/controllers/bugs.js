@@ -37,10 +37,6 @@ exports.createBugs = async (req, res, next) => {
 		const statusofbug = await bugStatus.findOne()
 		const typesofbug = await bugType.findOne();
 		const priority = await bugPriority.findOne();
-		// console.log(projects.project_name);
-		// console.log(statusofbug.status);
-		// console.log(typesofbug.bug_types);
-		// console.log(priority.priority);
 		if (devloper) {
 			for (let i = 0; i < devloper.length; i++) {
 				sendMail(devloper[i].email, 'Bug Assigned to you.',
@@ -50,9 +46,9 @@ exports.createBugs = async (req, res, next) => {
 						LinkedIn: linkUrl,
 						Twitter: twitterUrl,
 						projectName: projects.project_name,
-				   status: statusofbug.status,
+				    status: statusofbug.status,
 						bugtype: typesofbug.bug_types,
-				   priority: priority.priority
+				    priority: priority.priority
 					})
 				);
 			}

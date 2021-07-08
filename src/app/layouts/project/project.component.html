@@ -151,9 +151,8 @@
                         <i class="material-icons">add_circle</i>
                       </a>
 
-                      <a href="javascript:void(0)" matTooltip="View" [matTooltipPosition]="'above'"
-                        matTooltipClass="mat_pop" class="btn btn-light-success btn-sm btn-just-icon"
-                        (click)="viewDetail(element)">
+                      <a [routerLink]="'/project/view-project/' + element._id"matTooltip="View" [matTooltipPosition]="'above'"
+                        matTooltipClass="mat_pop" class="btn btn-light-success btn-sm btn-just-icon" >
                         <i class="material-icons">visibility</i>
                       </a>
                       <a [routerLink]="'/project/edit-project/' + element._id" matTooltip="Edit"
