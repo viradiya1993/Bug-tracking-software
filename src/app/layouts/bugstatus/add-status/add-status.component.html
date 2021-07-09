@@ -21,10 +21,23 @@
 									<!-- [formControl]="colorCtr" [style.background-color]="colorCtr?.value?.rgba" -->
 								
 
-									<mat-form-field>
-										<input matInput [ngxMatColorPicker]="picker" formControlName="color" (click)="picker.open()" [style.background-color]="bugStatusForm.get(color)?.value.rgba">
+									<!-- <mat-form-field>
+										<input matInput 
+									 	  formControlName="colorCtr" 
+											[ngxMatColorPicker]="picker" 
+											(click)="picker.open()" 
+										  [style.background-color]="bugStatusForm.get(colorCtr)?.value.rgba">
 										<ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
 										<ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+									</mat-form-field> -->
+
+									<mat-form-field>
+										<input matInput 
+													formControlName="colorCtr" 
+													[ngxMatColorPicker]="picker" 
+													(click)="picker.open()">
+										<ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+										<ngx-mat-color-picker #picker></ngx-mat-color-picker>
 									</mat-form-field>
 
 									<!-- <mat-error *ngIf="bugStatusForm.get('color').invalid">

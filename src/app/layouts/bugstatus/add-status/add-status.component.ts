@@ -25,7 +25,7 @@ export class AddStatusComponent implements OnInit {
   ngOnInit(): void {
     this.bugStatusForm = this._formBuilder.group({
       status: ['', Validators.required],
-      color: [''],
+      colorCtr: [''],
     })
 
     this.setBugStatusDetails();
@@ -43,7 +43,7 @@ export class AddStatusComponent implements OnInit {
           let fetchData = {
             id: bugStatusData._id,
             status: bugStatusData.bugStatus.status,
-            color: '#'+bugStatusData.bugStatus.color
+            colorCtr: '#'+bugStatusData.bugStatus.color
           }
 
           this.bugStatusForm.patchValue(fetchData);
@@ -64,12 +64,12 @@ export class AddStatusComponent implements OnInit {
     if (this.editable === true) {
       var editData = {
         status: this.f.status.value,
-        color: this.f.color.value.hex ? this.f.color.value.hex : this.f.color.value.slice(1)
+        color: this.f.colorCtr.value.hex ? this.f.colorCtr.value.hex : this.f.colorCtr.value.slice(1)
       }
     } else {
        var Savedata = {
         status: this.f.status.value,
-        color: this.f.color.value.hex
+        color: this.f.colorCtr.value.hex
       }
     }
     if (!this.loader) {
