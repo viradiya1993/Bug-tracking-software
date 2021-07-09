@@ -115,7 +115,7 @@ export class BugsComponent implements OnInit {
   applyFilter() {
     this.getBugList();
     console.log('amit');
-    console.log(this.searchForm.controls.value);
+    //console.log(this.searchForm.controls.employee_id.value);
     
     
   }

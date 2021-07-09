@@ -99,6 +99,8 @@ export class ListComponent implements OnInit {
   
   applyFilter() {
     this.getEmployeeData();
+    console.log(this.formEmployeeSearch.controls);
+    
   }
 
   getEmployeeData() {

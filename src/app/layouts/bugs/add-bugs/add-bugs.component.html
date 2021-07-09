@@ -95,7 +95,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<mat-label>Bug Description</mat-label>
+									<!-- <mat-label>Bug Description</mat-label> -->
 									<!-- <mat-form-field>
 										
 										<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
@@ -106,7 +106,6 @@
 									<mat-error class="text-left" *ngIf="bugsForm.get('bug_description').invalid">
 										Bug Description is required
 									</mat-error> -->
-								 	{{viewble | json}}
 									<ckeditor formControlName="bug_description"  *ngIf="!view_id"></ckeditor>
 									<ckeditor formControlName="bug_description" readOnly="true" *ngIf="view_id"></ckeditor>
 								</div>
