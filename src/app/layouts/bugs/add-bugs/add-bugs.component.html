@@ -106,26 +106,28 @@
 									<mat-error class="text-left" *ngIf="bugsForm.get('bug_description').invalid">
 										Bug Description is required
 									</mat-error> -->
-									<ckeditor formControlName="bug_description" readOnly="viewble"></ckeditor>
+								 	{{viewble | json}}
+									<ckeditor formControlName="bug_description"  *ngIf="!view_id"></ckeditor>
+									<ckeditor formControlName="bug_description" readOnly="true" *ngIf="view_id"></ckeditor>
 								</div>
 							</div>
 
 							<div class="row mt20">
 								<div class="col-md-12 text-right">
 									<span class="pull-right mb15">
-										<button type="submit" *ngIf="!editable && !viewble"
+										<button type="submit" *ngIf="!editable && !view_id"
 											[disabled]="bugsForm.invalid"
 											[ngClass]="bugsForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('save')" class="mr-2">
 											<i class="fa fa-spin fa-spinner" *ngIf="loader"></i>Add</button>
-										<button type="submit" *ngIf="editable && !viewble" [disabled]="bugsForm.invalid"
+										<button type="submit" *ngIf="editable && !view_id" [disabled]="bugsForm.invalid"
 											[ngClass]="bugsForm.invalid ? 'btn btn-info disable-btn disable' : 'btn btn-info'"
 											(click)="onSave('update')" class="mr-2"><i class="fa fa-spin fa-spinner"
 												*ngIf="loader"></i>Update</button>
 										<button type="button" class="btn btn-danger" [routerLink]="['/bugs']"
-											*ngIf="!viewble">Cancel</button>
+											*ngIf="!view_id">Cancel</button>
 										<button type="button" class="btn btn-danger" [routerLink]="['/project']"
-											*ngIf="viewble">Back</button>
+											*ngIf="view_id">Back</button>
 									</span>
 								</div>
 							</div>

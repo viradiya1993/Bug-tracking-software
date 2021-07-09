@@ -17,9 +17,9 @@ import { ProjectService } from '../project.service';
   styleUrls: ['./add-project.component.css']
 })
 export class AddProjectComponent implements OnInit {
-  private project_id: string;
+  public project_id: string;
+  public view_id: string;
   editable: boolean = false;
-  viewble: boolean = false;
   departments: any = [];
   employees: any = [];
   technologys: any = [];
@@ -120,10 +120,9 @@ export class AddProjectComponent implements OnInit {
   setProjectValue() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('viewId')) {
-        this.project_id = paramMap.get('viewId');
-        this.viewble = true
+        this.view_id = paramMap.get('viewId');
         this.projectForm.disable()
-        this.projectService.getProjectDetail(this.project_id).subscribe((projectData: any) => {
+        this.projectService.getProjectDetail(this.view_id).subscribe((projectData: any) => {
           this.sharedService.hideLoader();
           this.sDate = this.datepipe.transform(projectData.projects.start_date, 'yyyy-MM-dd');
           this.eDate = this.datepipe.transform(projectData.projects.end_date, 'yyyy-MM-dd');

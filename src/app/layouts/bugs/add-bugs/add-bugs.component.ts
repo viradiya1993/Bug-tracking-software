@@ -15,10 +15,10 @@ import { mimeType } from "../../../shared/mime-type.validator";
   styleUrls: ['./add-bugs.component.css']
 })
 export class AddBugsComponent implements OnInit {
-  private bugs_id: string;
+  public bugs_id: string;
+  public view_id: string;
   bugsForm: FormGroup;
   editable = false
-  viewble: boolean = false;
   loader: boolean = false;
   start_date: any;
   sDate: any;
@@ -41,6 +41,7 @@ export class AddBugsComponent implements OnInit {
     public route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    
     this.bugsForm = this._formBuilder.group({
       bug_title: ['', Validators.required],
       developer: ['', Validators.required],
@@ -95,20 +96,20 @@ export class AddBugsComponent implements OnInit {
           this.sharedService.loggerError(err.error.error)
           this.sharedService.hideLoader();
         });
-      }
+      } 
       if (paramMap.has('project_id')) {
         this.bugsForm.controls.project.setValue(paramMap.get('project_id'))
       }
     })
+    
   }
 
   setBugDetailsValue() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('viewId')) {
-        this.bugs_id = paramMap.get('viewId');
-        this.viewble = true
+        this.view_id = paramMap.get('viewId');
         this.bugsForm.disable()
-        this.bugservice.getBugsDetail(this.bugs_id).subscribe((bugData: any) => {
+        this.bugservice.getBugsDetail(this.view_id).subscribe((bugData: any) => {
           this.sharedService.hideLoader();
           this.sDate = this.datepipe.transform(bugData.bugDetails.start_date, 'yyyy-MM-dd');
           let getBugsDetail = {
@@ -127,8 +128,9 @@ export class AddBugsComponent implements OnInit {
           this.sharedService.loggerError(err.error.error)
           this.sharedService.hideLoader();
         });
-      }
+      } 
     })
+   
   }
 
   //Get project
