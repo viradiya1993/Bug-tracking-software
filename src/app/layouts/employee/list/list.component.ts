@@ -120,7 +120,7 @@ export class ListComponent implements OnInit {
           }
           this.sharedService.loggerError(err.error.message);
         }
-      })
+    })
   }
 
   getDepartment() {
@@ -138,6 +138,7 @@ export class ListComponent implements OnInit {
       }
     });
   }
+
   getEmpStatus() {
     this.layoutService.getEmpStatus().subscribe((res: any) => {
       this.employeeStatus = res.status

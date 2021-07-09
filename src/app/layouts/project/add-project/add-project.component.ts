@@ -8,9 +8,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { EmployeeService } from 'app/layouts/employee/employee.service';
 import { LayoutService } from 'app/layouts/layout.service';
 import { TechnologyService } from 'app/layouts/technology/technology.service';
-import { Projects } from 'app/model/projects.model';
 import { SharedService } from 'app/shared/shared.service';
-import * as moment from 'moment';
 import { ProjectService } from '../project.service';
 
 @Component({
@@ -34,7 +32,6 @@ export class AddProjectComponent implements OnInit {
   loader: boolean = false;
   selected = '';
 
-  //project = new Projects()
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 

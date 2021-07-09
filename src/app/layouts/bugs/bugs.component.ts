@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -39,6 +40,7 @@ export class BugsComponent implements OnInit {
   showFilter = false;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ['no', 'title', 'project_name', 'devloper', 'bug_status', 'bug_type', 'bug_priority', 'action'];
+  searchForm: FormGroup;
   constructor(
     private route: ActivatedRoute,
     public bugservice: BugsService,
@@ -51,6 +53,16 @@ export class BugsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.searchForm = new FormGroup({
+      bugsstatus: new FormControl(''),
+      project_id: new FormControl(''),
+      employee_id: new FormControl(''),
+      bug_status: new FormControl(''),
+      bug_type: new FormControl(''),
+      bug_priority: new FormControl('')
+    });
+
+
     this.getProject();
     this.getBugList();
     this.getBugstatus();
@@ -67,6 +79,7 @@ export class BugsComponent implements OnInit {
   }
 
   getBugList() {
+    
     this.bugservice.getBugsList(
       this.limit,
       this.page,
@@ -98,6 +111,14 @@ export class BugsComponent implements OnInit {
       });
   }
 
+  //Filter
+  applyFilter() {
+    this.getBugList();
+    console.log('amit');
+    console.log(this.searchForm.controls.value);
+    
+    
+  }
   //selectProject
   selectProject(data: any) {
     this.project_id = data?._id;
