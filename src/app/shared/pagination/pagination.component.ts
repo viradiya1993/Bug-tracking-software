@@ -30,10 +30,10 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   getNext(event: PageEvent) {
     // console.log(event);
-    //this.messageEvent.emit(event);
-    if (this.childMessage >= 10) {
-      this.messageEvent.emit(event);
-    }
+    this.messageEvent.emit(event);
+    // if (this.childMessage >= 10) {
+    //   this.messageEvent.emit(event);
+    // }
   }
 
 }
