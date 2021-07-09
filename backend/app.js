@@ -27,30 +27,30 @@ app.use(bodyParser.json({ limit: "50mb" }));
 
 
 
-app.use("/images", express.static(path.join("images")));
+
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+    )
+    next();
+});
+
+app.use("/images", express.static(path.join("backend/images")));
 
 // Set Static access for front
 app.use("/",
     express.static(path.join(__dirname, "front")));
 console.log("Angular"),
 
-    app.use((req, res, next) => {
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader(
-            "Access-Control-Allow-Headers",
-            "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-        );
-        res.setHeader(
-            "Access-Control-Allow-Methods",
-            "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-        )
-        next();
-    });
 
-
-
-
-app.use("/api/user", usersRoutes);
+    app.use("/api/user", usersRoutes);
 app.use("/api/employee", employeesRoutes);
 app.use("/api/technology", technologyRoutes);
 app.use("/api/project", projectRoutes);

@@ -86,8 +86,10 @@ export class AddBugsComponent implements OnInit {
             bugtype: bugData.bugDetails.bug_type,
             priority: bugData.bugDetails.bug_priority,
             start_date: this.sDate,
-            bug_description: bugData.bugDetails.bug_description
+            bug_description: bugData.bugDetails.bug_description,
+            fileSource: bugData.bugDetails.image
           }
+          this.imagePreview = bugData.bugDetails.image
           this.bugsForm.patchValue(getBugsDetail);
         }, err => {
           this.sharedService.loggerError(err.error.error)
@@ -184,15 +186,10 @@ export class AddBugsComponent implements OnInit {
   }
 
   onSave(type) {
-    // let employeeArray = [];
-    // for (let i = 0; i < this.bugsForm.value.developer.length; i++) {
-    //   const element = this.bugsForm.value.developer[i];
-    //   let filterEmp = this.employees.filter(e => e.first_name == element);
-    //   employeeArray.push(filterEmp[0]._id);
-    // }
+    // Set Formdata for uploading
     const formData = new FormData();
     formData.append('bug_title', this.f.bug_title.value);
-    formData.append('employee_id', this.f.developer.value);
+    formData.append('employee_id', JSON.stringify(this.f.developer.value));
     formData.append('bug_status', this.f.bugstatus.value);
     formData.append('project_id', this.f.project.value);
     formData.append('bug_type', this.f.bugtype.value);
@@ -200,19 +197,6 @@ export class AddBugsComponent implements OnInit {
     formData.append('bug_description', this.f.bug_description.value);
     formData.append('start_date', this.f.sdate.value);
     formData.append('image', this.f.fileSource.value);
-
-    // let data = {
-    //   bug_title: this.f.bug_title.value,
-    //   employee_id: this.f.developer.value,
-    //   bug_status: this.f.bugstatus.value,
-    //   project_id: this.f.project.value,
-    //   bug_type: this.f.bugtype.value,
-    //   bug_priority: this.f.priority.value,
-    //   start_date: this.f.sdate.value,
-    //   bug_description: this.f.bug_description.value,
-    //   fileSource: this.f.fileSource.value
-    // }
-    // console.log(data);
 
     // return
     if (!this.loader) {
@@ -248,26 +232,6 @@ export class AddBugsComponent implements OnInit {
     return this.bugsForm.controls;
   }
 
-  onFileChange(event) {
-    this.images = [];
-    if (event.target.files && event.target.files[0]) {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) {
-        var reader = new FileReader();
-
-        reader.onload = (event: any) => {
-          console.log(event.target.result);
-          this.images.push(event.target.result);
-
-          this.bugsForm.patchValue({
-            fileSource: this.images
-          });
-        }
-
-        reader.readAsDataURL(event.target.files[i]);
-      }
-    }
-  }
 
   onImageClick(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];

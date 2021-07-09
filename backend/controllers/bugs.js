@@ -80,7 +80,7 @@ exports.createBugs = async (req, res, next) => {
 		bugDetails.updated_at = currentTimeStamp;
 		bugDetails.actual_updated_at = currentTimeStamp;
 		bugDetails.created_by = req.userData.userId;
-		bugDetails.image = url + '/backend/images/' + req.file.filename;
+		bugDetails.image = url + '/images/' + req.file.filename;
 
 		if (start_date) {
 			bugDetails.start_date = dateFormat.convertTimestamp(start_date);
@@ -265,7 +265,8 @@ exports.updateBugDetails = async (req, res, next) => {
 		bug_priority,
 		bug_title,
 		start_date,
-		bug_description
+		bug_description,
+		image
 	} = req.body;
 
 	let currentTimeStamp = dateFormat.set_current_timestamp();
@@ -280,9 +281,15 @@ exports.updateBugDetails = async (req, res, next) => {
 				data: {}
 			});
 		}
+		let image = req.body.image;
+		if (req.file) {
+			const url = req.protocol + '://' + req.get("host");
+			image = url + '/images/' + req.file.filename
+		}
 
+		const url = req.protocol + '://' + req.get("host");
 
-		bugDetails.employee_id = employee_id;
+		bugDetails.employee_id = JSON.parse(employee_id);
 		bugDetails.bug_status = bug_status;
 		bugDetails.project_id = project_id;
 		bugDetails.bug_type = bug_type;
@@ -292,7 +299,8 @@ exports.updateBugDetails = async (req, res, next) => {
 		bugDetails.created_at = currentTimeStamp;
 		bugDetails.updated_at = currentTimeStamp;
 		bugDetails.actual_updated_at = currentTimeStamp;
-		bugDetails.created_by = req.userData.userId
+		bugDetails.created_by = req.userData.userId;
+		bugDetails.image = image;
 
 		if (start_date) {
 			bugDetails.start_date = dateFormat.convertTimestamp(start_date);

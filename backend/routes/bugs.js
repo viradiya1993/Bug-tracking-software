@@ -14,7 +14,7 @@ router.get('/getbugspriority', checkAuth, bugsController.getBugsPriority);
 router.get('/get-bugs-list', checkAuth, bugsController.getBugsList);
 router.get('/getbugdetails/:id', checkAuth, bugsController.getBugsDetails);
 router.post('/create', checkAuth, extractFile, bugsController.createBugs);
-router.post('/updatebugdetails/:id', checkAuth, bugsController.updateBugDetails);
+router.post('/updatebugdetails/:id', checkAuth, extractFile, bugsController.updateBugDetails);
 router.delete('/delete-bugs/:id', checkAuth, bugsController.deleteBugDetails);
 
 module.exports = router;
