@@ -12,15 +12,18 @@ const bugModel = require('../models/bug-details');
 
 
 exports.createBugs = async (req, res, next) => {
+	console.log(req);
 	const {
 		employee_id,
 		bug_status,
 		project_id,
 		bug_type,
 		bug_priority,
+
 		bug_title,
 		start_date,
-		bug_description
+		bug_description,
+		image
 	} = req.body;
 
 	let currentTimeStamp = dateFormat.set_current_timestamp();
@@ -50,9 +53,9 @@ exports.createBugs = async (req, res, next) => {
 						LinkedIn: linkUrl,
 						Twitter: twitterUrl,
 						projectName: projects.project_name,
-				   status: statusofbug.status,
+						status: statusofbug.status,
 						bugtype: typesofbug.bug_types,
-				   priority: priority.priority
+						priority: priority.priority
 					})
 				);
 			}
@@ -66,6 +69,9 @@ exports.createBugs = async (req, res, next) => {
 				message: "Bug title already exist choose another one."
 			});
 		}
+
+		const url = req.protocol + '://' + req.get("host");
+
 		const bugDetails = new bugModel();
 		bugDetails.employee_id = employee_id;
 		bugDetails.bug_status = bug_status;
@@ -77,7 +83,8 @@ exports.createBugs = async (req, res, next) => {
 		bugDetails.created_at = currentTimeStamp;
 		bugDetails.updated_at = currentTimeStamp;
 		bugDetails.actual_updated_at = currentTimeStamp;
-		bugDetails.created_by = req.userData.userId
+		bugDetails.created_by = req.userData.userId;
+		bugDetails.image = url + '/backend/images/' + req.file.filename;
 
 		if (start_date) {
 			bugDetails.start_date = dateFormat.convertTimestamp(start_date);
@@ -90,6 +97,7 @@ exports.createBugs = async (req, res, next) => {
 				})
 			})
 	} catch (error) {
+		console.log(error);
 		res.status(400).json({
 			message: "Something went wrong. Please try again later"
 		});
@@ -276,7 +284,7 @@ exports.updateBugDetails = async (req, res, next) => {
 				data: {}
 			});
 		}
-	
+
 
 		bugDetails.employee_id = employee_id;
 		bugDetails.bug_status = bug_status;

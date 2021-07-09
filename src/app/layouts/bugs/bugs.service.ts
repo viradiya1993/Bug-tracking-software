@@ -28,6 +28,8 @@ export class BugsService {
 
   //Add bug
   addBug(data: any) {
+    console.log(data);
+    
     return this.http.post(BACKEND_URL + '/bugs/create', data);
   }
 

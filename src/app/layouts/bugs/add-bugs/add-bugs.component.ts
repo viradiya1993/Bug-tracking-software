@@ -6,8 +6,8 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LayoutService } from 'app/layouts/layout.service';
 import { SharedService } from 'app/shared/shared.service';
-import { debug } from 'console';
 import { BugsService } from '../bugs.service';
+import { mimeType } from "../../../shared/mime-type.validator";
 
 @Component({
   selector: 'app-add-bugs',
@@ -27,6 +27,8 @@ export class AddBugsComponent implements OnInit {
   employeeArray: any = []
   employees: any = [];
   projects: any = [];
+  images = [];
+  imagePreview: string;
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
   constructor(
     public bugservice: BugsService,
@@ -48,6 +50,8 @@ export class AddBugsComponent implements OnInit {
       start_date: [new Date()],
       bug_description: [''],
       sdate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
+      // file: ['', [Validators.required], [mimeType]],
+      fileSource: ['', [Validators.required], [mimeType]]
     })
 
     this.getBugstatus();
@@ -149,29 +153,41 @@ export class AddBugsComponent implements OnInit {
   }
 
   onSave(type) {
-    let employeeArray = [];
+    // let employeeArray = [];
     // for (let i = 0; i < this.bugsForm.value.developer.length; i++) {
     //   const element = this.bugsForm.value.developer[i];
     //   let filterEmp = this.employees.filter(e => e.first_name == element);
     //   employeeArray.push(filterEmp[0]._id);
     // }
+    const formData = new FormData();
+    formData.append('bug_title', this.f.bug_title.value);
+    formData.append('employee_id', this.f.developer.value);
+    formData.append('bug_status', this.f.bugstatus.value);
+    formData.append('project_id', this.f.project.value);
+    formData.append('bug_type', this.f.bugtype.value);
+    formData.append('bug_priority', this.f.priority.value);
+    formData.append('bug_description', this.f.bug_description.value);
+    formData.append('start_date', this.f.sdate.value);
+    formData.append('image', this.f.fileSource.value);
 
-    let data = {
-      bug_title: this.f.bug_title.value,
-      employee_id: this.f.developer.value,
-      bug_status: this.f.bugstatus.value,
-      project_id: this.f.project.value,
-      bug_type: this.f.bugtype.value,
-      bug_priority: this.f.priority.value,
-      start_date: this.f.sdate.value,
-      bug_description: this.f.bug_description.value,
-    }
-    console.log(data);
- //   return
+    // let data = {
+    //   bug_title: this.f.bug_title.value,
+    //   employee_id: this.f.developer.value,
+    //   bug_status: this.f.bugstatus.value,
+    //   project_id: this.f.project.value,
+    //   bug_type: this.f.bugtype.value,
+    //   bug_priority: this.f.priority.value,
+    //   start_date: this.f.sdate.value,
+    //   bug_description: this.f.bug_description.value,
+    //   fileSource: this.f.fileSource.value
+    // }
+    // console.log(data);
+
+    // return
     if (!this.loader) {
       this.loader = true
       if (type === 'save') {
-        this.bugservice.addBug(data).subscribe((res: any) => {
+        this.bugservice.addBug(formData).subscribe((res: any) => {
           if (res) {
             this.loader = false;
             this.bugsForm.reset();
@@ -184,7 +200,7 @@ export class AddBugsComponent implements OnInit {
         });
       } else {
         this.loader = true;
-        this.bugservice.updateBugDetails(data, this.bugs_id).subscribe((res: any) => {
+        this.bugservice.updateBugDetails(formData, this.bugs_id).subscribe((res: any) => {
           this.loader = false;
           this.bugsForm.reset();
           this.sharedService.loggerSuccess(res.message);
@@ -199,5 +215,41 @@ export class AddBugsComponent implements OnInit {
 
   get f() {
     return this.bugsForm.controls;
+  }
+
+  onFileChange(event) {
+    this.images = [];
+    if (event.target.files && event.target.files[0]) {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+
+        reader.onload = (event: any) => {
+          console.log(event.target.result);
+          this.images.push(event.target.result);
+
+          this.bugsForm.patchValue({
+            fileSource: this.images
+          });
+        }
+
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+  }
+
+  onImageClick(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.bugsForm.patchValue({
+      fileSource: file
+    });
+    this.bugsForm.get('fileSource').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = (reader.result as string);
+    };
+    reader.readAsDataURL(file);
+    console.log(file);
+    console.log(this.bugsForm.value);
   }
 }

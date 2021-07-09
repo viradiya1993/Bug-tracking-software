@@ -26,6 +26,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     }
                     else {
                         console.log('this is server side error');
+                        console.log(error);
+
                         errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
                         if (error.status === 401) {
                             localStorage.clear();

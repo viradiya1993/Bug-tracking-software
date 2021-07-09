@@ -43,11 +43,15 @@ const bugDetail = mongoose.Schema({
         type: Number,
         default: null
     },
-    
+
     bug_description: {
         type: String
     },
 
+    image: {
+        type: String,
+        require: true
+    },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

@@ -23,12 +23,11 @@ mongoose
     }).then(console.log("Connected to DB"))
     .catch((err) => console.log(err, 'Error Occured'));
 
-app.use(bodyParser.json());
-//app.use(express.urlencoded({ extended: true }));
-//app.use(bodyParser.urlencoded({extended: true});
-//app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 
-// app.use("/images", express.static(path.join("images")));
+
+
+app.use("/images", express.static(path.join("images")));
 
 // Set Static access for front
 app.use("/",
