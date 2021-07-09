@@ -8,11 +8,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ViewDetailsComponent } from './view-details/view-details.component';
-
+import { CKEditorModule } from 'ckeditor4-angular';
 const routes: Routes = [
   { path: '', component: ProjectComponent },
   { path: 'add-project', component: AddProjectComponent },
   { path: 'edit-project/:id', component: AddProjectComponent },
+  { path: 'view-project/:viewId', component: AddProjectComponent },
  
 ];
 
@@ -25,7 +26,7 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     NgSelectModule,
-   
+    CKEditorModule
   ],
   providers: [  
     MatDatepickerModule,
