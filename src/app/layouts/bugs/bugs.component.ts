@@ -9,7 +9,7 @@ import { DeleteBoxComponent } from 'app/shared/delete-box/delete-box.component';
 import { SharedService } from 'app/shared/shared.service';
 import { LayoutService } from '../layout.service';
 import { BugsService } from './bugs.service';
-import { ViewBugsComponent } from './view-bugs/view-bugs.component';
+
 
 @Component({
   selector: 'app-bugs',
@@ -54,7 +54,7 @@ export class BugsComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
-      bugsstatus: new FormControl(''),
+      searchTitle: new FormControl(''),
       project_id: new FormControl(''),
       employee_id: new FormControl(''),
       bug_status: new FormControl(''),
@@ -62,7 +62,7 @@ export class BugsComponent implements OnInit {
       bug_priority: new FormControl('')
     });
 
-
+    this.searchForm.controls.project_id.setValue(this.project_id)
     this.getProject();
     this.getBugList();
     this.getBugstatus();
@@ -79,7 +79,6 @@ export class BugsComponent implements OnInit {
   }
 
   getBugList() {
-    
     this.bugservice.getBugsList(
       this.limit,
       this.page,
@@ -113,17 +112,16 @@ export class BugsComponent implements OnInit {
 
   //Filter
   applyFilter() {
+    this.searchKey = this.searchForm.controls.searchTitle.value
+    this.employee_id = this.searchForm.controls.employee_id.value
+    this.project_id = this.searchForm.controls.project_id.value
+    this.bug_status = this.searchForm.controls.bug_status.value
+    this.bug_type = this.searchForm.controls.bug_type.value
+    this.bug_priority = this.searchForm.controls.bug_priority.value
     this.getBugList();
-    console.log('amit');
-    //console.log(this.searchForm.controls.employee_id.value);
-    
-    
   }
-  //selectProject
-  selectProject(data: any) {
-    this.project_id = data?._id;
-    this.getBugList()
-  }
+  
+ 
   //Get project
   getProject() {
     this.layoutsService.getProject().subscribe((res: any) => {
@@ -133,11 +131,6 @@ export class BugsComponent implements OnInit {
     });
   }
 
-  //select Developer
-  selectDeveloper(data: any) {
-    this.employee_id = data?._id;
-    this.getBugList();
-  }
   //Get Employee
   getEmployee() {
     let data = {
@@ -151,12 +144,6 @@ export class BugsComponent implements OnInit {
 
   }
 
-  //select BugStatus
-  selectBugStatus(data: any) {
-    this.bug_status = data?._id;
-    this.getBugList();
-  }
-
   //Get Bug Status
   getBugstatus() {
     this.bugservice.getBugstatus().subscribe((res: any) => {
@@ -164,22 +151,11 @@ export class BugsComponent implements OnInit {
     });
   }
 
-  //select BugType
-  selectBugType(data: any) {
-    this.bug_type = data?._id;
-    this.getBugList();
-  }
   //Get Bug Type
   getBugsType() {
     this.bugservice.getBugsType().subscribe((res: any) => {
       this.bugsType = res.data;
     });
-  }
-
-  //select BugPriority
-  selectBugPriority(data: any) {
-    this.bug_priority = data?._id;
-    this.getBugList();
   }
 
   //Get Bug Priority
@@ -199,21 +175,6 @@ export class BugsComponent implements OnInit {
     this.page = event.pageIndex;
     this.getBugList();
   }
-
-  /**
-* for serching table
-* // TODO: receiveSearchValue
-* @returns list of project related to search
-*/
-  receiveSearchValue(searchKey: any) {
-    if (this.searchKey !== searchKey) {
-      this.searchKey = searchKey;
-      this.limit = AppConst.pageSize;
-      this.page = 0;
-      this.getBugList();
-    }
-  }
-
   /**
   * for shorting table value
  * // TODO: sortItem
@@ -230,37 +191,17 @@ export class BugsComponent implements OnInit {
     this.getBugList();
   }
 
-  /**
-   * for search after page goto 1
-  * // TODO: resetIndex
-  * @param event
-  */
-  resetIndex(e) {
-    this.index = e;
-  }
-
   resetFilter() {
-    this.page = 0;
-    this.index = 0;
+    this.searchForm.reset();
+    this.searchKey = '';
     this.project_id = '';
     this.employee_id = '';
     this.bug_status = '';
     this.bug_type = '';
     this.bug_priority = '';
+    this.page = 0;
+    this.index = 0;
     this.getBugList();
-  }
-
-  /**
-  * for popup detail
-  * // TODO: viewDetail
-  * @param id
-  * @returns detail with perticular id
-  */
-  viewDetail(viewData: any) {
-    const dialogRef = this.dialog.open(ViewBugsComponent, {
-      width: '650px',
-      data: { viewDetail: viewData }
-    });
   }
 
   openDialog(id: any): void {

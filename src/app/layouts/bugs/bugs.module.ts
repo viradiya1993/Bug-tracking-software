@@ -7,7 +7,6 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ViewBugsComponent } from './view-bugs/view-bugs.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { CKEditorModule } from 'ckeditor4-angular';
 const routes: Routes = [
@@ -21,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [BugsComponent, AddBugsComponent, ViewBugsComponent, TasksComponent],
+  declarations: [BugsComponent, AddBugsComponent, TasksComponent],
   imports: [
     CommonModule,
     CommonModule,

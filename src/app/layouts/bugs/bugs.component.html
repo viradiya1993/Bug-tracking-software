@@ -25,11 +25,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-12">
-                <form [formGroup]="searchForm">
+                <form [formGroup]="searchForm" (submit)="applyFilter()">
                   <div class="row">
                     <div class="col-md-4">
                       <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Please Enter Bug Title" name="bugsstatus" formControlName="bugsstatus">
+                        <input matInput placeholder="Please Enter Bug Title" name="searchTitle" formControlName="searchTitle">
                       </mat-form-field>
                     </div>
                     <div class="col-md-4">
@@ -69,7 +69,7 @@
 												</span>
 											</button>
 
-											<button mat-button mat-flat-button type="reset" (click)="resetSearchFilter()" color="warn"
+											<button mat-button mat-flat-button type="reset" (click)="resetFilter()" color="warn"
 												class="mr-3">
 												Reset
 												<span class="material-icons">
@@ -80,61 +80,6 @@
                   </div>
                 </form>
               </div>
-            </div>
-            <!-- <div class="col-12">
-              <div class="row">
-                <div class="col-md-4">
-                  <app-search-textbox (resetIndex)="resetIndex($event)" (searchEvent)="receiveSearchValue($event)"
-                    [message]="send"></app-search-textbox>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Projects" [items]="projects" bindLabel="project_name" bindValue="_id"
-                    (change)="selectProject($event)" [(ngModel)]="project_id" [clearable]="false">
-                  </ng-select>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Developer" [items]="employees" bindLabel="first_name" bindValue="_id"
-                    (change)="selectDeveloper($event)" [(ngModel)]="employee_id" [clearable]="false"
-                    [searchable]="true">
-                  </ng-select>
-                </div>
-              </div>
-            </div> -->
-
-            <div class="col-12">
-              <!-- <div class="row">
-                <div class="col-md-4">
-                  <ng-select placeholder="Status" [items]="bugStatus" bindLabel="status" bindValue="_id"
-                    (change)="selectBugStatus($event)" [(ngModel)]="bug_status" [clearable]="false" [searchable]="true">
-                  </ng-select>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Bug Type" [items]="bugsType" bindLabel="bug_types" bindValue="_id"
-                    (change)="selectBugType($event)" [(ngModel)]="bug_type" [clearable]="false" [searchable]="true">
-                  </ng-select>
-                </div>
-                <div class="col-md-4">
-                  <ng-select placeholder="Bug Priority" [items]="bugsPriority" bindLabel="priority" bindValue="_id"
-                    (change)="selectBugPriority($event)" [(ngModel)]="bug_priority" [clearable]="false"
-                    [searchable]="true">
-                  </ng-select>
-                </div>
-
-                <div class="col-12">
-                  <div class="d-flex flex-wrap align-items-center justify-space-between">
-                    <button mat-button type="submit" mat-flat-button color="primary" class="mr-3" mat-raised-button
-                      (click)="resetFilter()"> Search
-                      <span class="material-icons">
-                        search
-                      </span>
-                    </button>
-                    <button mat-raised-button (click)="resetFilter()"
-                      class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary mr-3">Reset
-                      Filter <span class="material-icons">clear</span>
-                    </button>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>

@@ -82,8 +82,6 @@ export class SharedService {
   trimming_function(x: any) {
     return x ? x.replace(AppConst.trimPattern, '') : '';
   }
-
-
   // for remove local storage value
   removeLocalStorage(storageKey: any) {
     return localStorage.removeItem(storageKey);

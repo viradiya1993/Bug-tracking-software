@@ -207,8 +207,6 @@ export class AddProjectComponent implements OnInit {
         // this.projectManager = res.employeeLists;
       }
       this.sharedService.hideLoader();
-      console.log(this.projectManager);
-
     });
   }
 

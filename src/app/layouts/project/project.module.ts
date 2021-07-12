@@ -7,8 +7,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ViewDetailsComponent } from './view-details/view-details.component';
 import { CKEditorModule } from 'ckeditor4-angular';
+
 const routes: Routes = [
   { path: '', component: ProjectComponent },
   { path: 'add-project', component: AddProjectComponent },
@@ -18,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ProjectComponent, AddProjectComponent, ViewDetailsComponent],
+  declarations: [ProjectComponent, AddProjectComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

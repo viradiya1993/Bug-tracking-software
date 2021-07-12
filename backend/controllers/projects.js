@@ -43,7 +43,7 @@ exports.createProject = async (req, res, next) => {
 		if (devloper) {
 			let devName = [];
 			for (let i = 0; i < devloper.length; i++) {
-				devName.push(devloper[i].first_name)
+				devName.push(devloper[i].first_name + devloper[i].last_name)
 				sendMail(devloper[i].email, 'Project Created.',
 					projectCreationTemplete({
 						logo: logoUrl,
@@ -51,9 +51,9 @@ exports.createProject = async (req, res, next) => {
 						LinkedIn: linkUrl,
 						Twitter: twitterUrl,
 						projectName: req.body.project_name,
-						projectManger: manager.first_name
-					}));
-
+						projectManger: manager.first_name + manager.last_name
+					})
+				);
 			}
 			sendMail(manager.email, 'Project Assigned to developer.',
 				projectAssignTemplate({
@@ -110,6 +110,7 @@ exports.createProject = async (req, res, next) => {
 			})
 
 	} catch (error) {
+		console.log(error);
 		res.status(400).json({
 			message: "Something went wrong. Please try again later"
 		});
@@ -313,6 +314,15 @@ exports.updateProject = async (req, res, next) => {
 		const linkUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LinkedIn_Img;
 		const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
 
+		const projects = await project.findOne({
+			_id: req.params.id
+		});
+
+
+
+		// console.log(reqData);
+		// console.log(projectdata);
+		// console.log(reqData === projectdata);
 
 		const devloper = await empyolee.find({
 			_id: req.body.employee_id
@@ -322,39 +332,55 @@ exports.updateProject = async (req, res, next) => {
 			_id: req.body.project_manager
 		});
 
-		if (devloper) {
-			let devName = [];
-			for (let i = 0; i < devloper.length; i++) {
-				devName.push(devloper[i].first_name)
-				sendMail(devloper[i].email, 'Project Created.',
-					projectCreationTemplete({
-						logo: logoUrl,
-						Facebook: faceUrl,
-						LinkedIn: linkUrl,
-						Twitter: twitterUrl,
-						projectName: req.body.project_name,
-						projectManger: manager.first_name
-					}));
+		//	console.log(projects.project_manager); // same pm id mail not send
+		//	console.log(req.body.project_manager);
+		//		console.log(projects.project_manager == req.body.project_manager); // same he mail not send
+		//		console.log(projects.project_manager != req.body.project_manager);
 
-			}
-			sendMail(manager.email, 'Project Assigned to developer.',
-				projectAssignTemplate({
+		let devName = [];
+		for (let i = 0; i < devloper.length; i++) {
+			devName.push(devloper[i].first_name + devloper[i].last_name)
+			sendMail(devloper[i].email, 'Project Created.',
+				projectCreationTemplete({
 					logo: logoUrl,
+					Facebook: faceUrl,
+					LinkedIn: linkUrl,
+					Twitter: twitterUrl,
 					projectName: req.body.project_name,
-					developer: devName.join(',')
-				}));
+					projectManger: manager.first_name + manager.last_name
+				})
+			);
+
 		}
 
-		const projects = await project.findOne({
-			_id: req.params.id
-		});
+		sendMail(manager.email, 'Project Assigned to developer.',
+			projectAssignTemplate({
+				logo: logoUrl,
+				projectName: req.body.project_name,
+				developer: devName.join(',')
+			})
+		);
+
+
+
+		// if (projects.project_manager != req.body.project_manager) {
+		// 	// console.log('Manager changed');
+		// 	sendMail(manager.email, 'Project Assigned to developer.',
+		// 		projectAssignTemplate({
+		// 			logo: logoUrl,
+		// 			projectName: req.body.project_name,
+		// 			developer: devName.join(',')
+		// 		})
+		// 	);
+		// }
+
 		if (!projects) {
 			return res.status(404).json({
 				message: "Project details not found.",
 				data: {}
 			});
 		}
-
+	
 		projects.technology_id = technology_id;
 		projects.departmentId = departmentId;
 		projects.employee_id = employee_id;
@@ -381,7 +407,7 @@ exports.updateProject = async (req, res, next) => {
 				});
 			});
 	} catch (error) {
-		// console.log(error);
+		console.log(error);
 		return res.status(400).json({
 			message: "Something went wrong. Please try again later.",
 			data: {}
