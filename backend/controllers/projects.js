@@ -13,12 +13,13 @@ const { query } = require('express-validator');
 
 //Create Project
 exports.createProject = async (req, res, next) => {
+	//project_no,
 	const {
 		technology_id,
 		departmentId,
 		employee_id,
-		project_no,
 		project_name,
+	
 		project_description,
 		project_manager,
 		status,
@@ -44,35 +45,33 @@ exports.createProject = async (req, res, next) => {
 			let devName = [];
 			for (let i = 0; i < devloper.length; i++) {
 				devName.push(devloper[i].first_name + devloper[i].last_name)
-				sendMail(devloper[i].email, 'Project Created.',
-					projectCreationTemplete({
-						logo: logoUrl,
-						Facebook: faceUrl,
-						LinkedIn: linkUrl,
-						Twitter: twitterUrl,
-						projectName: req.body.project_name,
-						projectManger: manager.first_name + manager.last_name
-					})
-				);
+				// sendMail(devloper[i].email, 'Project Created.',
+				// 	projectCreationTemplete({
+				// 		logo: logoUrl,
+				// 		Facebook: faceUrl,
+				// 		LinkedIn: linkUrl,
+				// 		Twitter: twitterUrl,
+				// 		projectName: req.body.project_name,
+				// 		projectManger: manager.first_name + manager.last_name
+				// 	})
+				// );
 			}
-			sendMail(manager.email, 'Project Assigned to developer.',
-				projectAssignTemplate({
-					logo: logoUrl,
-					projectName: req.body.project_name,
-					developer: devName.join(',')
-				}));
-
+			// sendMail(manager.email, 'Project Assigned to developer.',
+			// 	projectAssignTemplate({
+			// 		logo: logoUrl,
+			// 		projectName: req.body.project_name,
+			// 		developer: devName.join(',')
+			// 	})
+			// );
 		}
 
-		const isProjectNo = await project.findOne({
-			project_no
-		})
-
-		if (isProjectNo) {
-			return res.status(400).json({
-				message: "Project no already exist choose another one."
-			});
-		}
+		const isProjectNo = await project.findOne()
+	//	console.log(isProjectNo.project_no + 1);
+		// if (isProjectNo) {
+		// 	return res.status(400).json({
+		// 		message: "Project no already exist choose another one."
+		// 	});
+		// }
 		const isProjectName = await project.findOne({
 			project_name
 		})
@@ -87,7 +86,9 @@ exports.createProject = async (req, res, next) => {
 		projects.technology_id = technology_id;
 		projects.departmentId = departmentId;
 		projects.employee_id = employee_id;
-		projects.project_no = project_no;
+	  //projects.project_no = project_no;
+	  projects.project_no =  isProjectNo.project_no + 1
+	
 		projects.project_name = project_name;
 		projects.project_description = project_description;
 		projects.project_manager = project_manager;
@@ -294,11 +295,11 @@ exports.getProjectDetail = async (req, res, next) => {
 
 //Update Project Details
 exports.updateProject = async (req, res, next) => {
+	//project_no,
 	const {
 		technology_id,
 		departmentId,
 		employee_id,
-		project_no,
 		project_name,
 		project_description,
 		project_manager,
@@ -320,9 +321,7 @@ exports.updateProject = async (req, res, next) => {
 
 
 
-		// console.log(reqData);
-		// console.log(projectdata);
-		// console.log(reqData === projectdata);
+	
 
 		const devloper = await empyolee.find({
 			_id: req.body.employee_id
@@ -340,26 +339,26 @@ exports.updateProject = async (req, res, next) => {
 		let devName = [];
 		for (let i = 0; i < devloper.length; i++) {
 			devName.push(devloper[i].first_name + devloper[i].last_name)
-			sendMail(devloper[i].email, 'Project Created.',
-				projectCreationTemplete({
-					logo: logoUrl,
-					Facebook: faceUrl,
-					LinkedIn: linkUrl,
-					Twitter: twitterUrl,
-					projectName: req.body.project_name,
-					projectManger: manager.first_name + manager.last_name
-				})
-			);
+			// sendMail(devloper[i].email, 'Project Created.',
+			// 	projectCreationTemplete({
+			// 		logo: logoUrl,
+			// 		Facebook: faceUrl,
+			// 		LinkedIn: linkUrl,
+			// 		Twitter: twitterUrl,
+			// 		projectName: req.body.project_name,
+			// 		projectManger: manager.first_name + manager.last_name
+			// 	})
+			// );
 
 		}
 
-		sendMail(manager.email, 'Project Assigned to developer.',
-			projectAssignTemplate({
-				logo: logoUrl,
-				projectName: req.body.project_name,
-				developer: devName.join(',')
-			})
-		);
+		// sendMail(manager.email, 'Project Assigned to developer.',
+		// 	projectAssignTemplate({
+		// 		logo: logoUrl,
+		// 		projectName: req.body.project_name,
+		// 		developer: devName.join(',')
+		// 	})
+		// );
 
 
 
@@ -384,7 +383,7 @@ exports.updateProject = async (req, res, next) => {
 		projects.technology_id = technology_id;
 		projects.departmentId = departmentId;
 		projects.employee_id = employee_id;
-		projects.project_no = project_no;
+	//	projects.project_no = project_no;
 		projects.project_name = project_name;
 		projects.project_description = project_description;
 		projects.project_manager = project_manager;
@@ -438,6 +437,7 @@ exports.deleteProject = async (req, res, next) => {
 		})
 	}
 }
+
 
 exports.addStatus = async (req, res, next) => {
 	try {

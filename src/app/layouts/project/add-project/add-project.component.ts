@@ -53,7 +53,7 @@ export class AddProjectComponent implements OnInit {
   ngOnInit(): void {
     this.sharedService.showLoader();
     this.projectForm = this._formBuilder.group({
-      project_no: ['', Validators.required],
+      //project_no: ['', Validators.required],
       project_name: ['', Validators.required],
       technology: ['', Validators.required],
       department: ['', Validators.required],
@@ -96,7 +96,7 @@ export class AddProjectComponent implements OnInit {
           this.eDate = this.datepipe.transform(projectData.projects.end_date, 'yyyy-MM-dd');
           let fetachProject = {
             id: projectData._id,
-            project_no: projectData.projects.project_no,
+          //  project_no: projectData.projects.project_no,
             project_name: projectData.projects.project_name,
             technology: projectData.projects.technology_id,
             department: projectData.projects.departmentId,
@@ -128,7 +128,7 @@ export class AddProjectComponent implements OnInit {
           this.eDate = this.datepipe.transform(projectData.projects.end_date, 'yyyy-MM-dd');
           let fetachProject = {
             id: projectData._id,
-            project_no: projectData.projects.project_no,
+          //  project_no: projectData.projects.project_no,
             project_name: projectData.projects.project_name,
             technology: projectData.projects.technology_id,
             department: projectData.projects.departmentId,
@@ -261,7 +261,7 @@ export class AddProjectComponent implements OnInit {
 
 
     let data = {
-      project_no: this.f.project_no.value,
+     // project_no: this.f.project_no.value,
       project_name: this.f.project_name.value,
       technology_id: technologyArray,
       departmentId: this.f.department.value,

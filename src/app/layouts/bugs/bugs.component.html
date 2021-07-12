@@ -112,7 +112,7 @@
                   <th width="8%" (click)="sortItem('project_name')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
                     Project Name </th>
-                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_id.project_name}}</td>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.project_id?.project_name}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="devloper">
@@ -126,14 +126,14 @@
                   <th width="8%" (click)="sortItem('bug_status')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
                     Status </th>
-                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_status.status}}</td>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_status?.status}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="bug_type">
                   <th width="8%" (click)="sortItem('bug_type')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
                     Type </th>
-                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_type.bug_types}}</td>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.bug_type?.bug_types}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="bug_priority">

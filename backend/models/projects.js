@@ -22,8 +22,7 @@ const project = mongoose.Schema({
 
     project_no: {
         type: Number,
-        require: true,
-        unique: true
+        default: null
     },
 
     project_name: {
