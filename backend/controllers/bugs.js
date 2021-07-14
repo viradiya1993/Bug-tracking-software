@@ -12,14 +12,13 @@ const bugModel = require('../models/bug-details');
 
 
 exports.createBugs = async (req, res, next) => {
-	console.log(req);
+	// console.log(req);
 	const {
 		employee_id,
 		bug_status,
 		project_id,
 		bug_type,
 		bug_priority,
-
 		bug_title,
 		start_date,
 		bug_description,
@@ -34,7 +33,7 @@ exports.createBugs = async (req, res, next) => {
 		const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
 
 		const devloper = await empyolee.find({
-			_id: req.body.employee_id
+			_id: JSON.parse(req.body.employee_id)
 		});
 		const projects = await projectModel.findOne();
 		const statusofbug = await bugStatus.findOne()
@@ -69,7 +68,7 @@ exports.createBugs = async (req, res, next) => {
 		const url = req.protocol + '://' + req.get("host");
 
 		const bugDetails = new bugModel();
-		bugDetails.employee_id = employee_id;
+		bugDetails.employee_id = JSON.parse(employee_id);
 		bugDetails.bug_status = bug_status;
 		bugDetails.project_id = project_id;
 		bugDetails.bug_type = bug_type;
