@@ -19,7 +19,6 @@ exports.createProject = async (req, res, next) => {
 		departmentId,
 		employee_id,
 		project_name,
-	
 		project_description,
 		project_manager,
 		status,
@@ -65,13 +64,16 @@ exports.createProject = async (req, res, next) => {
 			// );
 		}
 
-		const isProjectNo = await project.findOne()
-	//	console.log(isProjectNo.project_no + 1);
-		// if (isProjectNo) {
-		// 	return res.status(400).json({
-		// 		message: "Project no already exist choose another one."
-		// 	});
-		// }
+	
+	  let lastProjectId 
+		project.findOne({}).sort({_id: -1}).limit(1).then((value) => {
+			if (value) {
+				lastProjectId = value.project_no 
+			} else {
+				lastProjectId = 0
+			}
+		})
+
 		const isProjectName = await project.findOne({
 			project_name
 		})
@@ -87,8 +89,7 @@ exports.createProject = async (req, res, next) => {
 		projects.departmentId = departmentId;
 		projects.employee_id = employee_id;
 	  //projects.project_no = project_no;
-	  projects.project_no =  isProjectNo.project_no + 1
-	
+	    projects.project_no =  lastProjectId + 1;
 		projects.project_name = project_name;
 		projects.project_description = project_description;
 		projects.project_manager = project_manager;
@@ -478,7 +479,7 @@ exports.addStatus = async (req, res, next) => {
 //Get Project Status
 exports.getStatus = async (req, res, next) => {
 	try {
-		const postQuery = Project_Status.find();
+		const postQuery = Project_Status.find().sort({value: 1});
 		let fetchedPosts;
 		postQuery
 			.then(documents => {

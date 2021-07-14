@@ -23,6 +23,7 @@ import { DeleteBoxComponent } from './delete-box/delete-box.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { ChartModule } from 'angular-highcharts';
 import { ChartsModule } from 'ng2-charts';
+import { DateAgoPipe } from './date-ago.pipe';
 
 
 @NgModule({
@@ -72,10 +73,11 @@ import { ChartsModule } from 'ng2-charts';
     SearchTextboxComponent,
     PaginationComponent,
     DateFormatPipe,
+    DateAgoPipe,
     DeleteBoxComponent,
     PieChartComponent
   ],
   entryComponents: [],
-  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DeleteBoxComponent, PieChartComponent]
+  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DateAgoPipe, DeleteBoxComponent, PieChartComponent]
 })
 export class SharedModule { }

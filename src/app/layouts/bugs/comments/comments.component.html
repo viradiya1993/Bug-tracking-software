@@ -1,0 +1,109 @@
+<div class="main-content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="card">
+					<div class="card-body">
+
+						<div class="dicusstion-title">
+							<h3>{{bugTitle}}</h3>
+						</div>
+
+						<div class="add-task-here">
+
+							<div class="text-area">
+								<div class="user-img">
+									<span>MT</span>
+								</div>
+								<form [formGroup]='taskForm'>
+									<div>
+										<ng-select [items]="bugStatus" bindLabel="status" placeholder="Select an Bug Status"
+											formControlName="bugstatus" bindValue="_id" [clearable]="false">
+										</ng-select>
+										<mat-error *ngIf="taskForm.get('bugstatus').invalid"> Please Select a
+											Bug Status
+										</mat-error>
+									</div>
+									<div>
+										<ckeditor formControlName="task_description"  #ckeditor></ckeditor>
+										<mat-error *ngIf="taskForm.get('task_description').invalid"> Please add
+										  some description
+										</mat-error>
+									</div>
+									<div>
+										<button mat-stroked-button type="button" (click)="filePicker.click()">
+											Select An Image
+										</button>
+										<input type="file" #filePicker (change)="singleUpload($event)">
+										<!-- <input type="file" #filePicker (change)="multipleUpload($event)" multiple  > -->
+										<mat-error *ngIf="taskForm.get('fileSource').invalid"> Please select at least one file </mat-error>
+									</div>
+									<div class="col-md-6" class="image-preview"
+									*ngIf="imagePreview && imagePreview !== '' && taskForm.get('fileSource').valid">
+									<img [src]="imagePreview" [alt]="">
+									</div>
+
+									<!-- <div class="col-md-6" class="image-preview" *ngIf="images && images !== '' && taskForm.get('fileSource').valid">
+									<div *ngFor="let imagePreview of images; let i = index">
+										<img [src]="imagePreview" [alt]="imagePreview" style="height:30px;">
+									</div>
+								</div> -->
+
+									<div class="button-group mt-3">
+										<button mat-button type="submit" mat-flat-button color="primary" class="mr-3"
+											[disabled]="taskForm.invalid" (click)="onSave()"><i class="fa fa-spin fa-spinner"
+												*ngIf="loader"></i>Add Task</button>
+										<button mat-raised-button
+											class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary"
+											[routerLink]="['/bugs']">Cancel</button>
+									</div>
+								</form>
+							</div>
+
+							<!-- <div class="mention mt-3">
+								<span>@mention people to nitify them about this comment</span>
+							</div> -->
+
+
+
+							<!-- <div class="button-group mt-3">
+								<button mat-button (click)="showFilterBox()" mat-flat-button color="primary" class="mr-3">Filter</button>
+								<button mat-raised-button (click)="resetFilter()" class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary">Reset </button>
+							</div> -->
+
+						</div>
+						<div class="add-task-here">
+							<span *ngFor="let comment of commets">
+								<div class="user-detail">
+									<div class="user-img">
+										<span>MT</span>
+									</div>
+									<div class="user-content">
+										<div class="title">
+											<h4>{{comment?.created_name}}</h4> <span>{{comment?.created_at | dateAgo}}</span>
+										</div>
+										<div class="discrip">
+											<div class="screenshot-text">
+												<span class="image-preview" *ngIf="comment?.image && comment?.image !== ''"><img [src]="comment?.image" alt="commentImage" width="20%"></span>
+											</div>
+											<div class="fix-text" >
+												<p style="font-family: 'Times New Roman', Times, serif;" 
+													[innerHtml]="(comment?.task_description)">
+												</p>
+											</div>
+											<!-- <div class="normal-text">
+												<h5>MT (6/18) : <a href="#">https://loremipsumdolor</a></h5>
+											</div> -->
+										</div>
+									</div>
+								</div>
+							</span>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

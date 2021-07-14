@@ -12,7 +12,7 @@ const bugModel = require('../models/bug-details');
 
 
 exports.createBugs = async (req, res, next) => {
-	// console.log(req);
+
 	const {
 		employee_id,
 		bug_status,
@@ -21,8 +21,7 @@ exports.createBugs = async (req, res, next) => {
 		bug_priority,
 		bug_title,
 		start_date,
-		bug_description,
-		image
+		bug_description
 	} = req.body;
 
 	let currentTimeStamp = dateFormat.set_current_timestamp();
@@ -39,6 +38,7 @@ exports.createBugs = async (req, res, next) => {
 		const statusofbug = await bugStatus.findOne()
 		const typesofbug = await bugType.findOne();
 		const priority = await bugPriority.findOne();
+
 		if (devloper) {
 			for (let i = 0; i < devloper.length; i++) {
 				sendMail(devloper[i].email, 'Bug Assigned to you.',
@@ -84,7 +84,8 @@ exports.createBugs = async (req, res, next) => {
 		if (start_date) {
 			bugDetails.start_date = dateFormat.convertTimestamp(start_date);
 		}
-
+		
+		
 		bugDetails.save()
 			.then(bugDetails => {
 				return res.status(200).json({
@@ -92,7 +93,6 @@ exports.createBugs = async (req, res, next) => {
 				})
 			})
 	} catch (error) {
-		console.log(error);
 		res.status(400).json({
 			message: "Something went wrong. Please try again later"
 		});

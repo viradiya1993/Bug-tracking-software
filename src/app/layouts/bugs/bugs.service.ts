@@ -28,8 +28,6 @@ export class BugsService {
 
   //Add bug
   addBug(data: any) {
-    console.log(data);
-    
     return this.http.post(BACKEND_URL + '/bugs/create', data);
   }
 
@@ -83,5 +81,15 @@ export class BugsService {
   //Delete project details
   deleteBugDetails(id: any) {
     return this.http.delete(BACKEND_URL + '/bugs/delete-bugs/' + id);
+  }
+
+  //Add Comments
+  addComments(data: any) {
+    return this.http.post(BACKEND_URL + '/comments/create', data);
+  }
+
+  //get Comments
+  getComments() {
+    return this.http.get(BACKEND_URL + '/comments/getComment');
   }
 }

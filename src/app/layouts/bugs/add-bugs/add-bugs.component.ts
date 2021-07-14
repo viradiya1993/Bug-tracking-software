@@ -41,7 +41,6 @@ export class AddBugsComponent implements OnInit {
     public route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    
     this.bugsForm = this._formBuilder.group({
       bug_title: ['', Validators.required],
       developer: ['', Validators.required],
@@ -199,8 +198,9 @@ export class AddBugsComponent implements OnInit {
     formData.append('bug_description', this.f.bug_description.value);
     formData.append('start_date', this.f.sdate.value);
     formData.append('image', this.f.fileSource.value);
-
-    // return
+   
+    
+    //   return
     if (!this.loader) {
       this.loader = true
       if (type === 'save') {
@@ -230,9 +230,7 @@ export class AddBugsComponent implements OnInit {
     }
   }
 
-  get f() {
-    return this.bugsForm.controls;
-  }
+  
 
 
   onImageClick(event: Event) {
@@ -242,11 +240,15 @@ export class AddBugsComponent implements OnInit {
     });
     this.bugsForm.get('fileSource').updateValueAndValidity();
     const reader = new FileReader();
+    
     reader.onload = () => {
       this.imagePreview = (reader.result as string);
     };
     reader.readAsDataURL(file);
-    console.log(file);
-    console.log(this.bugsForm.value);
+    
+  }
+
+	get f() {
+    return this.bugsForm.controls;
   }
 }

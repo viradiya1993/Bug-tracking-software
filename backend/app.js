@@ -11,6 +11,7 @@ const bugsRoutes = require("./routes/bugs");
 const bugsTypeRoute = require("./routes/bug_type");
 const bugdStatusRoute = require("./routes/bug_status");
 const dashboard = require("./routes/dashboard");
+const commentRoute = require("./routes/comments");
 
 const app = express();
 
@@ -45,12 +46,11 @@ app.use((req, res, next) => {
 app.use("/images", express.static(path.join("backend/images")));
 
 // Set Static access for front
-app.use("/",
-    express.static(path.join(__dirname, "front")));
-console.log("Angular"),
+app.use("/", express.static(path.join(__dirname, "front")));
 
 
-    app.use("/api/user", usersRoutes);
+
+app.use("/api/user", usersRoutes);
 app.use("/api/employee", employeesRoutes);
 app.use("/api/technology", technologyRoutes);
 app.use("/api/project", projectRoutes);
@@ -59,6 +59,7 @@ app.use("/api/bugs", bugsRoutes);
 app.use("/api/bugtype", bugsTypeRoute);
 app.use("/api/bugstatus", bugdStatusRoute);
 app.use("/api/dashboard", dashboard);
+app.use("/api/comments", commentRoute);
 
 
 app.use((req, res, next) => {
