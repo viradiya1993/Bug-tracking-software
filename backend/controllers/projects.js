@@ -311,68 +311,9 @@ exports.updateProject = async (req, res, next) => {
 
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
-		const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
-		const faceUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Facebook_Img;
-		const linkUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LinkedIn_Img;
-		const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
-
 		const projects = await project.findOne({
 			_id: req.params.id
 		});
-
-
-
-	
-
-		const devloper = await empyolee.find({
-			_id: req.body.employee_id
-		});
-
-		const manager = await empyolee.findOne({
-			_id: req.body.project_manager
-		});
-
-		//	console.log(projects.project_manager); // same pm id mail not send
-		//	console.log(req.body.project_manager);
-		//		console.log(projects.project_manager == req.body.project_manager); // same he mail not send
-		//		console.log(projects.project_manager != req.body.project_manager);
-
-		let devName = [];
-		for (let i = 0; i < devloper.length; i++) {
-			devName.push(devloper[i].first_name + devloper[i].last_name)
-			// sendMail(devloper[i].email, 'Project Created.',
-			// 	projectCreationTemplete({
-			// 		logo: logoUrl,
-			// 		Facebook: faceUrl,
-			// 		LinkedIn: linkUrl,
-			// 		Twitter: twitterUrl,
-			// 		projectName: req.body.project_name,
-			// 		projectManger: manager.first_name + manager.last_name
-			// 	})
-			// );
-
-		}
-
-		// sendMail(manager.email, 'Project Assigned to developer.',
-		// 	projectAssignTemplate({
-		// 		logo: logoUrl,
-		// 		projectName: req.body.project_name,
-		// 		developer: devName.join(',')
-		// 	})
-		// );
-
-
-
-		// if (projects.project_manager != req.body.project_manager) {
-		// 	// console.log('Manager changed');
-		// 	sendMail(manager.email, 'Project Assigned to developer.',
-		// 		projectAssignTemplate({
-		// 			logo: logoUrl,
-		// 			projectName: req.body.project_name,
-		// 			developer: devName.join(',')
-		// 		})
-		// 	);
-		// }
 
 		if (!projects) {
 			return res.status(404).json({
@@ -380,11 +321,72 @@ exports.updateProject = async (req, res, next) => {
 				data: {}
 			});
 		}
+
+		/* Start to check is there any changes or not */
+		let resProject = {
+			project_name: projects.project_name,
+			technology_id: projects.technology_id,
+			departmentId: projects.departmentId,
+			project_manager: projects.project_manager,
+			employee_id: projects.employee_id,
+			start_date: projects.start_date.toString(),
+			end_date: projects.end_date.toString(),
+			status: projects.status,
+			project_description: projects.project_description
+		}
+		resProject = JSON.parse(JSON.stringify(resProject));
+		
+		const reqProject = JSON.parse(JSON.stringify(req.body));
+		reqProject.start_date= dateFormat.convertTimestamp(reqProject.start_date);
+		reqProject.end_date= dateFormat.convertTimestamp(reqProject.end_date);
+
+		let isSendEmail = JSON.stringify(resProject) !== JSON.stringify(reqProject)  
+		/* End to check is there any changes or not */
+
 	
+		/* start seding email */
+		if (isSendEmail) {
+			//TODO: Email things must be done after project updation code so need to change
+			const logoUrl = 'http://localhost:3000/api' + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
+			const faceUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Facebook_Img;
+			const linkUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LinkedIn_Img;
+			const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
+			const devloper = await empyolee.find({
+				_id: req.body.employee_id
+			});
+
+			const manager = await empyolee.findOne({
+				_id: req.body.project_manager
+			});
+
+			// TODO: need to change below code...pass array of emails rather every time send single
+			let devName = [];
+			for (let i = 0; i < devloper.length; i++) {
+				devName.push(devloper[i].first_name + devloper[i].last_name)
+				sendMail(devloper[i].email, 'Project Created.',
+					projectCreationTemplete({
+						logo: logoUrl,
+						Facebook: faceUrl,
+						LinkedIn: linkUrl,
+						Twitter: twitterUrl,
+						projectName: req.body.project_name,
+						projectManger: manager.first_name + manager.last_name
+					})
+				);
+			}
+			sendMail(manager.email, 'Project Assigned to developer.',
+				projectAssignTemplate({
+					logo: logoUrl,
+					projectName: req.body.project_name,
+					developer: devName.join(',')
+				})
+			);
+		}
+		/* End seding email */
+		
 		projects.technology_id = technology_id;
 		projects.departmentId = departmentId;
 		projects.employee_id = employee_id;
-	//	projects.project_no = project_no;
 		projects.project_name = project_name;
 		projects.project_description = project_description;
 		projects.project_manager = project_manager;
