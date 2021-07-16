@@ -65,10 +65,11 @@ exports.createProject = async (req, res, next) => {
 		}
 
 	
-	  let lastProjectId 
+	    let lastProjectId 
 		project.findOne({}).sort({_id: -1}).limit(1).then((value) => {
 			if (value) {
 				lastProjectId = value.project_no 
+				
 			} else {
 				lastProjectId = 0
 			}

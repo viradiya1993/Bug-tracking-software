@@ -10,7 +10,7 @@
 					<div class="card-body">
 						<form [formGroup]='bugsForm'>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-6">
 									<mat-form-field class="example-full-width">
 										<input matInput placeholder="Bug Title" name="bug_title" formControlName="bug_title">
 									</mat-form-field>
@@ -18,18 +18,17 @@
 										Bug title is required
 									</mat-error>
 								</div>
-							</div>
-							<!-- DropDown Start-->
-							<div class="row">
-								<div class="col-md-12" *ngIf="employees.length">
+								<div class="col-md-6" *ngIf="employees.length">
 									<ng-select placeholder="Select an developer" [items]="employees" formControlName="developer"
-										bindLabel="value" bindValue="_id" [multiple]="true" [clearable]="false">
+										bindLabel="value" bindValue="_id"  [clearable]="false">
 									</ng-select>
 									<mat-error *ngIf="bugsForm.get('developer').invalid"> Please Select a
 										developer
 									</mat-error>
 								</div>
 							</div>
+
+
 							<div class="row">
 								<div class="col-md-6">
 									<ng-select [items]="bugStatus" bindLabel="status" placeholder="Select an Bug Status"
@@ -75,22 +74,19 @@
 									</mat-form-field>
 								</div>
 							</div>
-							<!--Dropdown End -->
-							<div class="row">
 
-								<!-- <div class="col-md-6">
-									<button mat-stroked-button type="button" (click)="filePicker.click()">
-										Select An Image
-									</button>
-									<input type="file" #filePicker (change)="onImageClick($event)">
+
+							<div class="row">
+								<div class="col-md-12">
+									<ckeditor formControlName="bug_description" *ngIf="!view_id"></ckeditor>
+									<ckeditor formControlName="bug_description" readOnly="true" *ngIf="view_id"></ckeditor>
 								</div>
-								<div class="col-md-6" class="image-preview"
-									*ngIf="imagePreview && imagePreview !== '' && bugsForm.get('fileSource').valid">
-									<img [src]="imagePreview" [alt]="">
-								</div> -->
+							</div>
+
+							<div class="row">
 								<div class="col-md-12">
 									<div class="fileupload" appDragDropFileUpload (click)="fileField.click()"
-										(fileDropped)="upload($event)">
+										(fileDropped)="multipleUpload($event)">
 										<span class="ddinfo">Choose a file or drag here</span>
 										<input type="file" #fileField (change)="multipleUpload($event.target.files)" multiple>
 									</div>
@@ -118,12 +114,6 @@
 											</a>
 										</div>
 									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<ckeditor formControlName="bug_description" *ngIf="!view_id"></ckeditor>
-									<ckeditor formControlName="bug_description" readOnly="true" *ngIf="view_id"></ckeditor>
 								</div>
 							</div>
 

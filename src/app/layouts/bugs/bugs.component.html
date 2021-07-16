@@ -119,7 +119,7 @@
                   <th width="8%" (click)="sortItem('devloper')" mat-header-cell *matHeaderCellDef mat-sort-header
                     class="text-primary">
                     Developer Name </th>
-                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.employee_id}}</td>
+                  <td width="8%" mat-cell *matCellDef="let element"> {{element?.employee_id?.first_name}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="bug_status">

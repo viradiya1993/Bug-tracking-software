@@ -207,20 +207,21 @@ export class AddBugsComponent implements OnInit {
 		// Set Formdata for uploading
 		const formData = new FormData();
 		formData.append('bug_title', this.f.bug_title.value);
-		formData.append('employee_id', JSON.stringify(this.f.developer.value));
+		formData.append('employee_id', this.f.developer.value);
+		console.log('this.f.developer.value: ', this.f.developer.value);
 		formData.append('bug_status', this.f.bugstatus.value);
 		formData.append('project_id', this.f.project.value);
 		formData.append('bug_type', this.f.bugtype.value);
 		formData.append('bug_priority', this.f.priority.value);
 		formData.append('bug_description', this.f.bug_description.value);
 		formData.append('start_date', this.f.sdate.value);
-
-	
+		
+		
 		this.f.fileSource.value.forEach((item, i) => {
 			formData.append('image', this.f.fileSource.value[i])
 		})
 
-		//   return
+	 // return
 		if (!this.loader) {
 			this.loader = true
 			if (type === 'save') {
@@ -284,8 +285,6 @@ export class AddBugsComponent implements OnInit {
   sanitize(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
-
-
 
 	get f() {
 		return this.bugsForm.controls;

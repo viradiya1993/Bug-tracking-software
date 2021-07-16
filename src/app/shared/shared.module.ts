@@ -80,6 +80,6 @@ import { DragDropFileUploadDirective } from './drag-drop-file-upload.directive';
     DragDropFileUploadDirective
   ],
   entryComponents: [],
-  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DateAgoPipe, DeleteBoxComponent, PieChartComponent, DragDropFileUploadDirective]
+  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DateAgoPipe, DeleteBoxComponent, PieChartComponent,DragDropFileUploadDirective]
 })
 export class SharedModule { }

@@ -10,6 +10,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { CommentsComponent } from './comments/comments.component';
 
+
 const routes: Routes = [
   { path: '', component: BugsComponent },
   { path: 'bug-list/:id', component: BugsComponent },

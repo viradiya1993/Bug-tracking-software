@@ -272,10 +272,13 @@ export class AddProjectComponent implements OnInit {
       status: this.f.status.value,
       project_description: this.f.project_description.value
     }
-    //  return
+   
+    
+   // return
     if (!this.loader) {
 
       this.loader = true;
+      
       if (type === 'save') {
         this.projectService.addProject(data).subscribe((res: any) => {
           if (res) {

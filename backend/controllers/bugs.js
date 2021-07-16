@@ -24,6 +24,7 @@ exports.createBugs = async (req, res, next) => {
 		bug_description
 	} = req.body;
 
+	let lastBugId
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
 		const logoUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.LOGO_IMG_NAME;
@@ -32,13 +33,13 @@ exports.createBugs = async (req, res, next) => {
 		const twitterUrl = constant.URL + '/' + constant.LOGO_MARKER_IMG_URL + '/' + constant.Twitter_Img;
 
 		const devloper = await empyolee.find({
-			_id: JSON.parse(req.body.employee_id)
+			_id: req.body.employee_id
 		});
-		const projects = await projectModel.findOne();
-		const statusofbug = await bugStatus.findOne()
-		const typesofbug = await bugType.findOne();
-		const priority = await bugPriority.findOne();
-
+		const projects = await projectModel.findOne({_id:  mongoose.Types.ObjectId(req.body.project_id)});
+		const statusofbug = await bugStatus.findOne({_id: mongoose.Types.ObjectId(req.body.bug_status)})
+		const typesofbug = await bugType.findOne({_id: mongoose.Types.ObjectId(req.body.bug_type)});
+		const priority = await bugPriority.findOne({_id: mongoose.Types.ObjectId(req.body.bug_priority)});
+		empdetails = await empyolee.findOne({ email: req.userData.email })
 		if (devloper) {
 			for (let i = 0; i < devloper.length; i++) {
 				// sendMail(devloper[i].email, 'Bug Assigned to you.',
@@ -65,32 +66,44 @@ exports.createBugs = async (req, res, next) => {
 			});
 		}
 
-		const reqFiles = []
-		const url = req.protocol + '://' + req.get("host");
-		for (var i = 0; i < req.files.length; i++) {
-			reqFiles.push(url + '/images/' + req.files[i].filename)
-		}
+
+
 
 		const bugDetails = new bugModel();
-		bugDetails.employee_id = JSON.parse(employee_id);
-		bugDetails.bug_status = bug_status;
-		bugDetails.project_id = project_id;
-		bugDetails.bug_type = bug_type;
-		bugDetails.bug_priority = bug_priority;
-		bugDetails.bug_title = bug_title;
-		bugDetails.bug_description = bug_description;
-		bugDetails.created_at = currentTimeStamp;
-		bugDetails.updated_at = currentTimeStamp;
-		bugDetails.actual_updated_at = currentTimeStamp;
-		bugDetails.created_by = req.userData.userId;
-		bugDetails.image = reqFiles;
+		bugModel.findOne({}).sort({ _id: -1 }).limit(1)
+			.then(value => {
+				if (value) {
+					lastBugId = value.bug_no + 1;
+				} else {
+					lastBugId = 0
+				}
+				const reqFiles = []
+				const url = req.protocol + '://' + req.get("host");
+				for (var i = 0; i < req.files.length; i++) {
+					reqFiles.push(url + '/images/' + req.files[i].filename)
+				}
+				console.log();
+				bugDetails.employee_id = employee_id;
+				bugDetails.bug_status = bug_status;
+				bugDetails.project_id = project_id;
+				bugDetails.bug_no = lastBugId;
+				bugDetails.bug_type = bug_type;
+				bugDetails.bug_priority = bug_priority;
+				bugDetails.bug_title = bug_title;
+				bugDetails.bug_description = bug_description;
+				bugDetails.project_name = projects.project_name;
+				bugDetails.created_at = currentTimeStamp;
+				bugDetails.updated_at = currentTimeStamp;
+				bugDetails.actual_updated_at = currentTimeStamp;
+				bugDetails.created_by = req.userData.userId;
+				bugDetails.created_name = empdetails.first_name + empdetails.last_name
+				bugDetails.image = reqFiles;
 
-		if (start_date) {
-			bugDetails.start_date = dateFormat.convertTimestamp(start_date);
-		}
-
-
-		bugDetails.save()
+				if (start_date) {
+					bugDetails.start_date = dateFormat.convertTimestamp(start_date);
+				}
+			})
+		  bugDetails.save()
 			.then(bugDetails => {
 				return res.status(200).json({
 					message: "Bug added successfully.",
@@ -285,19 +298,13 @@ exports.updateBugDetails = async (req, res, next) => {
 				data: {}
 			});
 		}
-		// let image = req.body.image;
-		// if (req.file) {
-		// 	const url = req.protocol + '://' + req.get("host");
-		// 	image = url + '/images/' + req.file.filename
-		// }
 
-		//	const url = req.protocol + '://' + req.get("host");
 		const reqFiles = []
 		const url = req.protocol + '://' + req.get("host");
 		for (var i = 0; i < req.files.length; i++) {
 			reqFiles.push(url + '/images/' + req.files[i].filename)
 		}
-		bugDetails.employee_id = JSON.parse(employee_id);
+		bugDetails.employee_id = employee_id;
 		bugDetails.bug_status = bug_status;
 		bugDetails.project_id = project_id;
 		bugDetails.bug_type = bug_type;
@@ -308,7 +315,6 @@ exports.updateBugDetails = async (req, res, next) => {
 		bugDetails.updated_at = currentTimeStamp;
 		bugDetails.actual_updated_at = currentTimeStamp;
 		bugDetails.created_by = req.userData.userId;
-		// bugDetails.image = image;
 		bugDetails.image = reqFiles;
 
 
@@ -447,4 +453,13 @@ exports.getBugsPriority = async (req, res, next) => {
 				message: "Something went wrong. Please try again later"
 			});
 		});
+}
+
+exports.getNextSequenceValue = async (sequenceName) => {
+	var sequenceDocument = db.counters.findAndModify({
+		query: { _id: sequenceName },
+		update: { $inc: { sequence_value: 1 } },
+		new: true
+	});
+	return sequenceDocument.sequence_value;
 }

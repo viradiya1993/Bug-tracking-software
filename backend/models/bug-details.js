@@ -3,11 +3,11 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const bugDetail = mongoose.Schema({
 
-    employee_id: [{
+    employee_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeTable',
         default: null
-    }],
+    },
 
     project_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,6 +30,21 @@ const bugDetail = mongoose.Schema({
     bug_priority: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'bug_priority',
+        default: null
+    },
+
+    bug_no: {
+        type: Number,
+        default: null
+    },
+
+    project_name: {
+        type: String,
+        default: null
+    },
+
+    created_name: {
+        type: String,
         default: null
     },
 

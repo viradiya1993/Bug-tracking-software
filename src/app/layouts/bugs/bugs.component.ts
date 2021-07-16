@@ -79,6 +79,7 @@ export class BugsComponent implements OnInit {
   }
 
   getBugDetails(element) {
+    console.log('element: ', element);
     localStorage.setItem('bugTitle', element?.bug_title);
     this.router.navigate(['/bugs/comments/' + element._id])
   }
@@ -97,16 +98,16 @@ export class BugsComponent implements OnInit {
       this.bug_priority)
       .subscribe((res: any) => {
         this.sharedService.hideLoader();
-        for (let index = 0; index < res.data.bugsList.length; index++) {
-          let devloper = [];
-          const devElement = res.data.bugsList[index].employee_id;
+        // for (let index = 0; index < res.data.bugsList.length; index++) {
+        //   let devloper = [];
+        //   const devElement = res.data.bugsList[index].employee_id;
 
-          for (let i = 0; i < devElement.length; i++) {
-            const element = devElement[i];
-            devloper.push(element.first_name);
-          }
-          res.data.bugsList[index].employee_id = devloper.join(',');
-        }
+        //   for (let i = 0; i < devElement.length; i++) {
+        //     const element = devElement[i];
+        //     devloper.push(element.first_name);
+        //   }
+        //   res.data.bugsList[index].employee_id = devloper.join(',');
+        // }
         this.dataSource = new MatTableDataSource(res.data.bugsList);
         this.length = res.data.totalcount
       }, err => {
