@@ -329,8 +329,8 @@ exports.updateProject = async (req, res, next) => {
 			departmentId: projects.departmentId,
 			project_manager: projects.project_manager,
 			employee_id: projects.employee_id,
-			start_date: projects.start_date.toString(),
-			end_date: projects.end_date.toString(),
+			start_date: projects.start_date ? projects.start_date.toString() : projects.created_at.toString(),
+			end_date: projects.end_date ? projects.end_date.toString(): projects.created_at.toString(),
 			status: projects.status,
 			project_description: projects.project_description
 		}
