@@ -330,8 +330,8 @@ exports.updateProject = async (req, res, next) => {
 			departmentId: projects.departmentId,
 			project_manager: projects.project_manager,
 			employee_id: projects.employee_id,
-			start_date: projects.start_date.toString(),
-			end_date: projects.end_date.toString(),
+			start_date: projects.start_date ? projects.start_date.toString() : projects.created_at.toString(),
+			end_date: projects.end_date ? projects.end_date.toString(): projects.created_at.toString(),
 			status: projects.status,
 			project_description: projects.project_description
 		}
@@ -362,9 +362,13 @@ exports.updateProject = async (req, res, next) => {
 
 			// TODO: need to change below code...pass array of emails rather every time send single
 			let devName = [];
+			let devEmails = [];
 			for (let i = 0; i < devloper.length; i++) {
-				devName.push(devloper[i].first_name + devloper[i].last_name)
-				sendMail(devloper[i].email, 'Project Created.',
+				devName.push(devloper[i].first_name + devloper[i].last_name);
+				devEmails.push(devloper[i].email);
+			}
+			if (devEmails.length > 0) {
+				sendMail(devEmails, 'Project Updated',
 					projectCreationTemplete({
 						logo: logoUrl,
 						Facebook: faceUrl,
@@ -375,7 +379,7 @@ exports.updateProject = async (req, res, next) => {
 					})
 				);
 			}
-			sendMail(manager.email, 'Project Assigned to developer.',
+			sendMail(manager.email, 'Project Assigned to developer',
 				projectAssignTemplate({
 					logo: logoUrl,
 					projectName: req.body.project_name,
