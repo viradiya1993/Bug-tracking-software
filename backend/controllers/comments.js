@@ -1,33 +1,40 @@
 const dateFormat = require('../helper/dateFormate.helper');
 const constant = require('../config/constant');
-const extractFile = require('../middleware/uploadTaskPic')
 const mongoose = require('mongoose');
 
 const empModel = require('../models/employee');
 const CommentsModel = require('../models/comments');
-
+const BugDetailmodel = require('../models/bug-details');
+const BugStatusModel = require('../models/bugs-status');
+const multipleModel = require('../models/multiple');
 
 //Create Comment
 exports.createComment = async (req, res, next) => {
 	const {
 		bug_status,
 		task_description,
-		bug_details
+		employee_id
 	} = req.body;
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
-		empdetails = await empModel.findOne({ email: req.userData.email })
+	  empdetails = await empModel.findOne({ email: req.userData.email })
+	  bugstatus = await BugStatusModel.findOne({ _id: mongoose.Types.ObjectId(req.body.bug_status) });
+		const reqFiles = []
 		const url = req.protocol + '://' + req.get("host");
+		for (var i = 0; i < req.files.length; i++) {
+			reqFiles.push(url + '/images/' + req.files[i].filename)
+		}
 		const commentsDetails = new CommentsModel();
 		commentsDetails.bug_status = bug_status;
+		commentsDetails.employee_id = employee_id
 		commentsDetails.task_description = task_description;
-		commentsDetails.bug_details = bug_details;
+		commentsDetails.bug_title = bugstatus.status;
 		commentsDetails.created_at = currentTimeStamp;
 		commentsDetails.updated_at = currentTimeStamp;
 		commentsDetails.actual_updated_at = currentTimeStamp;
 		commentsDetails.created_by = req.userData.userId
 		commentsDetails.created_name = empdetails.first_name  +  empdetails.last_name
-		commentsDetails.image = url + '/images/' + req.file.filename;
+		commentsDetails.image = reqFiles;
 		commentsDetails.save()
 			.then(commentsDetails => {
 				return res.status(200).json({
@@ -77,30 +84,3 @@ exports.getCommets = async (req, res, next) => {
 
 
 
-
-
-
-exports.uploadFile = async (req, res, next) => {
-	//console.log('amit');
-	const file = req.file;
-	if (file) {
-		return res.json(file)
-	} else {
-		throw new Error('File upload unsuccessfull')
-	}
-}
-
-
-
-exports.abcdFiles = async (req, res, next) => {
-	console.log('amit');
-	const files = req.files;
-	console.log(files);
-	if (Array.isArray(files) && files.length > 0) {
-		return res.json(files)
-	} else {
-		throw new Error('File upload unsuccessfull')
-	}
-}
-
-//http://localhost:3000/api/taks/file

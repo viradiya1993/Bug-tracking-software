@@ -24,6 +24,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { ChartModule } from 'angular-highcharts';
 import { ChartsModule } from 'ng2-charts';
 import { DateAgoPipe } from './date-ago.pipe';
+import { DragDropFileUploadDirective } from './drag-drop-file-upload.directive';
 
 
 @NgModule({
@@ -75,9 +76,10 @@ import { DateAgoPipe } from './date-ago.pipe';
     DateFormatPipe,
     DateAgoPipe,
     DeleteBoxComponent,
-    PieChartComponent
+    PieChartComponent,
+    DragDropFileUploadDirective
   ],
   entryComponents: [],
-  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DateAgoPipe, DeleteBoxComponent, PieChartComponent]
+  declarations: [DialogComponent, SearchTextboxComponent, PaginationComponent, DateFormatPipe, DateAgoPipe, DeleteBoxComponent, PieChartComponent, DragDropFileUploadDirective]
 })
 export class SharedModule { }

@@ -41,18 +41,18 @@ exports.createBugs = async (req, res, next) => {
 
 		if (devloper) {
 			for (let i = 0; i < devloper.length; i++) {
-				sendMail(devloper[i].email, 'Bug Assigned to you.',
-					bugCreationTemplate({
-						logo: logoUrl,
-						Facebook: faceUrl,
-						LinkedIn: linkUrl,
-						Twitter: twitterUrl,
-						projectName: projects.project_name,
-						status: statusofbug.status,
-						bugtype: typesofbug.bug_types,
-						priority: priority.priority
-					})
-				);
+				// sendMail(devloper[i].email, 'Bug Assigned to you.',
+				// 	bugCreationTemplate({
+				// 		logo: logoUrl,
+				// 		Facebook: faceUrl,
+				// 		LinkedIn: linkUrl,
+				// 		Twitter: twitterUrl,
+				// 		projectName: projects.project_name,
+				// 		status: statusofbug.status,
+				// 		bugtype: typesofbug.bug_types,
+				// 		priority: priority.priority
+				// 	})
+				// );
 			}
 		}
 		const isbug_title = await bugModel.findOne({
@@ -65,7 +65,11 @@ exports.createBugs = async (req, res, next) => {
 			});
 		}
 
+		const reqFiles = []
 		const url = req.protocol + '://' + req.get("host");
+		for (var i = 0; i < req.files.length; i++) {
+			reqFiles.push(url + '/images/' + req.files[i].filename)
+		}
 
 		const bugDetails = new bugModel();
 		bugDetails.employee_id = JSON.parse(employee_id);
@@ -79,13 +83,13 @@ exports.createBugs = async (req, res, next) => {
 		bugDetails.updated_at = currentTimeStamp;
 		bugDetails.actual_updated_at = currentTimeStamp;
 		bugDetails.created_by = req.userData.userId;
-		bugDetails.image = url + '/images/' + req.file.filename;
+		bugDetails.image = reqFiles;
 
 		if (start_date) {
 			bugDetails.start_date = dateFormat.convertTimestamp(start_date);
 		}
-		
-		
+
+
 		bugDetails.save()
 			.then(bugDetails => {
 				return res.status(200).json({
@@ -93,6 +97,7 @@ exports.createBugs = async (req, res, next) => {
 				})
 			})
 	} catch (error) {
+		console.log(error);
 		res.status(400).json({
 			message: "Something went wrong. Please try again later"
 		});
@@ -265,8 +270,8 @@ exports.updateBugDetails = async (req, res, next) => {
 		bug_title,
 		start_date,
 		bug_description,
-		image
 	} = req.body;
+	//image
 
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
@@ -280,14 +285,18 @@ exports.updateBugDetails = async (req, res, next) => {
 				data: {}
 			});
 		}
-		let image = req.body.image;
-		if (req.file) {
-			const url = req.protocol + '://' + req.get("host");
-			image = url + '/images/' + req.file.filename
-		}
+		// let image = req.body.image;
+		// if (req.file) {
+		// 	const url = req.protocol + '://' + req.get("host");
+		// 	image = url + '/images/' + req.file.filename
+		// }
 
+		//	const url = req.protocol + '://' + req.get("host");
+		const reqFiles = []
 		const url = req.protocol + '://' + req.get("host");
-
+		for (var i = 0; i < req.files.length; i++) {
+			reqFiles.push(url + '/images/' + req.files[i].filename)
+		}
 		bugDetails.employee_id = JSON.parse(employee_id);
 		bugDetails.bug_status = bug_status;
 		bugDetails.project_id = project_id;
@@ -299,7 +308,9 @@ exports.updateBugDetails = async (req, res, next) => {
 		bugDetails.updated_at = currentTimeStamp;
 		bugDetails.actual_updated_at = currentTimeStamp;
 		bugDetails.created_by = req.userData.userId;
-		bugDetails.image = image;
+		// bugDetails.image = image;
+		bugDetails.image = reqFiles;
+
 
 		if (start_date) {
 			bugDetails.start_date = dateFormat.convertTimestamp(start_date);
@@ -326,7 +337,7 @@ exports.deleteBugDetails = async (req, res, next) => {
 	try {
 		const bugDetails = await bugModel.findOne({
 			_id: req.params.id
-		})
+		});
 		const query = await bugModel.deleteOne(bugDetails);
 		if (query.deletedCount === 1) {
 			return res.status(200).json({
@@ -338,7 +349,6 @@ exports.deleteBugDetails = async (req, res, next) => {
 			})
 		}
 	} catch (error) {
-		console.log(error);
 		return res.status(400).json({
 			message: "Something went wrong. Please try again later.",
 			data: {}

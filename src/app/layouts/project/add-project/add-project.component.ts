@@ -64,7 +64,7 @@ export class AddProjectComponent implements OnInit {
       status: ['', Validators.required],
       project_description: [''],
       sdate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
-      edate: [this.datepipe.transform(new Date(), 'yyyy-MM-dd')],
+      edate: [],
     })
 
     this.getDepartment();

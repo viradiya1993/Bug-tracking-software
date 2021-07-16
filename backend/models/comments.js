@@ -1,29 +1,33 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const taskDetails = mongoose.Schema({
+const CommentDetails = mongoose.Schema({
 
 	bug_status: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'bug_status',
- 		default: null
-  },
+		default: null
+	},
 
-	bug_details: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'bug_detail',
- 		default: null
-  },
-
-	image: {
+	bug_title: {
 		type: String,
 		default: null
-  },
+	},
+
+	image: {
+		type: Array,
+		default: null
+	},
 
 	task_description: {
 		type: String
-  },
-
+	},
+	
+	employee_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'EmployeeTable',
+		default: null
+	},
 
 	created_by: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -37,9 +41,9 @@ const taskDetails = mongoose.Schema({
 	},
 
 	updated_by: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			default: null
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		default: null
 	},
 
 	created_at: {
@@ -47,15 +51,15 @@ const taskDetails = mongoose.Schema({
 	},
 
 	updated_at: {
-			type: Number,
+		type: Number,
 	},
 
 	actual_updated_at: {
-			type: Number,
-			default: null
-	}	
+		type: Number,
+		default: null
+	}
 
 });
 
-taskDetails.plugin(uniqueValidator);
-module.exports = mongoose.model('comment_master', taskDetails);
+CommentDetails.plugin(uniqueValidator);
+module.exports = mongoose.model('comment_master', CommentDetails);

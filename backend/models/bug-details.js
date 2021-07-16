@@ -49,9 +49,9 @@ const bugDetail = mongoose.Schema({
     },
 
     image: {
-        type: String,
-        require: true
-    },
+		type: Array,
+		default: null
+	},
     
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
