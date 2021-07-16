@@ -261,7 +261,7 @@ export class AddProjectComponent implements OnInit {
 
 
     let data = {
-     // project_no: this.f.project_no.value,
+      // project_no: this.f.project_no.value,
       project_name: this.f.project_name.value,
       technology_id: technologyArray,
       departmentId: this.f.department.value,
@@ -274,7 +274,7 @@ export class AddProjectComponent implements OnInit {
     }
     //  return
     if (!this.loader) {
-
+      
       this.loader = true;
       if (type === 'save') {
         this.projectService.addProject(data).subscribe((res: any) => {
@@ -292,6 +292,9 @@ export class AddProjectComponent implements OnInit {
         });
       } else {
         this.loader = true;
+        if(!data.end_date){
+          data.end_date = this.datepipe.transform(this.projectForm.value.end_date, 'yyyy-MM-dd')
+        }
         this.projectService.updateProject(data, this.project_id).subscribe((res: any) => {
           this.loader = false;
           this.sharedService.hideLoader();
