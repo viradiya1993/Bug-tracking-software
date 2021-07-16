@@ -6,7 +6,7 @@ const empModel = require('../models/employee');
 const CommentsModel = require('../models/comments');
 const BugDetailmodel = require('../models/bug-details');
 const BugStatusModel = require('../models/bugs-status');
-const multipleModel = require('../models/multiple');
+
 
 //Create Comment
 exports.createComment = async (req, res, next) => {
