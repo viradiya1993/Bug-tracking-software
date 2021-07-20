@@ -9,7 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { CommentsComponent } from './comments/comments.component';
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 const routes: Routes = [
   { path: '', component: BugsComponent },
@@ -31,7 +31,8 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     NgSelectModule,
-    CKEditorModule
+    CKEditorModule,
+    NgxDropzoneModule
   ],
 
   providers: [

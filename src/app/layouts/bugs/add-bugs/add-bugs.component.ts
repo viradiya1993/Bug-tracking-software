@@ -117,7 +117,6 @@ export class AddBugsComponent implements OnInit {
 				this.bugsForm.controls.project.setValue(paramMap.get('project_id'))
 			}
 		})
-
 	}
 
 	setBugDetailsValue() {
@@ -208,7 +207,6 @@ export class AddBugsComponent implements OnInit {
 		const formData = new FormData();
 		formData.append('bug_title', this.f.bug_title.value);
 		formData.append('employee_id', this.f.developer.value);
-		console.log('this.f.developer.value: ', this.f.developer.value);
 		formData.append('bug_status', this.f.bugstatus.value);
 		formData.append('project_id', this.f.project.value);
 		formData.append('bug_type', this.f.bugtype.value);

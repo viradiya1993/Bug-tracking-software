@@ -79,8 +79,6 @@ export class BugsComponent implements OnInit {
   }
 
   getBugDetails(element) {
-    console.log('element: ', element);
-    localStorage.setItem('bugTitle', element?.bug_title);
     this.router.navigate(['/bugs/comments/' + element._id])
   }
 

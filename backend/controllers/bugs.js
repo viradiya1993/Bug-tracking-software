@@ -65,30 +65,27 @@ exports.createBugs = async (req, res, next) => {
 				message: "Bug title already exist choose another one."
 			});
 		}
-
-
-
-
 		const bugDetails = new bugModel();
 		bugModel.findOne({}).sort({ _id: -1 }).limit(1)
 			.then(value => {
 				if (value) {
 					lastBugId = value.bug_no + 1;
 				} else {
-					lastBugId = 0
+					lastBugId = 1
 				}
 				const reqFiles = []
 				const url = req.protocol + '://' + req.get("host");
 				for (var i = 0; i < req.files.length; i++) {
 					reqFiles.push(url + '/images/' + req.files[i].filename)
 				}
-				console.log();
 				bugDetails.employee_id = employee_id;
 				bugDetails.bug_status = bug_status;
 				bugDetails.project_id = project_id;
 				bugDetails.bug_no = lastBugId;
+				bugDetails.bug_color = statusofbug.color;
+				bugDetails.bugstatus_name = statusofbug.status
 				bugDetails.bug_type = bug_type;
-				bugDetails.bug_priority = bug_priority;
+				bugDetails.bug_priority = bug_priority
 				bugDetails.bug_title = bug_title;
 				bugDetails.bug_description = bug_description;
 				bugDetails.project_name = projects.project_name;
@@ -286,6 +283,15 @@ exports.updateBugDetails = async (req, res, next) => {
 	} = req.body;
 	//image
 
+	const devloper = await empyolee.find({
+		_id: req.body.employee_id
+	});
+	const projects = await projectModel.findOne({_id:  mongoose.Types.ObjectId(req.body.project_id)});
+	const statusofbug = await bugStatus.findOne({_id: mongoose.Types.ObjectId(req.body.bug_status)})
+	const typesofbug = await bugType.findOne({_id: mongoose.Types.ObjectId(req.body.bug_type)});
+	const priority = await bugPriority.findOne({_id: mongoose.Types.ObjectId(req.body.bug_priority)});
+	empdetails = await empyolee.findOne({ email: req.userData.email })
+	
 	let currentTimeStamp = dateFormat.set_current_timestamp();
 	try {
 		const bugDetails = await bugModel.findOne({
@@ -316,6 +322,13 @@ exports.updateBugDetails = async (req, res, next) => {
 		bugDetails.actual_updated_at = currentTimeStamp;
 		bugDetails.created_by = req.userData.userId;
 		bugDetails.image = reqFiles;
+		bugDetails.bug_color = statusofbug.color;
+		bugDetails.bugstatus_name = statusofbug.status
+		bugDetails.bug_description = bug_description;
+		bugDetails.project_name = projects.project_name;
+		bugDetails.actual_updated_at = currentTimeStamp;
+		bugDetails.created_by = req.userData.userId;
+		bugDetails.created_name = empdetails.first_name + empdetails.last_name
 
 
 		if (start_date) {
@@ -328,7 +341,8 @@ exports.updateBugDetails = async (req, res, next) => {
 					message: "Bugs Details updated successfully.",
 					data: bugDetails
 				})
-			})
+			}
+		)
 
 	} catch (error) {
 		console.log(error);
@@ -462,4 +476,26 @@ exports.getNextSequenceValue = async (sequenceName) => {
 		new: true
 	});
 	return sequenceDocument.sequence_value;
+}
+
+exports.updateBugStatusById = async (req, res, next) => {
+	try {
+		let query = { _id: mongoose.Types.ObjectId(req.body.bugId) },
+		update = {
+			'$set': { 'bug_status': mongoose.Types.ObjectId(req.body.bugstatusId) },
+		}
+		bugModel.findByIdAndUpdate(query,update)
+		.then(result => {
+			res.status(200).json({
+				message: "Bug Status Update successfully"
+			});
+		}).catch(error => {
+			res.status(500).json({
+				err: error,
+				message: "Updating Status Failed"
+			});
+		});
+	} catch (error) {
+		console.log(error);
+	}
 }

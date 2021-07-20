@@ -38,6 +38,16 @@ const bugDetail = mongoose.Schema({
         default: null
     },
 
+    bug_color: {
+       type: String,
+       default: null 
+    },
+
+    bugstatus_name: {
+        type: String,
+        default: null
+    },
+
     project_name: {
         type: String,
         default: null

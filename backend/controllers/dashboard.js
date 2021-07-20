@@ -51,10 +51,10 @@ exports.AssignActiveProject = async (req, res, next) => {
 			query.$and = [
 				{ 'employee_id': mongoose.Types.ObjectId(Emp_id) }
 			],
-				query.$or = [
-					{ 'status': mongoose.Types.ObjectId(req.query.statusOpen) },
-					{ 'status': mongoose.Types.ObjectId(req.query.statusInPro) },
-				]
+			query.$or = [
+				{ 'status': mongoose.Types.ObjectId(req.query.statusOpen) },
+				{ 'status': mongoose.Types.ObjectId(req.query.statusInPro) },
+			]
 		}
 		totalAssignProjects = await project.countDocuments(queryAssign)
 		totalActiveProjects = await project.countDocuments(query)

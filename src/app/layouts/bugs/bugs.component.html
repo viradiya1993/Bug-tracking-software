@@ -141,8 +141,8 @@
                     class="text-primary">
                     Priority </th>
                   <td width="8%" mat-cell *matCellDef="let element"
-                    [ngClass]="{'high': element.bug_priority.priority == 'High', 'medium': element.bug_priority.priority == 'Medium','low': element.bug_priority.priority == 'Low'}">
-                    {{element?.bug_priority.priority}}</td>
+                    [ngClass]="{'high': element?.bug_priority?.priority == 'High', 'medium': element?.bug_priority?.priority == 'Medium','low': element?.bug_priority?.priority == 'Low'}">
+                    {{element?.bug_priority?.priority}}</td>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="bug_description">

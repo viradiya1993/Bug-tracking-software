@@ -92,4 +92,20 @@ export class BugsService {
   getComments() {
     return this.http.get(BACKEND_URL + '/comments/getComment');
   }
+  
+  //update Bug status
+  updateBugStatus(bugstatusID, bugID) {
+    let data = {
+      'bugId': bugID,
+      'bugstatusId': bugstatusID
+    }
+    return this.http.post(BACKEND_URL + '/bugs/updatebugStatus', data);
+  }
+
+  downloadFile(file: any) {
+    return this.http.get(BACKEND_URL + '/comments/file'+ file);
+  }
 }
+
+
+//http://localhost:3000/api/bugs/updatebugStatus

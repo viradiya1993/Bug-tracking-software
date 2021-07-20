@@ -266,3 +266,8 @@ Content-Type: application/json
 ###
 GET  http://localhost:3000/api/comments/getComment HTTP/1.1
 Content-Type: application/json
+
+
+###
+POST   http://localhost:3000/api/bugs/updatebugStatus HTTP/1.1
+Content-Type: application/json

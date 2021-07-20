@@ -5,58 +5,74 @@
 
 				<div class="card">
 					<div class="card-body">
-
 						<div class="dicusstion-title">
-							<h3>{{bugTitle}}</h3>
+							<h3>{{bugDetails?.bug_no}}:{{bugDetails?.bug_title}}</h3> 
+							<!-- <h3 [ngStyle]="{'color': bugDetails?.bugstatus_name ? '#' + bugDetails?.bug_color : '' }">{{bugDetails?.bugstatus_name}}</h3> -->
 						</div>
-
+						<div>
+							<span [routerLink]="'/project/view-project/' + bugDetails?.project_id">{{bugDetails?.project_name}} </span> | <span> Task:{{bugDetails?.bug_no}}</span> | <span>Created by:
+								{{bugDetails?.created_name}} on {{bugDetails?.created_at | dateAgo}}</span>
+						</div>
+						<div>
+							<p  [innerHtml]="(bugDetails?.bug_description)"></p>
+						</div>
 						<div class="add-task-here">
 
 							<div class="text-area">
 								<div class="user-img">
 									<span>MT</span>
 								</div>
-								<form [formGroup]='taskForm'>
+								<form [formGroup]='comments'>
 									<div class="row">
 										<div class="col-md-12">
 											<ng-select [items]="bugStatus" bindLabel="status" placeholder="Select an Bug Status"
 												formControlName="bugstatus" bindValue="_id" [clearable]="false">
 											</ng-select>
-											<mat-error *ngIf="taskForm.get('bugstatus').invalid"> Please Select a
+											<mat-error *ngIf="comments.get('bugstatus').invalid"> Please Select a
 												Bug Status
 											</mat-error>
 										</div>
 										<div class="col-md-12" *ngIf="employees.length">
+			
 											<ng-select [items]="employees" bindLabel="value" placeholder="Select an developer"
 												formControlName="developer" bindValue="_id" [clearable]="false">
 											</ng-select>
-											<mat-error *ngIf="taskForm.get('bugstatus').invalid"> Please Select a
+											<mat-error *ngIf="comments.get('bugstatus').invalid"> Please Select a
 												developer
 											</mat-error>
 										</div>
 										<div class="col-md-12">
 											<ckeditor formControlName="task_description" #ckeditor></ckeditor>
-											<mat-error *ngIf="taskForm.get('task_description').invalid"> Please add
+											<mat-error *ngIf="comments.get('task_description').invalid"> Please add
 												some description
 											</mat-error>
 										</div>
-										<div class="col-md-12">
+										<!-- <div class="col-md-12">
 											<div class="fileupload" appDragDropFileUpload (click)="fileField.click()"
-												(fileDropped)="upload($event)">
+												(fileDropped)="multipleUpload($event)">
 												<span class="ddinfo">Choose a file or drag here</span>
-												<input type="file" #fileField (change)="multipleUpload($event.target.files)" multiple>
+												<input type="file" #fileField (change)="multipleUpload($event.target.files)"  multiple base-sixty-four-input>
 											</div>
-										</div>
-										<div class="col-md-12" *ngIf="fileArr.length">
+										</div> -->
+										<!-- <div class="col-md-12" *ngIf="fileArr.length">
 											<div class="image-list" *ngFor="let file of fileArr; let i = index">
 												<div class="profile">
 													<img [src]="sanitize(file['url'])" alt="" style="height:30px;">
 												</div>
 											</div>
+										</div> -->
+								
+										<div class="col-md-12">
+											<ngx-dropzone (change)="onSelect($event)">
+												<ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+												<ngx-dropzone-preview *ngFor="let f of files" [removable]="true"  [file]="f" (removed)="onRemove(f)">
+													<ngx-dropzone-label>{{ f.name }} ({{ f.type }}) {{f.size}}</ngx-dropzone-label>
+												</ngx-dropzone-preview>
+											</ngx-dropzone>
 										</div>
 										<div class="col-md-12">
 											<button mat-button type="submit" mat-flat-button color="primary" class="mr-3"
-												[disabled]="taskForm.invalid" (click)="onSave()"><i class="fa fa-spin fa-spinner"
+												[disabled]="comments.invalid" (click)="onSave()"><i class="fa fa-spin fa-spinner"
 													*ngIf="loader"></i>Add Comment</button>
 											<button mat-raised-button
 												class="mat-focus-indicator text-left mat-button mat-flat-button mat-button-base mat-secondary"
@@ -65,7 +81,6 @@
 									</div>
 								</form>
 							</div>
-
 						</div>
 						<div class="add-task-here">
 							<span *ngFor="let comment of commets">
@@ -75,11 +90,16 @@
 									</div>
 									<div class="user-content">
 										<div class="title">
-											<h4>{{comment?.created_name}}</h4> <span>{{comment?.created_at | dateAgo}}, ({{comment?.bug_title}})</span>
+											<h4>{{comment?.created_name}}</h4> <span>{{comment?.created_at | dateAgo}},
+												({{comment?.bug_title}})</span>
 										</div>
 										<div class="discrip">
 											<div class="screenshot-text" *ngFor="let image of comment.image">
+												<!-- {{image.originalname | json}} -->
 												<span class="image-preview"><img [src]="image" alt="commentImage" width="10%"></span>
+												<span class="material-icons" (click)="download(image)">
+													file_download
+												</span>
 											</div>
 											<div class="fix-text">
 												<p style="font-family: 'Times New Roman', Times, serif;"

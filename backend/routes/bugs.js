@@ -17,4 +17,6 @@ router.post('/create', checkAuth, multiUpload, bugsController.createBugs);
 router.post('/updatebugdetails/:id', checkAuth, multiUpload, bugsController.updateBugDetails);
 router.delete('/delete-bugs/:id', checkAuth, bugsController.deleteBugDetails);
 
+router.post('/updatebugStatus', bugsController.updateBugStatusById);
+
 module.exports = router;

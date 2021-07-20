@@ -9,7 +9,6 @@ const fs = require("fs")
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		console.log('file: ', file);
 		// const isValid = MIME_TYPE_MAP[file.mimetype];
 		// let error = new Error("Invalid Image MIME type");
 		// if (isValid) {

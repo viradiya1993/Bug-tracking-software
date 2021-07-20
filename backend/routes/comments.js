@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/create', multiUpload, checkAuth, commentsController.createComment);
 router.get('/getComment', multiUpload, commentsController.getCommets);
 
-
+router.get('/file/:filename', commentsController.downloadFile);
 
 
 module.exports = router; 
